@@ -1,6 +1,6 @@
 ## `accesses`
 
-### Signature
+### 서명
 
 ```solidity
 function accesses(
@@ -13,17 +13,17 @@ returns (
 );
 ```
 
-### Description
+### 설명
 
-Gets all storage slots that have been read (`reads`) or written to (`writes`) on an address.
+주소에서 읽은(`reads`) 또는 쓴(`writes`) 모든 스토리지 슬롯을 가져옵니다.
 
-Note that [`record`](/reference/cheatcodes/record.mdx) must be called first.
+먼저 [`record`](/reference/cheatcodes/record.mdx)가 호출되어야 합니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> Every write also counts as an additional read.
+> 모든 쓰기는 추가적인 읽기로도 간주됩니다.
 
-### Examples
+### 예제
 
 ```solidity
 /// contract NumsContract {

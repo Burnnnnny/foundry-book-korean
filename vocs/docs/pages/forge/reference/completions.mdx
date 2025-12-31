@@ -1,6 +1,6 @@
 ## forge completions
 
-Generate shell completions script
+쉘 자동완성 스크립트를 생성합니다.
 
 ```bash
 $ forge completions --help
@@ -15,45 +15,42 @@ Arguments:
 
 Options:
   -h, --help
-          Print help (see a summary with '-h')
+          도움말 인쇄 ('-h'로 요약 보기)
 
   -j, --threads <THREADS>
-          Number of threads to use. Specifying 0 defaults to the number of
-          logical cores
+          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
           
           [aliases: --jobs]
 
 Display options:
       --color <COLOR>
-          The color of the log messages
+          로그 메시지의 색상
 
-          Possible values:
-          - auto:   Intelligently guess whether to use color output (default)
-          - always: Force color output
-          - never:  Force disable color output
+          가능한 값:
+          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
+          - always: 색상 출력 강제
+          - never:  색상 출력 강제 비활성화
 
       --json
-          Format log messages as JSON
+          로그 메시지를 JSON으로 포맷팅
 
       --md
-          Format log messages as Markdown
+          로그 메시지를 Markdown으로 포맷팅
 
   -q, --quiet
-          Do not print log messages
+          로그 메시지를 인쇄하지 않음
 
   -v, --verbosity...
-          Verbosity level of the log messages.
+          로그 메시지의 상세 수준.
           
-          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
+          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
           
-          Depending on the context the verbosity levels have different meanings.
+          문맥에 따라 상세 수준은 다른 의미를 가짐.
           
-          For example, the verbosity levels of the EVM are:
-          - 2 (-vv): Print logs for all tests.
-          - 3 (-vvv): Print execution traces for failing tests.
-          - 4 (-vvvv): Print execution traces for all tests, and setup traces
-          for failing tests.
-          - 5 (-vvvvv): Print execution and setup traces for all tests,
-          including storage changes and
-            backtraces with line numbers.
+          예를 들어, EVM의 상세 수준은 다음과 같음:
+          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
+          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
+          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
+          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
+            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
 ```

@@ -1,6 +1,6 @@
 ## `assertGe`
 
-### Signature
+### 시그니처
 
 ```solidity
 function assertGe(uint256 left, uint256 right) internal;
@@ -18,13 +18,13 @@ function assertGe(int256 left, int256 right) internal;
 function assertGe(int256 left, int256 right, string memory err) internal;
 ```
 
-### Description
+### 설명
 
-Asserts `left` is greater than or equal to `right`.
+`left`가 `right`보다 크거나 같다고 주장(assert)합니다.
 
-Optionally includes an error message in the revert string.
+선택적으로 리버트(revert) 문자열에 오류 메시지를 포함할 수 있습니다.
 
-### SEE ALSO
+### 같이 보기
 
 - [`assertGeDecimal`](/reference/forge-std/assertGeDecimal.mdx)
 - [`assertGt`](/reference/forge-std/assertGt.mdx)

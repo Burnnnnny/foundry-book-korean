@@ -1,6 +1,6 @@
 ## `assertNotEq`
 
-### Signature
+### 시그니처
 
 #### `bool`
 
@@ -142,7 +142,7 @@ function assertNotEq(bytes[] memory left, bytes[] memory right) internal;
 function assertNotEq(bytes[] memory left, bytes[] memory right, string memory err) internal;
 ```
 
-#### Legacy
+#### 레거시 (Legacy)
 
 ```solidity
 function assertNotEq32(bytes32 left, bytes32 right) internal;
@@ -152,13 +152,13 @@ function assertNotEq32(bytes32 left, bytes32 right) internal;
 function assertNotEq32(bytes32 left, bytes32 right, string memory err) internal;
 ```
 
-### Description
+### 설명
 
-Asserts `left` is not equal to `right`.
+`left`가 `right`와 같지 않다고 주장(assert)합니다.
 
-Optionally includes an error message in the revert string.
+선택적으로 리버트(revert) 문자열에 오류 메시지를 포함할 수 있습니다.
 
-### SEE ALSO
+### 같이 보기
 
 - [`assertNotEqDecimal`](/reference/forge-std/assertNotEqDecimal.mdx)
 - [`assertEq`](/reference/forge-std/assertEq.mdx)

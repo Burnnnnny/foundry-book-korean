@@ -1,14 +1,14 @@
 ---
-description: Property-based testing with test cases inputs organized into a table format (with columns for inputs, expected outputs, and potentially other relevant parameters) to test general behaviors and edge cases in smart contracts.
+description: 테스트 케이스 입력을 테이블 형식(입력, 예상 출력 및 잠재적으로 다른 관련 매개변수에 대한 열 포함)으로 구성하여 스마트 컨트랙트의 일반적인 동작과 엣지 케이스를 테스트하는 속성 기반 테스트입니다.
 ---
 
-## Table Testing
+## 테이블 테스트 (Table Testing)
 
-Foundry v1.3.0 comes with support for table testing, which enables the definition of a dataset (the "table") and the execution of a test function for each entry in that dataset. This approach helps ensure that certain combinations of inputs and conditions are tested.
+Foundry v1.3.0부터는 테이블 테스트 지원이 포함되어 있어 데이터셋("테이블")을 정의하고 해당 데이터셋의 각 항목에 대해 테스트 함수를 실행할 수 있습니다. 이 접근 방식은 입력과 조건의 특정 조합이 테스트되도록 보장하는 데 도움이 됩니다.
 
-#### Test definition
+#### 테스트 정의
 
-In forge, table tests are functions named with `table` prefix that accepts datasets as one or multiple arguments:
+Forge에서 테이블 테스트는 `table` 접두사가 붙은 함수로 명명되며, 하나 이상의 데이터셋을 인수로 받습니다:
 
 ```solidity
 function tableSumsTest(TestCase memory sums) public
@@ -18,14 +18,14 @@ function tableSumsTest(TestCase memory sums) public
 function tableSumsTest(TestCase memory sums, bool enable) public
 ```
 
-The datasets are defined as forge fixtures which can be:
+데이터셋은 Forge 픽스처(fixture)로 정의되며 다음과 같을 수 있습니다:
 
-- storage arrays prefixed with `fixture` prefix and followed by dataset name
-- functions named with `fixture` prefix, followed by dataset name. Function should return an (fixed size or dynamic) array of values.
+- `fixture` 접두사와 데이터셋 이름이 뒤따르는 스토리지 배열
+- `fixture` 접두사와 데이터셋 이름이 뒤따르는 함수. 함수는 값의 배열(고정 크기 또는 동적)을 반환해야 합니다.
 
-#### Examples
+#### 예제
 
-- Single dataset. In following example, `tableSumsTest` test will be executed twice, with inputs from `fixtureSums` dataset: once with `TestCase(1, 2, 3)` and once with `TestCase(4, 5, 9)`.
+- 단일 데이터셋. 다음 예제에서 `tableSumsTest` 테스트는 `fixtureSums` 데이터셋의 입력을 사용하여 두 번 실행됩니다: 한 번은 `TestCase(1, 2, 3)`으로, 한 번은 `TestCase(4, 5, 9)`로 실행됩니다.
 
 ```solidity
 struct TestCase {
@@ -46,9 +46,9 @@ function tableSumsTest(TestCase memory sums) public pure {
 }
 ```
 
-It is required to name the `tableSumsTest`'s `TestCase` parameter `sums` as the parameter name is resolved against the available fixtures (`fixtureSums`). In this example, if the parameter is not named `sums` the following error is raised: `[FAIL: Table test should have fixtures defined]`.
+매개변수 이름이 사용 가능한 픽스처(`fixtureSums`)에 대해 해결되므로 `tableSumsTest`의 `TestCase` 매개변수 이름을 `sums`로 지정해야 합니다. 이 예제에서 매개변수 이름이 `sums`가 아니면 `[FAIL: Table test should have fixtures defined]` 오류가 발생합니다.
 
-- Multiple datasets. `tableSwapTest` test will be executed twice, by using values at the same position from `fixtureWallet` and `fixtureSwap` datasets.
+- 다중 데이터셋. `tableSwapTest` 테스트는 `fixtureWallet` 및 `fixtureSwap` 데이터셋의 같은 위치에 있는 값을 사용하여 두 번 실행됩니다.
 
 ```solidity
 struct Wallet {
@@ -65,11 +65,11 @@ Wallet[] public fixtureWallet;
 Swap[] public fixtureSwap;
 
 function setUp() public {
-    // first table test input
+    // 첫 번째 테이블 테스트 입력
     fixtureWallet.push(Wallet(address(11), 11));
     fixtureSwap.push(Swap(true, 11));
 
-    // second table test input
+    // 두 번째 테이블 테스트 입력
     fixtureWallet.push(Wallet(address(12), 12));
     fixtureSwap.push(Swap(false, 12));
 }
@@ -81,4 +81,4 @@ function tableSwapTest(Wallet memory wallet, Swap memory swap) public pure {
 }
 ```
 
-The same naming requirement mentioned above is relevant here.
+위에서 언급한 것과 동일한 명명 요구 사항이 여기서도 관련됩니다.

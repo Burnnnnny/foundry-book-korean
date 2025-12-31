@@ -1,6 +1,6 @@
 ## `toString`
 
-### Signature
+### 시그니처
 
 ```solidity
 function toString(address) external returns (string memory);
@@ -11,13 +11,13 @@ function toString(bytes32) external returns (string memory);
 function toString(bytes) external returns (string memory);
 ```
 
-### Description
+### 설명
 
-Convert any type to its string version. Very useful for operations that demand strings, such as the cheatcode `ffi`.
+모든 타입을 문자열 버전으로 변환합니다. `ffi` 치트코드와 같이 문자열을 요구하는 작업에 매우 유용합니다.
 
-Bytes are converted to a string of their hex representation with `0x` at the start, signifying that they are encoded in hex.
+바이트는 `0x`로 시작하는 16진수 표현의 문자열로 변환되어 16진수로 인코딩되었음을 나타냅니다.
 
-### Examples
+### 예제
 
 ```solidity
 uint256 number = 420;

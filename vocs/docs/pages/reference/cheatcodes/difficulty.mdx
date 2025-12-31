@@ -1,18 +1,18 @@
 ## `difficulty`
 
-### Signature
+### 서명
 
 ```solidity
 function difficulty(uint256) external;
 ```
 
-### Description
+### 설명
 
-Sets `block.difficulty`.
+`block.difficulty`를 설정합니다.
 
-If used with a post-merge EVM version (Paris and onwards), it will revert. In that case, use [`vm.prevrandao`][prevrandao] instead.
+병합 후(Post-merge) EVM 버전(Paris 및 이후)과 함께 사용하면 리버트됩니다. 그 경우 대신 [`vm.prevrandao`][prevrandao]를 사용하세요.
 
-### Examples
+### 예제
 
 ```solidity
 vm.difficulty(25);

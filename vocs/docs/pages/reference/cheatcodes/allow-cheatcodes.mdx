@@ -1,19 +1,18 @@
 ## `allowCheatcodes`
 
-### Signature
+### 서명
 
 ```solidity
 function allowCheatcodes(address) external;
 ```
 
-### Description
+### 설명
 
-In forking mode, explicitly grant the given address cheatcode access.
+포킹 모드에서 특정 주소에 치트코드 접근 권한을 명시적으로 부여합니다.
 
-By default, the test contract, and its deployer are allowed to access cheatcodes. In addition to that, cheat code
-access is granted if the contract was deployed by an address that already has cheatcode access.
-This will prevent cheatcode access from accounts already deployed on the forked network.
+기본적으로 테스트 컨트랙트와 그 배포자는 치트코드에 접근할 수 있습니다. 또한, 이미 치트코드 접근 권한이 있는 주소에 의해 배포된 경우에도 치트코드 접근 권한이 부여됩니다.
+이는 포크된 네트워크에 이미 배포된 계정이 치트코드에 접근하는 것을 방지합니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> This is only useful for more complex test setups in forking mode.
+> 이는 포킹 모드에서 더 복잡한 테스트 설정을 할 때만 유용합니다.

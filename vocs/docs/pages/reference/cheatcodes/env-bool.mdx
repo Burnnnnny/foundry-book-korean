@@ -1,6 +1,6 @@
 ## `envBool`
 
-### Signature
+### 서명
 
 ```solidity
 function envBool(string calldata key) external returns (bool value);
@@ -10,20 +10,20 @@ function envBool(string calldata key) external returns (bool value);
 function envBool(string calldata key, string calldata delimiter) external returns (bool[] memory values);
 ```
 
-### Description
+### 설명
 
-Read an environment variable as `bool` or `bool[]`.
+환경 변수를 `bool` 또는 `bool[]`로 읽습니다.
 
-### Tips
+### 팁
 
-- For `true`, use either "true" or "True" for the environment variable value.
-- For `false`, use either "false" or "False" for the environment variable value.
-- For arrays, you can specify the delimiter used to separate the values with the `delimiter` parameter.
+- `true`의 경우, 환경 변수 값으로 "true" 또는 "True"를 사용하세요.
+- `false`의 경우, 환경 변수 값으로 "false" 또는 "False"를 사용하세요.
+- 배열의 경우, `delimiter` 매개변수로 값을 구분하는 데 사용되는 구분 기호를 지정할 수 있습니다.
 
-### Examples
+### 예제
 
-#### Single Value
-With environment variable `BOOL_VALUE=true`,
+#### 단일 값
+환경 변수 `BOOL_VALUE=true`가 있을 때,
 ```solidity
 string memory key = "BOOL_VALUE";
 bool expected = true;
@@ -31,8 +31,8 @@ bool output = cheats.envBool(key);
 assert(output == expected);
 ```
 
-#### Array
-With environment variable `BOOL_VALUES=true,false,True,False`,
+#### 배열
+환경 변수 `BOOL_VALUES=true,false,True,False`가 있을 때,
 ```solidity
 string memory key = "BOOL_VALUES";
 string memory delimiter = ",";

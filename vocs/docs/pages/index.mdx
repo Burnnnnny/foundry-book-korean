@@ -3,7 +3,7 @@ content:
   width: 100%
 layout: landing
 showLogo: false
-description: Foundry is a smart contract development toolchain. It manages your dependencies, compiles your project, runs tests, deploys, and lets you interact with the chain from the command-line and via Solidity scripts.
+description: Foundry는 스마트 컨트랙트 개발 도구 모음입니다. 의존성을 관리하고, 프로젝트를 컴파일하고, 테스트를 실행하고, 배포하며, 커맨드 라인과 Solidity 스크립트를 통해 체인과 상호 작용할 수 있게 해줍니다.
 ---
 
 import { HomePage, Sponsors } from "vocs/components";
@@ -18,21 +18,21 @@ import { HomePage, Sponsors } from "vocs/components";
           alt="Foundry"
           className="w-full h-auto rounded-xl"
           />
-          <div className="font-regular text-[21px] max-sm:text-[18px] text-[#919193] max-md:text-center">Blazing fast smart contract development toolkit</div>
+          <div className="font-regular text-[21px] max-sm:text-[18px] text-[#919193] max-md:text-center">압도적으로 빠른 스마트 컨트랙트 개발 툴킷</div>
         </div>
         <div className="flex justify-center space-x-2">
-          <HomePage.Button href="/introduction/getting-started" variant="accent">Get started</HomePage.Button>
+          <HomePage.Button href="/introduction/getting-started" variant="accent">시작하기</HomePage.Button>
           <HomePage.Button href="https://github.com/foundry-rs/foundry">GitHub</HomePage.Button>
         </div>
       </div>
         <div className="flex flex-col justify-between space-y-4 w-full max-w-[500px]">
           <div id="home-install">
             ```bash [foundryup]
-            # Download foundry installer `foundryup`
+            # foundry 설치 관리자 `foundryup` 다운로드
             curl -L https://foundry.paradigm.xyz | bash
-            # Install forge, cast, anvil, chisel
+            # forge, cast, anvil, chisel 설치
             foundryup
-            # Install the latest nightly release
+            # 최신 nightly 릴리스 설치
             foundryup -i nightly
             ```
           </div>
@@ -82,7 +82,7 @@ import { HomePage, Sponsors } from "vocs/components";
         <div className="relative w-full h-[168px] max-lg:h-[142px] overflow-hidden">
           <a href="/forge/tests/fork-testing" className="hover:bg-black/2 dark:hover:bg-white/2 border-black/10 dark:border-white/10 border border-solid rounded-lg h-full px-5 py-6 absolute z-10 flex flex-col justify-between w-full vocs_Link vocs_Link_styleless">
             <div className="text-xl font-medium text-black dark:text-white">Fork Testing</div>
-            <div className="text-[17px] text-[#919193]">Test your contracts against real world chain state</div>
+            <div className="text-[17px] text-[#919193]">실제 체인 상태에 대해 컨트랙트를 테스트하세요</div>
           </a>
           <div className="absolute left-0 right-0 top-0 bottom-0 dark:bg-[#313136] opacity-20 z-0" />
           <div className="absolute left-0 right-0 top-0 bottom-0 backdrop-filter backdrop-blur-[2px] z-0" />
@@ -91,8 +91,8 @@ import { HomePage, Sponsors } from "vocs/components";
       <div className="pl-2 pr-2 max-sm:px-0 max-lg:pb-3 max-lg:pr-0 w-1/4 max-lg:w-1/2 max-sm:w-full z-0">
         <div className="relative w-full h-[168px] max-lg:h-[142px]">
           <a href="/config/dynamic-test-linking" className="hover:bg-black/2 dark:hover:bg-white/2 border-black/10 dark:border-white/10 border border-solid rounded-lg h-full px-5 py-6 absolute z-10 flex flex-col justify-between w-full vocs_Link vocs_Link_styleless">
-            <div className="text-xl font-medium text-black dark:text-white">Ultra-fast compilation</div>
-            <div className="text-[17px] text-[#919193]">Lower compilation times drastically using `dynamic_test_linking`</div>
+            <div className="text-xl font-medium text-black dark:text-white">초고속 컴파일</div>
+            <div className="text-[17px] text-[#919193]">`dynamic_test_linking`을 사용하여 컴파일 시간을 획기적으로 줄이세요</div>
           </a>
           <div className="absolute left-0 right-0 top-0 bottom-0 dark:bg-[#313136] opacity-20 z-0" />
           <div className="absolute left-0 right-0 top-0 bottom-0 backdrop-filter backdrop-blur-[2px] z-0" />
@@ -101,8 +101,8 @@ import { HomePage, Sponsors } from "vocs/components";
       <div className="pl-2 pr-2 max-lg:pb-3 max-sm:px-0 max-lg:pl-0 w-1/4 max-lg:w-1/2 max-sm:w-full z-0">
         <div className="relative w-full h-[168px] max-lg:h-[142px]">
           <a href="/anvil/overview" className="hover:bg-black/2 dark:hover:bg-white/2 border-black/10 dark:border-white/10 border border-solid rounded-lg h-full px-5 py-6 absolute z-10 flex flex-col justify-between w-full vocs_Link vocs_Link_styleless">
-            <div className="text-xl font-medium text-black dark:text-white">Performant local node</div>
-            <div className="text-[17px] text-[#919193]">Run `anvil` to setup local dev nodes instantly</div>
+            <div className="text-xl font-medium text-black dark:text-white">고성능 로컬 노드</div>
+            <div className="text-[17px] text-[#919193]">`anvil`을 실행하여 로컬 개발 노드를 즉시 설정하세요</div>
           </a>
           <div className="absolute left-0 right-0 top-0 bottom-0 dark:bg-[#313136] opacity-20 z-0" />
           <div className="absolute left-0 right-0 top-0 bottom-0 backdrop-filter backdrop-blur-[2px] z-0" />
@@ -111,8 +111,8 @@ import { HomePage, Sponsors } from "vocs/components";
       <div className="pl-2 w-1/4 max-sm:px-0 max-lg:w-1/2 max-sm:w-full z-0">
         <div className="relative w-full h-[168px] max-lg:h-[142px]">
           <a href="/cast/overview" className="hover:bg-black/2 dark:hover:bg-white/2 border-black/10 dark:border-white/10 border border-solid rounded-lg h-full px-5 py-6 absolute z-10 flex flex-col justify-between w-full vocs_Link vocs_Link_styleless">
-            <div className="text-xl font-medium text-black dark:text-white">Interact with applications</div>
-            <div className="text-[17px] text-[#919193]">`cast` is your Swiss Army knife to interact with any chain</div>
+            <div className="text-xl font-medium text-black dark:text-white">애플리케이션과 상호 작용</div>
+            <div className="text-[17px] text-[#919193]">`cast`는 모든 체인과 상호 작용할 수 있는 만능 도구입니다</div>
           </a>
           <div className="absolute left-0 right-0 top-0 bottom-0 dark:bg-[#313136] opacity-20 z-0" />
           <div className="absolute left-0 right-0 top-0 bottom-0 backdrop-filter backdrop-blur-[2px] z-0" />
@@ -123,39 +123,39 @@ import { HomePage, Sponsors } from "vocs/components";
 </div>
 <article className="vocs_Content max-w-5xl mx-auto">
 
-# Quick Actions
+# 빠른 실행
 
 ---
 
 ## Forge
 
-[`forge`](/forge/overview) helps you build, test, debug, deploy and verify smart contracts.
+[`forge`](/forge/overview)는 스마트 컨트랙트를 빌드, 테스트, 디버그, 배포 및 검증하는 데 도움을 줍니다.
 
 :::code-group
 
 ```bash [Initialize forge project]
-# Initializes a project called `Counter`
+# `Counter`라는 프로젝트 초기화
 forge init Counter
 ```
 
 ```bash [Run tests]
-# Run tests for the Counter contract
+# Counter 컨트랙트에 대한 테스트 실행
 forge test
-# You can run tests against chain state by forking
+# 포킹을 통해 체인 상태에 대해 테스트를 실행할 수 있습니다
 forge test --fork-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
 ```bash [Deploy contract]
-# Use forge scripts to deploy the Counter contract
-# Running `anvil` @ http://localhost:8545
-# Set the private key in the env
-export PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80" # Address - 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
-# Run the script and broadcast the deploy transaction
+# forge script를 사용하여 Counter 컨트랙트 배포
+# `anvil` 실행 중 @ http://localhost:8545
+# 환경 변수에 개인 키 설정
+export PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80" # 주소 - 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
+# 스크립트 실행 및 배포 트랜잭션 브로드캐스트
 forge script script/Counter.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private-key $PRIVATE_KEY
 ```
 
 ```bash [Clone an onchain contract]
-# Clones an onchain contract and sets up a forge project
+# 온체인 컨트랙트를 복제하고 forge 프로젝트 설정
 forge clone 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
 ```
 
@@ -163,22 +163,22 @@ forge clone 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
 
 ## Anvil
 
-[`anvil`](/anvil/overview) is your local development node that complies with the [Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc) spec.
+[`anvil`](/anvil/overview)은 [Ethereum JSON-RPC](https://ethereum.org/en/developers/docs/apis/json-rpc) 사양을 준수하는 로컬 개발 노드입니다.
 
 :::code-group
 
 ```bash [Start a local node]
-# Start a fresh anvil node with 10 pre-funded accounts
+# 10개의 사전 자금이 지원된 계정으로 새로운 anvil 노드 시작
 anvil
 ```
 
 ```bash [Forking mainnet]
-# Fork latest mainnet state
+# 최신 메인넷 상태 포크
 anvil --fork-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
 ```bash [Load and Dump State]
-# Load and dump state when initializing and shutting down anvil
+# anvil 초기화 및 종료 시 상태 로드 및 덤프
 anvil --state ./path/to/state-file
 ```
 
@@ -186,44 +186,44 @@ anvil --state ./path/to/state-file
 
 ## Cast
 
-[`cast`](/cast/overview) is your swiss army knife for interacting with onchain applications from the command line.
+[`cast`](/cast/overview)는 커맨드 라인에서 온체인 애플리케이션과 상호 작용하기 위한 만능 도구입니다.
 
 :::code-group
 
 ```bash [Call a contract function]
-# Perform an `eth_call` on a contract to read balances
+# 잔액을 읽기 위해 컨트랙트에 `eth_call` 수행
 cast call 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 \
 "balanceOf(address)" 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045 \
 --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
 ```bash [Send a transaction]
-# Running `anvil` @ http://localhost:8545
-# Set the private key in the env
+# `anvil` 실행 중 @ http://localhost:8545
+# 환경 변수에 개인 키 설정
 export PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
-# Send the transaction
+# 트랜잭션 전송
 cast send 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --value 10000000 --private-key $PRIVATE_KEY && \
-# Fetch ETH balances
+# ETH 잔액 조회
 echo "\nBalance Of 0x7099:" && cast balance 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 && \
 echo "\nBalance Of 0xf39F:" && cast balance 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
 ```
 
 ```bash [Call JSON-RPC methods]
-# Calls the `eth_getHeaderByNumber` RPC method with the number param in hexadecimal
-# cast 2h converts integer to hex
+# 16진수 숫자 파라미터로 `eth_getHeaderByNumber` RPC 메서드 호출
+# cast 2h는 정수를 16진수로 변환합니다
 cast rpc eth_getHeaderByNumber $(cast 2h 22539851) --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
 :::
 
-# Community
+# 커뮤니티
 
-Join the Community
+커뮤니티에 참여하세요
 
-- Ask for support in the [Telegram chat](https://t.me/foundry_support) or create an [issue on Github](https://github.com/foundry-rs/foundry/issues)
-- Join the 500+ developers by [contributing](https://github.com/foundry-rs/foundry/blob/master/CONTRIBUTING.md) to Foundry
+- [Telegram 채팅](https://t.me/foundry_support)에서 지원을 요청하거나 [Github 이슈](https://github.com/foundry-rs/foundry/issues)를 생성하세요
+- Foundry에 [기여](https://github.com/foundry-rs/foundry/blob/master/CONTRIBUTING.md)하여 500명 이상의 개발자들과 함께하세요
 
-# Supporters
+# 후원자
 
 <Sponsors />
 

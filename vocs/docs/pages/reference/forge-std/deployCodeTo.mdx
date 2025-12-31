@@ -16,11 +16,11 @@ function deployCodeTo(string memory what, bytes memory args, uint256 value, addr
 
 ### Description
 
-Pseudo-deploys a contract to an arbitrary address by fetching the contract bytecode from the artifacts directory. This can be used to recreate the production environment.
+아티팩트 디렉토리에서 컨트랙트 바이트코드를 가져와 임의의 주소에 컨트랙트를 의사 배포(pseudo-deploy)합니다. 이는 프로덕션 환경을 재현하는 데 사용할 수 있습니다.
 
-The calldata parameter can either be in the form `ContractFile.sol` (if the filename and contract name are the same), `ContractFile.sol:ContractName`, or the path to an artifact, relative to the root of your project.
+calldata 파라미터는 `ContractFile.sol`(파일명과 컨트랙트 이름이 같은 경우), `ContractFile.sol:ContractName`, 또는 프로젝트 루트에 상대적인 아티팩트 경로 형식이 될 수 있습니다.
 
-Values can also be passed by using the `value` parameter. This is necessary if you need to send ETH on construction.
+`value` 파라미터를 사용하여 값을 전달할 수도 있습니다. 이는 생성 시 ETH를 전송해야 하는 경우 필요합니다.
 
 ### Examples
 

@@ -1,6 +1,6 @@
 ## `startPrank`
 
-### Signature
+### 시그니처
 
 ```solidity
 function startPrank(address msgSender) external;
@@ -18,20 +18,20 @@ function startPrank(address msgSender, address txOrigin) external;
 function startPrank(address msgSender, address txOrigin, bool delegateCall) external;
 ```
 
-### Description
+### 설명
 
-- `startPrank(address msgSender)`: sets `msg.sender` **for all subsequent calls** until [`stopPrank`](/reference/cheatcodes/stop-prank.mdx) is called.
-- `startPrank(address msgSender, address txOrigin)`: sets `msg.sender` and `tx.origin` **for all subsequent calls** until [`stopPrank`](/reference/cheatcodes/stop-prank.mdx) is called.
-- `startPrank(address msgSender, bool delegateCall)`: if `delegateCall` value is `true` then sets `msg.sender` **for all subsequent delegate calls** until [`stopPrank`](/reference/cheatcodes/stop-prank.mdx) is called.
-- `startPrank(address msgSender, address txOrigin, bool delegateCall)`: if `delegateCall` value is `true` then sets `msg.sender` and `tx.origin` **for all subsequent delegate calls** until [`stopPrank`](/reference/cheatcodes/stop-prank.mdx) is called.
+- `startPrank(address msgSender)`: [`stopPrank`](/reference/cheatcodes/stop-prank.mdx)가 호출될 때까지 **이후의 모든 호출**에 대해 `msg.sender`를 설정합니다.
+- `startPrank(address msgSender, address txOrigin)`: [`stopPrank`](/reference/cheatcodes/stop-prank.mdx)가 호출될 때까지 **이후의 모든 호출**에 대해 `msg.sender`와 `tx.origin`을 설정합니다.
+- `startPrank(address msgSender, bool delegateCall)`: `delegateCall` 값이 `true`이면 [`stopPrank`](/reference/cheatcodes/stop-prank.mdx)가 호출될 때까지 **이후의 모든 위임 호출**에 대해 `msg.sender`를 설정합니다.
+- `startPrank(address msgSender, address txOrigin, bool delegateCall)`: `delegateCall` 값이 `true`이면 [`stopPrank`](/reference/cheatcodes/stop-prank.mdx)가 호출될 때까지 **이후의 모든 위임 호출**에 대해 `msg.sender`와 `tx.origin`을 설정합니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> The delegate calls cannot be pranked from an EOA.
+> 위임 호출은 EOA(외부 소유 계정)에서 프랭크(prank)할 수 없습니다.
 
-### Examples
+### 예제
 
-- prank delegate call and record state diffs
+- 위임 호출 프랭크 및 상태 변경(diff) 기록
 
 ```solidity
 contract ImplementationTest {
@@ -78,8 +78,8 @@ contract FoundryIssue is Script {
   0xcd16ecbf000000000000000000000000000000000000000000000000000000000000002a
 ```
 
-### SEE ALSO
+### 같이 보기
 
-Forge Standard Library
+Forge 표준 라이브러리
 
 [`startHoax`](/reference/forge-std/startHoax.mdx), [`changePrank`](/reference/forge-std/change-prank.mdx)

@@ -12,13 +12,13 @@ function assumeNotPrecompile(address addr, uint256 chainid) public;
 
 ### Description
 
-Uses [`assume`](/reference/cheatcodes/assume.mdx) to filter precompile addresses from the fuzz tests.
+[`assume`](/reference/cheatcodes/assume.mdx)을 사용하여 퍼즈 테스트에서 프리컴파일(precompile) 주소를 필터링합니다.
 
-Optionally, a `chainid` may be specified to filter known precompiles on the respective chain.
+선택적으로 `chainid`를 지정하여 해당 체인의 알려진 프리컴파일을 필터링할 수 있습니다.
 
 ### Registry
 
-These are all the precompile addresses known to the `assumeNotPrecompile` functions.
+다음은 `assumeNotPrecompile` 함수에 알려진 모든 프리컴파일 주소입니다.
 
 | Chain ID      | Address                                      | Name                             |
 | ------------- | -------------------------------------------- | -------------------------------- |
@@ -68,7 +68,7 @@ These are all the precompile addresses known to the `assumeNotPrecompile` functi
 
 ### Reserved Ranges
 
-Some chains also include reserved ranges for precompile contracts.
+일부 체인에는 프리컴파일 컨트랙트를 위한 예약된 범위가 포함되어 있습니다.
 
 | Chain ID      | Start                                        | Stop                                         |
 | ------------- | -------------------------------------------- | -------------------------------------------- |

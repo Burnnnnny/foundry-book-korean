@@ -1,18 +1,18 @@
 ## `rememberKey`
 
-### Signature
+### 시그니처
 
 ```solidity
 function rememberKey(uint256 privateKey) external returns (address);
 ```
 
-### Description
+### 설명
 
-Stores a private key in forge's local wallet and returns the corresponding address which can later be used for [broadcasting](/reference/cheatcodes/broadcast.mdx).
+개인 키를 forge의 로컬 지갑에 저장하고 해당 주소를 반환합니다. 이 주소는 나중에 [브로드캐스팅](/reference/cheatcodes/broadcast.mdx)에 사용할 수 있습니다.
 
-### Examples
+### 예제
 
-Derive the private key from the test mnemonic at path `m/44'/60'/0'/0/0`, remember it in forge's wallet and use it to start broadcasting transactions:
+테스트 니모닉 `m/44'/60'/0'/0/0` 경로에서 개인 키를 파생시키고, forge의 지갑에 저장한 다음 트랜잭션 브로드캐스팅에 사용합니다:
 
 ```solidity
 string memory mnemonic = "test test test test test test test test test test test junk";
@@ -24,7 +24,7 @@ vm.startBroadcast(deployer);
 vm.stopBroadcast();
 ```
 
-Load a private key from the `PRIVATE_KEY` environment variable and use it to start broadcasting transactions:
+`PRIVATE_KEY` 환경 변수에서 개인 키를 로드하고 트랜잭션 브로드캐스팅에 사용합니다:
 
 ```solidity
 address deployer = vm.rememberKey(vm.envUint("PRIVATE_KEY"));
@@ -34,10 +34,10 @@ vm.startBroadcast(deployer);
 vm.stopBroadcast();
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [deriveKey](/reference/cheatcodes/derive-key.mdx)
 
-Forge Standard Library:
+Forge 표준 라이브러리:
 
 - [deriveRememberKey](/reference/forge-std/derive-remember-key.mdx)

@@ -1,24 +1,24 @@
 ## `warp`
 
-### Signature
+### 시그니처
 
 ```solidity
 function warp(uint256) external;
 ```
 
-### Description
+### 설명
 
-Sets `block.timestamp`.
+`block.timestamp`를 설정합니다.
 
-### Examples
+### 예제
 
 ```solidity
 vm.warp(1641070800);
 emit log_uint(block.timestamp); // 1641070800
 ```
 
-### SEE ALSO
+### 같이 보기
 
-Forge Standard Library
+Forge 표준 라이브러리
 
 [`skip`](/reference/forge-std/skip.mdx), [`rewind`](/reference/forge-std/rewind.mdx)

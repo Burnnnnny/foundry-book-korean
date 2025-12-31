@@ -1,6 +1,6 @@
 ## `envUint`
 
-### Signature
+### 서명
 
 ```solidity
 function envUint(string calldata key) external returns (uint256 value);
@@ -10,20 +10,19 @@ function envUint(string calldata key) external returns (uint256 value);
 function envUint(string calldata key, string calldata delimiter) external returns (uint256[] memory values);
 ```
 
-### Description
+### 설명
 
-Read an environment variable as `uint256` or `uint256[]`.
+환경 변수를 `uint256` 또는 `uint256[]`로 읽습니다.
 
-### Tips
+### 팁
 
-- If the value starts with `0x`, it will be interpreted as a hex value, otherwise, it will be
-treated as a decimal number.
-- For arrays, you can specify the delimiter used to separate the values with the `delimiter` parameter.
+- 값이 `0x`로 시작하면 16진수 값으로 해석되고, 그렇지 않으면 10진수로 처리됩니다.
+- 배열의 경우, `delimiter` 매개변수로 값을 구분하는 데 사용되는 구분 기호를 지정할 수 있습니다.
 
-### Examples
+### 예제
 
-#### Single Value
-With environment variable `UINT_VALUE=115792089237316195423570985008687907853269984665640564039457584007913129639935`,
+#### 단일 값
+환경 변수 `UINT_VALUE=115792089237316195423570985008687907853269984665640564039457584007913129639935`가 있을 때,
 ```solidity
 string memory key = "UINT_VALUE";
 uint256 expected = type(uint256).max;
@@ -31,8 +30,8 @@ uint256 output = cheats.envUint(key);
 assert(output == expected);
 ```
 
-#### Array
-With environment variable `UINT_VALUES=0,0x0000000000000000000000000000000000000000000000000000000000000000`,
+#### 배열
+환경 변수 `UINT_VALUES=0,0x0000000000000000000000000000000000000000000000000000000000000000`가 있을 때,
 ```solidity
 string memory key = "UINT_VALUES";
 string memory delimiter = ",";

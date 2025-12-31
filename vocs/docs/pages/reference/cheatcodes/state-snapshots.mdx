@@ -1,43 +1,43 @@
-## `snapshotState` cheatcodes
+## `snapshotState` 치트코드
 
-### Signature
+### 시그니처
 
 ```solidity
-/// Snapshot the current state of the evm.
-/// Returns the ID of the snapshot that was created.
-/// To revert a snapshot use `revertToState`.
+/// 현재 EVM 상태의 스냅샷을 찍습니다.
+/// 생성된 스냅샷의 ID를 반환합니다.
+/// 스냅샷을 되돌리려면 `revertToState`를 사용하세요.
 function snapshotState() external returns (uint256 snapshotId);
 
-/// Revert the state of the EVM to a previous snapshot
-/// Takes the snapshot ID to revert to.
-/// Returns `true` if the snapshot was successfully reverted.
-/// Returns `false` if the snapshot does not exist.
-/// **Note:** This does not automatically delete the snapshot. To delete the snapshot use `deleteStateSnapshot`.
+/// EVM 상태를 이전 스냅샷으로 되돌립니다.
+/// 되돌릴 스냅샷 ID를 받습니다.
+/// 스냅샷이 성공적으로 되돌려지면 `true`를 반환합니다.
+/// 스냅샷이 존재하지 않으면 `false`를 반환합니다.
+/// **참고:** 이것은 스냅샷을 자동으로 삭제하지 않습니다. 스냅샷을 삭제하려면 `deleteStateSnapshot`을 사용하세요.
 function revertToState(uint256 snapshotId) external returns (bool success);
 
-/// Revert the state of the EVM to a previous snapshot and automatically deletes the snapshots
-/// Takes the snapshot ID to revert to.
-/// Returns `true` if the snapshot was successfully reverted and deleted.
-/// Returns `false` if the snapshot does not exist.
+/// EVM 상태를 이전 스냅샷으로 되돌리고 자동으로 스냅샷을 삭제합니다.
+/// 되돌릴 스냅샷 ID를 받습니다.
+/// 스냅샷이 성공적으로 되돌려지고 삭제되면 `true`를 반환합니다.
+/// 스냅샷이 존재하지 않으면 `false`를 반환합니다.
 function revertToStateAndDelete(uint256 snapshotId) external returns (bool success);
 
-/// Removes the snapshot with the given ID created by `snapshot`.
-/// Takes the snapshot ID to delete.
-/// Returns `true` if the snapshot was successfully deleted.
-/// Returns `false` if the snapshot does not exist.
+/// `snapshot`에 의해 생성된 주어진 ID의 스냅샷을 제거합니다.
+/// 삭제할 스냅샷 ID를 받습니다.
+/// 스냅샷이 성공적으로 삭제되면 `true`를 반환합니다.
+/// 스냅샷이 존재하지 않으면 `false`를 반환합니다.
 function deleteStateSnapshot(uint256 snapshotId) external returns (bool success);
 
-/// Removes _all_ snapshots previously created by `snapshot`.
+/// `snapshot`에 의해 이전에 생성된 _모든_ 스냅샷을 제거합니다.
 function deleteStateSnapshots() external;
 ```
 
-### Description
+### 설명
 
-`snapshotState` takes a snapshot of the state of the blockchain and returns the identifier of the created snapshot.
+`snapshotState`는 블록체인 상태의 스냅샷을 찍고 생성된 스냅샷의 식별자를 반환합니다.
 
-`revertToState` reverts the state of the blockchain to the given state snapshot. This deletes the given snapshot, as well as any snapshots taken after (e.g.: reverting to id 2 will delete snapshots with ids 2, 3, 4, etc.).
+`revertToState`는 블록체인의 상태를 주어진 상태 스냅샷으로 되돌립니다. 이는 주어진 스냅샷과 그 이후에 찍은 모든 스냅샷을 삭제합니다 (예: id 2로 되돌리면 id 2, 3, 4 등의 스냅샷이 삭제됩니다).
 
-### Examples
+### 예제
 
 ```solidity
 struct Storage {
@@ -57,9 +57,9 @@ contract SnapshotStateTest is Test {
     }
 
     function testSnapshotState() public {
-        uint256 snapshot = vm.snapshotState();      // saves the state
+        uint256 snapshot = vm.snapshotState();      // 상태 저장
 
-        // let's change the state
+        // 상태 변경
         store.slot0 = 300;
         store.slot1 = 400;
         vm.deal(address(this), 500 ether);
@@ -70,7 +70,7 @@ contract SnapshotStateTest is Test {
         assertEq(address(this).balance, 500 ether);
         assertEq(block.timestamp, 12345);
 
-        vm.revertToState(snapshot);                 // restores the state
+        vm.revertToState(snapshot);                 // 상태 복원
 
         assertEq(store.slot0, 10, "snapshot revert for slot 0 unsuccessful");
         assertEq(store.slot1, 20, "snapshot revert for slot 1 unsuccessful");

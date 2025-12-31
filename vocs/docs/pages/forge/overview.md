@@ -1,25 +1,24 @@
 ---
-description: Forge is a command-line tool for building, testing, and deploying smart contracts with advanced features like fuzzing and gas tracking.
+description: Forge는 퍼징 및 가스 추적과 같은 고급 기능을 사용하여 스마트 컨트랙트를 빌드, 테스트 및 배포하기 위한 커맨드 라인 도구입니다.
 ---
 
 ## Forge
 
-Forge is a command-line tool that ships with Foundry. Forge tests, builds, and deploys your smart contracts.
+Forge는 Foundry와 함께 제공되는 커맨드 라인 도구입니다. Forge는 스마트 컨트랙트를 테스트, 빌드 및 배포합니다.
 
-Forge is part of the Foundry suite and is installed alongside `cast`, `chisel`, and `anvil`. If you haven't installed Foundry
-yet, see [Foundry installation](/introduction/installation).
+Forge는 Foundry 제품군의 일부이며 `cast`, `chisel`, `anvil`과 함께 설치됩니다. 아직 Foundry를 설치하지 않았다면 [Foundry 설치](/introduction/installation)를 참조하세요.
 
-### Getting started
+### 시작하기
 
-The best way to understand Forge is to simply try it (in less than 30 seconds!).
+Forge를 이해하는 가장 좋은 방법은 (30초 이내에!) 직접 사용해 보는 것입니다.
 
-First, let's initialize a new `counter` example repository:
+먼저, 새로운 `counter` 예제 저장소를 초기화해 보겠습니다:
 
 ```sh
 forge init counter
 ```
 
-Next `cd` into `counter` and build :
+다음으로 `counter` 디렉토리로 이동(`cd`)하여 빌드합니다:
 
 ```sh
 forge build
@@ -32,7 +31,7 @@ forge build
 Compiler run successful!
 ```
 
-Let's [test](https://book.getfoundry.sh/forge/tests#tests) our contracts:
+컨트랙트를 [테스트](https://book.getfoundry.sh/forge/tests#tests)해 보겠습니다:
 
 ```sh
 forge test
@@ -50,7 +49,7 @@ Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 5.35ms (4.86ms CPU 
 Ran 1 test suite in 5.91ms (5.35ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
 ```
 
-Finally, let's run our deployment script:
+마지막으로 배포 스크립트를 실행해 보겠습니다:
 
 ```sh
 forge script script/Counter.s.sol
@@ -66,5 +65,5 @@ If you wish to simulate on-chain transactions pass a RPC URL.
 ```
 
 :::info
-See the [`forge` Reference](/forge/reference/forge) for a complete overview of all the available subcommands.
+사용 가능한 모든 하위 명령어에 대한 전체 개요는 [`forge` 참조](/forge/reference/forge)를 확인하세요.
 :::

@@ -8,11 +8,11 @@ function deriveRememberKey(string memory mnemonic, uint32 index) internal return
 
 ### Description
 
-Derive a private key from a mnemonic and also store it in forge's local wallet. Returns the address and private key.
+니모닉에서 개인키를 파생하고 Forge의 로컬 지갑에도 저장합니다. 주소와 개인키를 반환합니다.
 
 ### Example
 
-Get a private key and address from the test mnemonic at path `m/44'/60'/0'/0/0`. Use them to sign some data and start broadcasting transactions:
+경로 `m/44'/60'/0'/0/0`의 테스트 니모닉에서 개인키와 주소를 가져옵니다. 이를 사용하여 데이터를 서명하고 트랜잭션 브로드캐스팅을 시작합니다:
 
 ```solidity
 string memory mnemonic = "test test test test test test test test test test test junk";
@@ -27,7 +27,7 @@ vm.startBroadcast(deployer);
 vm.stopBroadcast();
 ```
 
-Get an address from the test mnemonic at path `m/44'/60'/0'/0/0` to start broadcasting transactions:
+경로 `m/44'/60'/0'/0/0`의 테스트 니모닉에서 주소를 가져와 트랜잭션 브로드캐스팅을 시작합니다:
 
 ```solidity
 string memory mnemonic = "test test test test test test test test test test test junk";

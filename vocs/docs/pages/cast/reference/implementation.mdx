@@ -1,7 +1,7 @@
 ## cast implementation
 
-Fetch the EIP-1967 implementation for a contract Can read from the
-implementation slot or the beacon slot
+컨트랙트의 EIP-1967 구현(implementation)을 가져옵니다.
+구현 슬롯 또는 비콘(beacon) 슬롯에서 읽을 수 있습니다.
 
 ```bash
 $ cast implementation --help
@@ -12,55 +12,53 @@ Usage: cast implementation [OPTIONS] <WHO>
 
 Arguments:
   <WHO>
-          The address for which the implementation will be fetched
+          구현을 가져올 주소
 
 Options:
   -B, --block <BLOCK>
-          The block height to query at.
+          쿼리할 블록 높이.
           
-          Can also be the tags earliest, finalized, safe, latest, or pending.
+          earliest, finalized, safe, latest, 또는 pending 태그도 가능합니다.
 
       --beacon
-          Fetch the implementation from the beacon slot.
+          비콘 슬롯에서 구현을 가져옵니다.
           
-          If not specified, the implementation slot is used.
+          지정하지 않으면 구현 슬롯이 사용됩니다.
 
   -h, --help
-          Print help (see a summary with '-h')
+          도움말 인쇄 ('-h'로 요약 보기)
 
   -j, --threads <THREADS>
-          Number of threads to use. Specifying 0 defaults to the number of
-          logical cores
+          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
           
           [aliases: --jobs]
 
 Rpc options:
   -r, --rpc-url <URL>
-          The RPC endpoint, default value is http://localhost:8545
+          RPC 엔드포인트, 기본값은 http://localhost:8545
           
           [env: ETH_RPC_URL=]
 
   -k, --insecure
-          Allow insecure RPC connections (accept invalid HTTPS certificates).
+          안전하지 않은 RPC 연결 허용 (유효하지 않은 HTTPS 인증서 수락).
           
-          When the provider's inner runtime transport variant is HTTP, this
-          configures the reqwest client to accept invalid certificates.
+          공급자의 내부 런타임 전송 변형이 HTTP일 때, 이 옵션은 reqwest 클라이언트가
+          유효하지 않은 인증서를 수락하도록 구성합니다.
 
       --flashbots
-          Use the Flashbots RPC URL with fast mode
+          Flashbots RPC URL을 빠른 모드로 사용
           ([https://rpc.flashbots.net/fast](https://rpc.flashbots.net/fast)).
           
-          This shares the transaction privately with all registered builders.
+          이는 모든 등록된 빌더와 트랜잭션을 비공개로 공유합니다.
           
-          See:
+          참조:
           [https://docs.flashbots.net/flashbots-protect/quick-start#faster-transactions](https://docs.flashbots.net/flashbots-protect/quick-start#faster-transactions)
 
       --jwt-secret <JWT_SECRET>
-          JWT Secret for the RPC endpoint.
+          RPC 엔드포인트의 JWT 시크릿.
           
-          The JWT secret will be used to create a JWT for a RPC. For example,
-          the following can be used to simulate a CL `engine_forkchoiceUpdated`
-          call:
+          JWT 시크릿은 RPC용 JWT를 생성하는 데 사용됩니다. 예를 들어, 다음을 사용하여
+          CL `engine_forkchoiceUpdated` 호출을 시뮬레이션할 수 있습니다:
           
           cast rpc --jwt-secret <JWT_SECRET> engine_forkchoiceUpdatedV2
           '["0x6bb38c26db65749ab6e472080a3d20a2f35776494e72016d1e339593f21c59bc",
@@ -70,51 +68,48 @@ Rpc options:
           [env: ETH_RPC_JWT_SECRET=]
 
       --rpc-timeout <RPC_TIMEOUT>
-          Timeout for the RPC request in seconds.
+          RPC 요청의 시간 초과(초).
           
-          The specified timeout will be used to override the default timeout for
-          RPC requests.
+          지정된 시간 초과는 RPC 요청의 기본 시간 초과를 재정의하는 데 사용됩니다.
           
           Default value: 45
           
           [env: ETH_RPC_TIMEOUT=]
 
       --rpc-headers <RPC_HEADERS>
-          Specify custom headers for RPC requests
+          RPC 요청에 대한 사용자 정의 헤더 지정
           
           [env: ETH_RPC_HEADERS=]
 
 Display options:
       --color <COLOR>
-          The color of the log messages
+          로그 메시지의 색상
 
-          Possible values:
-          - auto:   Intelligently guess whether to use color output (default)
-          - always: Force color output
-          - never:  Force disable color output
+          가능한 값:
+          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
+          - always: 색상 출력 강제
+          - never:  색상 출력 강제 비활성화
 
       --json
-          Format log messages as JSON
+          로그 메시지를 JSON으로 포맷팅
 
       --md
-          Format log messages as Markdown
+          로그 메시지를 Markdown으로 포맷팅
 
   -q, --quiet
-          Do not print log messages
+          로그 메시지를 인쇄하지 않음
 
   -v, --verbosity...
-          Verbosity level of the log messages.
+          로그 메시지의 상세 수준.
           
-          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
+          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
           
-          Depending on the context the verbosity levels have different meanings.
+          문맥에 따라 상세 수준은 다른 의미를 가짐.
           
-          For example, the verbosity levels of the EVM are:
-          - 2 (-vv): Print logs for all tests.
-          - 3 (-vvv): Print execution traces for failing tests.
-          - 4 (-vvvv): Print execution traces for all tests, and setup traces
-          for failing tests.
-          - 5 (-vvvvv): Print execution and setup traces for all tests,
-          including storage changes and
-            backtraces with line numbers.
+          예를 들어, EVM의 상세 수준은 다음과 같음:
+          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
+          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
+          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
+          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
+            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
 ```

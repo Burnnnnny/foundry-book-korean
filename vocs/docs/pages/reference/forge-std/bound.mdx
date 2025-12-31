@@ -8,9 +8,9 @@ function bound(uint256 x, uint256 min, uint256 max) public returns (uint256 resu
 
 ### Description
 
-A mathematical function for wrapping inputs of fuzz tests into a certain range.
+퍼즈 테스트의 입력을 특정 범위로 래핑(wrapping)하는 수학 함수입니다.
 
-You can use it instead of the `assume` cheatcode to get better performance in some cases. Read more [here](/reference/cheatcodes/assume.mdx).
+경우에 따라 `assume` 치트코드 대신 사용하여 더 나은 성능을 얻을 수 있습니다. 자세한 내용은 [여기](/reference/cheatcodes/assume.mdx)를 참조하세요.
 
 ### Examples
 
@@ -18,13 +18,13 @@ You can use it instead of the `assume` cheatcode to get better performance in so
 input = bound(input, 99, 101);
 ```
 
-Returns `99` for input `0`.
+입력 `0`에 대해 `99`를 반환합니다.
 
 <br></br>
-Returns `100` for input `1`.
+입력 `1`에 대해 `100`을 반환합니다.
 <br></br>
-Returns `101` for input `2`.
+입력 `2`에 대해 `101`을 반환합니다.
 <br></br>
-Returns `99` for input `3`.
+입력 `3`에 대해 `99`를 반환합니다.
 <br></br>
-And so on.
+등등.

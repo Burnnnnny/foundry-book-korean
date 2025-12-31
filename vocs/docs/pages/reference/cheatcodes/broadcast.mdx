@@ -1,6 +1,6 @@
 ## `broadcast`
 
-### Signature
+### 서명
 
 ```solidity
 function broadcast() external;
@@ -14,33 +14,31 @@ function broadcast(address who) external;
 function broadcast(uint256 privateKey) external;
 ```
 
-### Description
+### 설명
 
-Using the address that calls the test contract or the address / private key provided
-as the sender, has the next call (at this call depth only and excluding cheatcode calls) create a
-transaction that can later be signed and sent onchain.
+테스트 컨트랙트를 호출하는 주소 또는 발신자로 제공된 주소 / 개인 키를 사용하여, 다음 호출(이 호출 깊이에서만, 치트코드 호출 제외)이 나중에 서명되어 온체인으로 전송될 수 있는 트랜잭션을 생성하게 합니다.
 
-### Examples
+### 예제
 
 ```solidity
 function deploy() public {
     vm.broadcast(ACCOUNT_A);
     Test test = new Test();
 
-    // this won't generate tx to sign
+    // 이것은 서명할 tx를 생성하지 않습니다
     uint256 b = test.t(4);
 
-    // this will
+    // 이것은 생성합니다
     vm.broadcast(ACCOUNT_B);
     test.t(2);
 
-    // this also will, using a private key from your environment variables
+    // 환경 변수의 개인 키를 사용하여 이것도 생성합니다
     vm.broadcast(vm.envUint("PRIVATE_KEY"));
     test.t(3);
 }
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [startBroadcast](/reference/cheatcodes/start-broadcast.mdx)
 - [stopBroadcast](/reference/cheatcodes/stop-broadcast.mdx)

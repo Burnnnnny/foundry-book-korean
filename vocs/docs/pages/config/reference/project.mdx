@@ -1,88 +1,88 @@
 ## Project
 
-Configuration related to the project in general.
+일반적인 프로젝트 관련 구성입니다.
 
 ##### `extends`
 
-- Type: string or object
-- Default: none
+- Type: string 또는 object
+- Default: 없음
 - Environment: N/A
 
-Configuration for inheriting from a base TOML file. Can be specified as either:
-- A string path: `extends = "./base-config.toml"`
-- An object with path and strategy: `extends = { path = "./base-config.toml", strategy = "replace-arrays" }`
+기본 TOML 파일에서 상속하기 위한 구성입니다. 다음 중 하나로 지정할 수 있습니다:
+- 문자열 경로: `extends = "./base-config.toml"`
+- 경로와 전략이 포함된 객체: `extends = { path = "./base-config.toml", strategy = "replace-arrays" }`
 
-The path must be relative to the location of the `foundry.toml` file. 
+경로는 `foundry.toml` 파일의 위치에 상대적이어야 합니다.
 
-See the [Configuration Inheritance](/guides/project-setup/project-layout#configuration-inheritance) section for detailed information about merge strategies, precedence rules, and examples.
+병합 전략, 우선 순위 규칙 및 예제에 대한 자세한 정보는 [구성 상속(Configuration Inheritance)](/guides/project-setup/project-layout#configuration-inheritance) 섹션을 참조하세요.
 
 ##### `src`
 
 - Type: string
 - Default: src
-- Environment: `FOUNDRY_SRC` or `DAPP_SRC`
+- Environment: `FOUNDRY_SRC` 또는 `DAPP_SRC`
 
-The path to the contract sources relative to the root of the project.
+프로젝트 루트에 상대적인 컨트랙트 소스 경로입니다.
 
 ##### `test`
 
 - Type: string
 - Default: test
-- Environment: `FOUNDRY_TEST` or `DAPP_TEST`
+- Environment: `FOUNDRY_TEST` 또는 `DAPP_TEST`
 
-The path to the test contract sources relative to the root of the project.
+프로젝트 루트에 상대적인 테스트 컨트랙트 소스 경로입니다.
 
 ##### `script`
 
 - Type: string
 - Default: script
-- Environment: `FOUNDRY_SCRIPT` or `DAPP_SCRIPT`
+- Environment: `FOUNDRY_SCRIPT` 또는 `DAPP_SCRIPT`
 
-The path to the script contract sources relative to the root of the project.
+프로젝트 루트에 상대적인 스크립트 컨트랙트 소스 경로입니다.
 
 ##### `out`
 
 - Type: string
 - Default: out
-- Environment: `FOUNDRY_OUT` or `DAPP_OUT`
+- Environment: `FOUNDRY_OUT` 또는 `DAPP_OUT`
 
-The path to put contract artifacts in, relative to the root of the project.
+프로젝트 루트에 상대적인 컨트랙트 아티팩트를 저장할 경로입니다.
 
 ##### `libs`
 
 - Type: array of strings (paths)
 - Default: lib
-- Environment: `FOUNDRY_LIBS` or `DAPP_LIBS`
+- Environment: `FOUNDRY_LIBS` 또는 `DAPP_LIBS`
 
-An array of paths that contain libraries, relative to the root of the project.
+프로젝트 루트에 상대적인 라이브러리를 포함하는 경로들의 배열입니다.
 
 ##### `cache`
 
 - Type: boolean
 - Default: true
-- Environment: `FOUNDRY_CACHE` or `DAPP_CACHE`
+- Environment: `FOUNDRY_CACHE` 또는 `DAPP_CACHE`
 
-Whether or not to enable caching. If enabled, the result of compiling sources, tests, and dependencies, are cached in `cache`.
+캐싱 활성화 여부입니다. 활성화되면 소스, 테스트 및 종속성의 컴파일 결과가 `cache`에 캐시됩니다.
 
 ##### `cache_path`
 
 - Type: string
 - Default: cache
-- Environment: `FOUNDRY_CACHE_PATH` or `DAPP_CACHE_PATH`
+- Environment: `FOUNDRY_CACHE_PATH` 또는 `DAPP_CACHE_PATH`
 
-The path to the cache, relative to the root of the project.
+프로젝트 루트에 상대적인 캐시 경로입니다.
 
 ##### `broadcast`
 
 - Type: string
 - Default: broadcast
 
-The path to the broadcast transaction logs, relative to the root of the project.
+프로젝트 루트에 상대적인 브로드캐스트 트랜잭션 로그 경로입니다.
 
 ##### `force`
 
 - Type: boolean
 - Default: false
-- Environment: `FOUNDRY_FORCE` or `DAPP_FORCE`
+- Environment: `FOUNDRY_FORCE` 또는 `DAPP_FORCE`
 
-Whether or not to perform a clean build, discarding the cache.
+캐시를 버리고 클린 빌드를 수행할지 여부입니다.

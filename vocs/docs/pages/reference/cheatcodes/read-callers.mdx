@@ -1,6 +1,6 @@
 ## `readCallers`
 
-### Signature
+### 시그니처
 
 ```solidity
 enum CallerMode {
@@ -16,55 +16,55 @@ external
 returns (CallerMode callerMode, address msgSender, address txOrigin);
 ```
 
-### Description
+### 설명
 
-Reads the current `CallerMode`, `msg.sender`, and `tx.origin`.
+현재 `CallerMode`, `msg.sender`, `tx.origin`을 읽습니다.
 
-The `CallerMode` enum indicates if there is an active caller modification and the type.
+`CallerMode` 열거형은 활성화된 호출자 수정이 있는지 여부와 그 유형을 나타냅니다.
 
-- If there is an active prank:
+- 활성화된 프랭크(prank)가 있는 경우:
 
-  - `callerMode` will be equal to:
-    - `CallerMode.Prank` if the prank has been set with [`prank`](/reference/cheatcodes/prank.mdx).
-    - `CallerMode.RecurrentPrank` if the prank has been set with [`startPrank`](/reference/cheatcodes/start-prank.mdx).
+  - `callerMode`는 다음과 같습니다:
+    - 프랭크가 [`prank`](/reference/cheatcodes/prank.mdx)로 설정된 경우 `CallerMode.Prank`.
+    - 프랭크가 [`startPrank`](/reference/cheatcodes/start-prank.mdx)로 설정된 경우 `CallerMode.RecurrentPrank`.
 
-- If there is an active broadcast:
+- 활성화된 브로드캐스트가 있는 경우:
 
-  - `callerMode` will be equal to:
-    - `CallerMode.Broadcast` if the broadcast has been set with [`broadcast`](/reference/cheatcodes/broadcast.mdx).
-    - `CallerMode.RecurrentBroadcast` if the broadcast has been set with [`startBroadcast`](/reference/cheatcodes/start-broadcast.mdx).
+  - `callerMode`는 다음과 같습니다:
+    - 브로드캐스트가 [`broadcast`](/reference/cheatcodes/broadcast.mdx)로 설정된 경우 `CallerMode.Broadcast`.
+    - 브로드캐스트가 [`startBroadcast`](/reference/cheatcodes/start-broadcast.mdx)로 설정된 경우 `CallerMode.RecurrentBroadcast`.
 
-- If no caller modification is active:
-  - `callerMode` will be equal to `CallerMode.None`.
+- 활성화된 호출자 수정이 없는 경우:
+  - `callerMode`는 `CallerMode.None`입니다.
 
-### Examples
+### 예제
 
 ```solidity
 CallerMode callerMode;
 address msgSender;
 address txOrigin;
 
-// Example 1
+// 예제 1
 (callerMode, msgSender, txOrigin) = vm.readCallers();
 assertEq(callerMode, CallerMode.None);
 assertEq(msgSender, defaultSenderAddress);
 assertEq(txOrigin, defaultOriginAddress);
 
-// Example 2
+// 예제 2
 vm.prank(senderPrankAddress);
 (callerMode, msgSender, txOrigin) = vm.readCallers();
 assertEq(callerMode, CallerMode.Prank);
 assertEq(msgSender, senderPrankAddress);
 assertEq(txOrigin, defaultOriginAddress);
 
-// Example 3
+// 예제 3
 vm.prank(senderPrankAddress, originPrankAddress);
 (callerMode, msgSender, txOrigin) = vm.readCallers();
 assertEq(callerMode, CallerMode.Prank);
 assertEq(msgSender, senderPrankAddress);
 assertEq(txOrigin, originPrankAddress);
 
-// Example 4
+// 예제 4
 vm.broadcast(broadcastAddress);
 (callerMode, msgSender, txOrigin) = vm.readCallers();
 assertEq(callerMode, CallerMode.Broadcast);
@@ -72,7 +72,7 @@ assertEq(msgSender, broadcastAddress);
 assertEq(txOrigin, broadcastAddress);
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [prank](/reference/cheatcodes/prank.mdx)
 - [startPrank](/reference/cheatcodes/start-prank.mdx)

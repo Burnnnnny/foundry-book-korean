@@ -1,21 +1,21 @@
 ## `breakpoint`
 
-### Signature
+### 서명
 
 ```solidity
 function breakpoint(string) external;
 function breakpoint(string, bool) external;
 ```
 
-### Description
+### 설명
 
-Places a breakpoint to jump to in the debugger view.
+디버거 뷰에서 점프할 중단점(breakpoint)을 배치합니다.
 
-Calling `vm.breakpoint('<char>, true)` is equivalent to `vm.breakpoint('<char>)`, but calling `vm.breakpoint('<char>, false)` will erase the breakpoint at `'<char>`.
+`vm.breakpoint('<char>, true)`를 호출하는 것은 `vm.breakpoint('<char>)`와 동일하지만, `vm.breakpoint('<char>, false)`를 호출하면 `'<char>`의 중단점을 지웁니다.
 
-If the char is overwritten, only the last one that was visited in the execution steps is considered.
+문자가 덮어써지면 실행 단계에서 마지막으로 방문한 것만 고려됩니다.
 
-### Examples
+### 예제
 
 ```solidity
 function testBreakpoint() public {
@@ -23,10 +23,10 @@ function testBreakpoint() public {
 }
 ```
 
-Opening up the debugger in a test environment and pressing `'a` will then place the debugger step at the place where the breakpoint cheatcode was called.
+테스트 환경에서 디버거를 열고 `'a`를 누르면 중단점 치트코드가 호출된 위치로 디버거 단계가 이동합니다.
 
 ![breakpoint a](/breakpoint.png)
 
-### SEE ALSO
+### 같이 보기
 
-[debugger](/forge/debugger)
+[디버거](/forge/debugger)

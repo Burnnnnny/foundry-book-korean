@@ -1,6 +1,6 @@
 ## `assertApproxEqAbsDecimal`
 
-### Signature
+### 시그니처
 
 ```solidity
 function assertApproxEqAbsDecimal(uint256 left, uint256 right, uint256 maxDelta, uint256 decimals) internal;
@@ -18,14 +18,14 @@ function assertApproxEqAbsDecimal(int256 left, int256 right, uint256 maxDelta, u
 function assertApproxEqAbsDecimal(int256 left, int256 right, uint256 maxDelta, uint256 decimals, string memory err) internal;
 ```
 
-### Description
+### 설명
 
-Asserts `left` is approximately equal to `right` with delta in absolute value.
+`left`가 `right`와 대략적으로 같은지(절댓값 차이 `maxDelta` 이내) 주장(assert)합니다.
 
-`left` and `right` are formatted with decimals in the revert string.
+리버트(revert) 문자열에서 `left`와 `right`는 소수점(`decimals`) 형식으로 지정됩니다.
 
-Optionally includes an error message in the revert string.
+선택적으로 리버트 문자열에 오류 메시지를 포함할 수 있습니다.
 
-### SEE ALSO
+### 같이 보기
 
 - [`assertApproxEqAbs`](/reference/forge-std/assertApproxEqAbs.mdx)

@@ -1,20 +1,20 @@
-## DSTest Reference
+## DSTest 참조
 
-Dappsys Test (DSTest for short) provides basic logging and assertion functionality. It is included in the Forge Standard Library.
+Dappsys Test(줄여서 DSTest)는 기본적인 로깅 및 어설션 기능을 제공합니다. 이는 Forge 표준 라이브러리에 포함되어 있습니다.
 
-To get access to the functions, import `forge-std/Test.sol` and inherit from `Test` in your test contract:
+함수에 액세스하려면 `forge-std/Test.sol`을 임포트하고 테스트 컨트랙트에서 `Test`를 상속받으세요:
 
 ```solidity
 import {Test} from "forge-std/Test.sol";
 
 contract ContractTest is Test {
-    // ... tests ...
+    // ... 테스트 ...
 }
 ```
 
-### Logging
+### 로깅 (Logging)
 
-This is a complete overview of all the available logging events. For detailed descriptions and example usage, see below.
+사용 가능한 모든 로깅 이벤트에 대한 전체 개요입니다. 자세한 설명과 사용 예시는 아래를 참조하세요.
 
 ```solidity
 event log                    (string);
@@ -37,9 +37,9 @@ event log_named_bytes        (string key, bytes val);
 event log_named_string       (string key, string val);
 ```
 
-### Logging events
+### 로깅 이벤트 (Logging events)
 
-This section documents all events for logging and provides usage examples.
+이 섹션에서는 로깅을 위한 모든 이벤트와 사용 예시를 문서화합니다.
 
 #### `log`
 
@@ -47,7 +47,7 @@ This section documents all events for logging and provides usage examples.
 event log(string);
 ```
 
-##### Example
+##### 예시
 
 ```solidity
 emit log("here");
@@ -64,7 +64,7 @@ emit log("here");
 event logs(bytes);
 ```
 
-##### Example
+##### 예시
 
 ```solidity
 emit logs(bytes("abcd"));
@@ -81,9 +81,9 @@ emit logs(bytes("abcd"));
 event log_<type>(<type>);
 ```
 
-Where `<type>` can be `address`, `bytes32`, `int`, `uint`, `bytes`, `string`
+여기서 `<type>`은 `address`, `bytes32`, `int`, `uint`, `bytes`, `string`일 수 있습니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 amount = 1 ether;
@@ -101,9 +101,9 @@ emit log_uint(amount);
 event log_named_<type>(string key, <type> val);
 ```
 
-Where `<type>` can be `address`, `bytes32`, `int`, `uint`, `bytes`, `string`
+여기서 `<type>`은 `address`, `bytes32`, `int`, `uint`, `bytes`, `string`일 수 있습니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 amount = 1 ether;
@@ -121,9 +121,9 @@ emit log_named_uint("Amount", amount);
 event log_named_decimal_<type>(string key, <type> val, uint decimals);
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 amount = 1 ether;
@@ -131,16 +131,16 @@ emit log_named_decimal_uint("Amount", amount, 18);
 // amount: 1.000000000000000000
 ```
 
-### Asserting
+### 어설션 (Asserting)
 
-This is a complete overview of all the available assertion functions. For detailed descriptions and example usage, see below.
+사용 가능한 모든 어설션 함수에 대한 전체 개요입니다. 자세한 설명과 사용 예시는 아래를 참조하세요.
 
 ```solidity
-// Assert the `condition` is true
+// `condition`이 true인지 확인
 function assertTrue(bool condition) internal;
 function assertTrue(bool condition, string memory err) internal;
 
-// Assert `a` is equal to `b`
+// `a`가 `b`와 같은지 확인
 function assertEq(address a, address b) internal;
 function assertEq(address a, address b, string memory err) internal;
 function assertEq(bytes32 a, bytes32 b) internal;
@@ -160,7 +160,7 @@ function assertEq32(bytes32 a, bytes32 b, string memory err) internal;
 function assertEq0(bytes memory a, bytes memory b) internal;
 function assertEq0(bytes memory a, bytes memory b, string memory err) internal;
 
-// Assert  `a` is greater than `b`
+// `a`가 `b`보다 큰지 확인
 function assertGt(uint a, uint b) internal;
 function assertGt(uint a, uint b, string memory err) internal;
 function assertGt(int a, int b) internal;
@@ -170,7 +170,7 @@ function assertGtDecimal(int a, int b, uint decimals, string memory err) interna
 function assertGtDecimal(uint a, uint b, uint decimals) internal;
 function assertGtDecimal(uint a, uint b, uint decimals, string memory err) internal;
 
-// Assert  `a` is greater than or equal to `b`
+// `a`가 `b`보다 크거나 같은지 확인
 function assertGe(uint a, uint b) internal;
 function assertGe(uint a, uint b, string memory err) internal;
 function assertGe(int a, int b) internal;
@@ -180,7 +180,7 @@ function assertGeDecimal(int a, int b, uint decimals, string memory err) interna
 function assertGeDecimal(uint a, uint b, uint decimals) internal;
 function assertGeDecimal(uint a, uint b, uint decimals, string memory err) internal;
 
-// Assert  `a` is lesser than `b`
+// `a`가 `b`보다 작은지 확인
 function assertLt(uint a, uint b) internal;
 function assertLt(uint a, uint b, string memory err) internal;
 function assertLt(int a, int b) internal;
@@ -190,7 +190,7 @@ function assertLtDecimal(int a, int b, uint decimals, string memory err) interna
 function assertLtDecimal(uint a, uint b, uint decimals) internal;
 function assertLtDecimal(uint a, uint b, uint decimals, string memory err) internal;
 
-// Assert  `a` is lesser than or equal to `b`
+// `a`가 `b`보다 작거나 같은지 확인
 function assertLe(uint a, uint b) internal;
 function assertLe(uint a, uint b, string memory err) internal;
 function assertLe(int a, int b) internal;
@@ -200,18 +200,18 @@ function assertLeDecimal(int a, int b, uint decimals, string memory err) interna
 function assertLeDecimal(uint a, uint b, uint decimals) internal;
 function assertLeDecimal(uint a, uint b, uint decimals, string memory err) internal;
 
-// Asserts `a` is approximately equal to `b` with delta in absolute value.
+// `a`가 절대값의 델타(delta) 내에서 `b`와 거의 같은지 확인
 function assertApproxEqAbs(uint256 a, uint256 b, uint256 maxDelta) internal;
 function assertApproxEqAbs(uint256 a, uint256 b, uint256 maxDelta, string memory err) internal;
 
-// Asserts `a` is approximately equal to `b` with delta in percentage, where `1e18` is 100%.
+// `a`가 퍼센트 델타 내에서 `b`와 거의 같은지 확인 (`1e18`은 100%)
 function assertApproxEqRel(uint256 a, uint256 b, uint256 maxPercentDelta) internal;
 function assertApproxEqRel(uint256 a, uint256 b, uint256 maxPercentDelta, string memory err) internal;
 ```
 
-### Assertion functions
+### 어설션 함수 (Assertion functions)
 
-This section documents all functions for asserting and provides usage examples.
+이 섹션에서는 어설션을 위한 모든 함수와 사용 예시를 문서화합니다.
 
 #### `assertTrue`
 
@@ -219,9 +219,9 @@ This section documents all functions for asserting and provides usage examples.
 function assertTrue(bool condition) internal;
 ```
 
-Asserts the `condition` is true.
+`condition`이 true인지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 bool success = contract.fun();
@@ -238,11 +238,11 @@ assertTrue(success);
 function assertEq(<type> a, <type> b) internal;
 ```
 
-Where `<type>` can be `address`, `bytes32`, `int`, `uint`
+여기서 `<type>`은 `address`, `bytes32`, `int`, `uint`일 수 있습니다.
 
-Asserts `a` is equal to `b`.
+`a`가 `b`와 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 1 ether;
@@ -260,11 +260,11 @@ assertEq(a, b);
 function assertEqDecimal(<type> a, <type> b, uint decimals) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is equal to `b`.
+`a`가 `b`와 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 1 ether;
@@ -282,9 +282,9 @@ assertEqDecimal(a, b, 18);
 function assertEq32(bytes32 a, bytes32 b) internal;
 ```
 
-Asserts `a` is equal to `b`.
+`a`가 `b`와 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 assertEq(bytes32("abcd"), 0x6162636400000000000000000000000000000000000000000000000000000000);
@@ -300,9 +300,9 @@ assertEq(bytes32("abcd"), 0x6162636400000000000000000000000000000000000000000000
 function assertEq0(bytes a, bytes b) internal;
 ```
 
-Asserts `a` is equal to `b`.
+`a`가 `b`와 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 string memory name1 = "Alice";
@@ -320,11 +320,11 @@ assertEq0(bytes(name1), bytes(name2)); // [FAIL]
 function assertGt(<type> a, <type> b) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is greater than `b`.
+`a`가 `b`보다 큰지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 2 ether;
@@ -342,11 +342,11 @@ assertGt(a, b);
 function assertGtDecimal(<type> a, <type> b, uint decimals) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is greater than `b`.
+`a`가 `b`보다 큰지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 2 ether;
@@ -364,11 +364,11 @@ assertGtDecimal(a, b, 18);
 function assertGe(<type> a, <type> b) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is greater than or equal to `b`.
+`a`가 `b`보다 크거나 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 1 ether;
@@ -386,11 +386,11 @@ assertGe(a, b);
 function assertGeDecimal(<type> a, <type> b, uint decimals) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is greater than or equal to `b`.
+`a`가 `b`보다 크거나 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 1 ether;
@@ -408,11 +408,11 @@ assertGeDecimal(a, b, 18);
 function assertLt(<type> a, <type> b) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is lesser than `b`.
+`a`가 `b`보다 작은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 1 ether;
@@ -430,11 +430,11 @@ assertLt(a, b);
 function assertLtDecimal(<type> a, <type> b, uint decimals) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is lesser than `b`.
+`a`가 `b`보다 작은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 1 ether;
@@ -452,11 +452,11 @@ assertLtDecimal(a, b, 18);
 function assertLe(<type> a, <type> b) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is lesser than or equal to `b`.
+`a`가 `b`보다 작거나 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 1 ether;
@@ -474,11 +474,11 @@ assertLe(a, b);
 function assertLeDecimal(<type> a, <type> b, uint decimals) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is lesser than or equal to `b`.
+`a`가 `b`보다 작거나 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 uint256 a = 1 ether;
@@ -496,11 +496,11 @@ assertLeDecimal(a, b, 18);
 function assertApproxEqAbs(<type> a, <type> b, uint256 maxDelta) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is approximately equal to `b` with delta in absolute value.
+`a`가 절대값 델타 내에서 `b`와 거의 같은지 확인합니다.
 
-##### Example
+##### 예시
 
 ```solidity
 function testRevert () external {
@@ -521,11 +521,11 @@ function testRevert () external {
 function assertApproxEqRel(<type> a, <type> b, uint256 maxPercentDelta) internal;
 ```
 
-Where `<type>` can be `int`, `uint`
+여기서 `<type>`은 `int`, `uint`일 수 있습니다.
 
-Asserts `a` is approximately equal to `b` with delta in percentage, where `1e18` is 100%.
+`a`가 퍼센트 델타 내에서 `b`와 거의 같은지 확인합니다. 여기서 `1e18`은 100%입니다.
 
-##### Example
+##### 예시
 
 ```solidity
 function testRevert () external {
@@ -537,6 +537,6 @@ function testRevert () external {
 
 <br></br>
 
-> ℹ️ **Information**
+> ℹ️ **정보**
 >
-> You can pass a custom error message to the above functions by providing an additional parameter `string err`.
+> 추가 매개변수 `string err`을 제공하여 위 함수들에 사용자 정의 오류 메시지를 전달할 수 있습니다.

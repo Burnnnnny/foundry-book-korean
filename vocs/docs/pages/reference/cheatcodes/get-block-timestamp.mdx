@@ -1,16 +1,16 @@
 ## `getBlockTimestamp`
 
-### Signature
+### 서명
 
 ```solidity
 function getBlockTimestamp() external view returns (uint256 timestamp);
 ```
 
-### Description
+### 설명
 
-Gets the current `block.timestamp`. This is useful in cases where `vm.warp` along with `--via-ir` compilation is used, as `block.timestamp` is assumed to be a constant during a transaction. This means that in every forge test, multiple calls to `block.timestamp` would get optimized to just returning a constant value, instead of actually accessing the current `block.timestamp`. `vm.getBlockTimestamp()` avoids this optimization and returns the current `block.timestamp`.
+현재 `block.timestamp`를 가져옵니다. 이것은 `vm.warp`와 함께 `--via-ir` 컴파일을 사용하는 경우에 유용합니다. `block.timestamp`가 트랜잭션 중에 상수라고 가정되기 때문입니다. 즉, 모든 forge 테스트에서 `block.timestamp`에 대한 여러 번의 호출은 실제로 현재 `block.timestamp`에 액세스하는 대신 상수 값을 반환하도록 최적화됩니다. `vm.getBlockTimestamp()`는 이 최적화를 피하고 현재 `block.timestamp`를 반환합니다.
 
-### Examples
+### 예제
 
 ```solidity
 assertEq(vm.getBlockTimestamp(), 1, "timestamp should be 1");

@@ -1,53 +1,52 @@
 ---
-description: Cast is a Swiss Army knife for interacting with Ethereum from the command line - send transactions, call contracts, and retrieve chain data.
+description: Cast는 커맨드 라인에서 이더리움과 상호 작용하기 위한 스위스 아미 나이프입니다 - 트랜잭션 전송, 컨트랙트 호출 및 체인 데이터 검색을 수행합니다.
 ---
 
 ## Cast
 
-Cast is a Swiss Army knife for interacting with Ethereum applications from the command line. You can make smart contract calls, send transactions, or retrieve any type of chain data - all from your command-line!
+Cast는 커맨드 라인에서 이더리움 애플리케이션과 상호 작용하기 위한 스위스 아미 나이프입니다. 스마트 컨트랙트 호출, 트랜잭션 전송 또는 모든 유형의 체인 데이터 검색을 모두 커맨드 라인에서 수행할 수 있습니다!
 
-The `cast` binary can be used both within and outside of a Foundry project.
+`cast` 바이너리는 Foundry 프로젝트 안팎에서 모두 사용할 수 있습니다.
 
-Cast is part of the Foundry suite and is installed alongside `forge`, `chisel`, and `anvil`. If you haven't installed Foundry
-yet, see [Foundry installation](/introduction/installation).
+Cast는 Foundry 제품군의 일부이며 `forge`, `chisel`, `anvil`과 함께 설치됩니다. 아직 Foundry를 설치하지 않았다면 [Foundry 설치](/introduction/installation)를 참조하세요.
 
-### Getting started
+### 시작하기
 
-Here are a few examples of what you can do:
+다음은 몇 가지 사용 예입니다:
 
-**Check the latest block on Ethereum Mainnet**:
+**이더리움 메인넷의 최신 블록 확인**:
 
 ```sh
 cast block-number --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
-**Check the Ether balance of `vitalik.eth`**
+**`vitalik.eth`의 이더 잔액 확인**
 
 ```sh
 cast balance vitalik.eth --ether --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
-**Replay and trace a transaction**
+**트랜잭션 재생 및 추적**
 
 ```sh
 cast run 0x9c32042f5e997e27e67f82583839548eb19dc78c4769ad6218657c17f2a5ed31 --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
-Optionally, pass `--etherscan-api-key <API_KEY>` to decode transaction traces using verified source maps, providing more detailed and human-readable information.
+검증된 소스 맵을 사용하여 트랜잭션 추적을 디코딩하고 더 상세하고 사람이 읽을 수 있는 정보를 제공하려면 선택적으로 `--etherscan-api-key <API_KEY>`를 전달하세요.
 
-**Retrieve the total supply of the DAI token**
+**DAI 토큰의 총 공급량 검색**
 
 ```sh
 // [!include ~/snippets/output/cast/cast-call:all]
 ```
 
-**Decode calldata**
+**콜 데이터(calldata) 디코딩**
 
 ```sh
 // [!include ~/snippets/output/cast/cast-4byte-calldata:all]
 ```
 
-**Send messages between two Anvil accounts**
+**두 Anvil 계정 간 메시지 전송**
 
 ```sh
 cast send --private-key <PRIVATE_KEY> 0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc $(cast from-utf8 "hello world") --rpc-url http://127.0.0.1:8545/
@@ -56,5 +55,5 @@ cast send --private-key <PRIVATE_KEY> 0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc
 <br></br>
 
 :::info
-See the [`cast` Reference](/cast/reference/cast) for a complete overview of all the available subcommands.
+사용 가능한 모든 하위 명령어에 대한 전체 개요는 [`cast` 참조](/cast/reference/cast)를 확인하세요.
 :::

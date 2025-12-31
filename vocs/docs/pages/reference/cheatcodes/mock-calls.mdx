@@ -1,6 +1,6 @@
 ## `mockCalls`
 
-### Signature
+### 시그니처
 
 ```solidity
 function mockCalls(address where, bytes calldata data, bytes[] calldata retdata) external;
@@ -15,24 +15,20 @@ function mockCalls(
 ) external;
 ```
 
-### Description
+### 설명
 
-Mocks all calls to an address `where` if the call data either strictly or loosely
-matches `data` and returns different data for each call based on the `retdata`
-array values.
+호출 데이터가 `data`와 엄격하게 또는 느슨하게 일치하는 경우 `where` 주소에 대한 모든 호출을 모의(Mock)하고 `retdata` 배열 값을 기반으로 각 호출에 대해 서로 다른 데이터를 반환합니다.
 
-See [`mockCall`](/reference/cheatcodes/mock-call.mdx) for more information on mocking calls and
-matching precedence.
+호출 모의 및 일치 우선순위에 대한 자세한 내용은 [`mockCall`](/reference/cheatcodes/mock-call.mdx)을 참조하세요.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> Any invocation of the mocked call beyond the number of elements in `retdata`
-> will receive the last `retdata` element in response. `clearMockedCalls` can be
-> called to clear the mock
+> `retdata`의 요소 수를 초과하는 모의 호출은 응답으로 마지막 `retdata` 요소를 받습니다.
+> `clearMockedCalls`를 호출하여 모의를 지울 수 있습니다.
 
-### Examples
+### 예제
 
-Mocking multiple `balanceOf(address)` calls:
+여러 `balanceOf(address)` 호출 모의:
 
 ```solidity
 function testMockCall() public {
@@ -51,7 +47,7 @@ function testMockCall() public {
 }
 ```
 
-Mocking multiple calls with `msg.value`:
+`msg.value`로 여러 호출 모의:
 
 ```solidity
 function testMockCallsWithMsgValue() public {

@@ -1,94 +1,94 @@
 ---
-description: Interactive debugger for stepping through smart contract execution with detailed EVM state inspection and navigation controls.
+description: 상세한 EVM 상태 검사 및 탐색 제어 기능을 갖춘 스마트 컨트랙트 실행 단계를 진행하기 위한 대화형 디버거입니다.
 ---
 
-## Debugger
+## 디버거
 
-Forge ships with an interactive debugger.
+Forge는 대화형 디버거와 함께 제공됩니다.
 
-The debugger is accessible on [`forge test`](/forge/reference/test), on [`forge script`](/forge/reference/script) and on [`cast run`](/cast/reference/run). You can only select a single function or a single transaction to debug at the time.
+디버거는 [`forge test`](/forge/reference/test), [`forge script`](/forge/reference/script), [`cast run`](/cast/reference/run)에서 접근할 수 있습니다. 한 번에 하나의 함수 또는 하나의 트랜잭션만 선택하여 디버그할 수 있습니다.
 
-Using `forge test` (or `forge script`):
+`forge test` (또는 `forge script`) 사용:
 
 ```sh
 forge test --debug --match-test "<REGEX>"
 ```
 
-Where `<REGEX>` is the function signature of the file you want to debug. For example:
+여기서 `<REGEX>`는 디버그하려는 파일의 함수 서명입니다. 예를 들어:
 
 ```sh
 forge test --debug --match-test "test_Increment"
 ```
 
-If the matching test is a fuzz test, the debugger will open the first failing fuzz scenario, or the last successful one, whichever comes first. For example:
+일치하는 테스트가 퍼즈 테스트인 경우, 디버거는 실패한 첫 번째 퍼즈 시나리오 또는 (성공한 경우) 마지막 시나리오 중 더 먼저 발생하는 시나리오를 엽니다. 예를 들어:
 
 ```sh
 forge test --debug --match-test "testFuzz_SetNumber"
 ```
 
-Using `cast run`:
+`cast run` 사용:
 
 ```sh
 cast run --debug \
   0xd15e0237413d7b824b784e1bbc3926e52f4726e5e5af30418803b8b327b4f8ca
 ```
 
-### Debugger layout
+### 디버거 레이아웃
 
-![An image of the debugger UI](/debugger.png)
+![디버거 UI 이미지](/debugger.png)
 
-When the debugger is run, you are presented with a terminal divided into four quadrants:
+디버거가 실행되면 터미널이 4개의 사분면으로 나뉩니다:
 
-- **Quadrant 1**: The opcodes in the debugging session, with the current opcode highlighted. Additionally, the address of the current account, the program counter and the accumulated gas usage is also displayed
-- **Quadrant 2**: The current stack, as well as the size of the stack
-- **Quadrant 3**: The source view
-- **Quadrant 4**: The current memory of the EVM
+- **1사분면**: 디버깅 세션의 오퍼코드(opcode)와 현재 하이라이트된 오퍼코드. 또한 현재 계정의 주소, 프로그램 카운터(PC), 누적 가스 사용량이 표시됩니다.
+- **2사분면**: 현재 스택(stack)과 스택의 크기
+- **3사분면**: 소스 보기(Source view)
+- **4사분면**: EVM의 현재 메모리(memory)
 
-As you step through your code, you will notice that the words in the stack and memory sometimes change color.
+코드를 단계별로 진행함에 따라 스택과 메모리의 단어 색상이 변경되는 것을 볼 수 있습니다.
 
-For the memory:
+메모리의 경우:
 
-- **Red words** are about to be written to by the current opcode
-- **Green words** were written to by the previous opcode
-- **Cyan words** are being read by the current opcode
+- **빨간색 단어**: 현재 오퍼코드에 의해 쓰여질 예정(write intention)
+- **녹색 단어**: 이전 오퍼코드에 의해 쓰여짐
+- **청록색 단어**: 현재 오퍼코드에 의해 읽혀짐(read)
 
-For the stack, **cyan words** are either being read or popped by the current opcode.
+스택의 경우, **청록색 단어**는 현재 오퍼코드에 의해 읽히거나 꺼내지는(popped) 항목입니다.
 
-> ⚠️ **Note**
+> ⚠️ **참고**
 >
-> In most test frameworks, the first test assertion to fail is the one reported.
-> In foundry, the last test assertion to fail (that comes from DSTest or cheatcodes) is the one to be reported.
+> 대부분의 테스트 프레임워크에서는 실패한 첫 번째 어설션(assertion)이 보고됩니다.
+> Foundry에서는 실패한 마지막 어설션(DSTest 또는 치트코드에서 발생)이 보고됩니다.
 
-### Navigating
+### 탐색
 
-### General
+### 일반
 
-- <kbd>q</kbd>: Quit the debugger
-- <kbd>h</kbd>: Show help
+- <kbd>q</kbd>: 디버거 종료
+- <kbd>h</kbd>: 도움말 보기
 
-### Navigating calls
+### 호출(Call) 탐색
 
-- <kbd>0-9</kbd> + <kbd>k</kbd>: Step a number of times backwards (alternatively scroll up with your mouse)
-- <kbd>0-9</kbd> + <kbd>j</kbd>: Step a number of times forwards (alternatively scroll down with your mouse)
-- <kbd>g</kbd>: Move to the beginning of the transaction
-- <kbd>G</kbd>: Move to the end of the transaction
-- <kbd>c</kbd>: Move to the previous call-type instruction (i.e. [`CALL`][op-call], [`STATICCALL`][op-staticcall], [`DELEGATECALL`][op-delegatecall], and [`CALLCODE`][op-callcode]).
-- <kbd>C</kbd>: Move to the next call-type instruction
-- <kbd>a</kbd>: Move to the previous [`JUMP`][op-jump] or [`JUMPI`][op-jumpi] instruction
-- <kbd>s</kbd>: Move to the next [`JUMPDEST`][op-jumpdest] instruction
-- <kbd>'</kbd> + <kbd>a-z</kbd>: Move to `<char>` breakpoint set by a [`vm.breakpoint`][cheat-breakpoint] cheatcode
+- <kbd>0-9</kbd> + <kbd>k</kbd>: 지정된 횟수만큼 뒤로 단계 이동 (또는 마우스로 위로 스크롤)
+- <kbd>0-9</kbd> + <kbd>j</kbd>: 지정된 횟수만큼 앞으로 단계 이동 (또는 마우스로 아래로 스크롤)
+- <kbd>g</kbd>: 트랜잭션의 시작으로 이동
+- <kbd>G</kbd>: 트랜잭션의 끝으로 이동
+- <kbd>c</kbd>: 이전 호출 유형 명령어로 이동(예: [`CALL`][op-call], [`STATICCALL`][op-staticcall], [`DELEGATECALL`][op-delegatecall], [`CALLCODE`][op-callcode])
+- <kbd>C</kbd>: 다음 호출 유형 명령어로 이동
+- <kbd>a</kbd>: 이전 [`JUMP`][op-jump] 또는 [`JUMPI`][op-jumpi] 명령어로 이동
+- <kbd>s</kbd>: 다음 [`JUMPDEST`][op-jumpdest] 명령어로 이동
+- <kbd>'</kbd> + <kbd>a-z</kbd>: [`vm.breakpoint`][cheat-breakpoint] 치트코드로 설정된 `<char>` 중단점으로 이동
 
-### Navigating memory
+### 메모리 탐색
 
-- <kbd>Ctrl</kbd> + <kbd>j</kbd>: Scroll the memory view down
-- <kbd>Ctrl</kbd> + <kbd>k</kbd>: Scroll the memory view up
-- <kbd>m</kbd>: Show memory as UTF8
+- <kbd>Ctrl</kbd> + <kbd>j</kbd>: 메모리 뷰 아래로 스크롤
+- <kbd>Ctrl</kbd> + <kbd>k</kbd>: 메모리 뷰 위로 스크롤
+- <kbd>m</kbd>: 메모리를 UTF8로 보기
 
-### Navigating the stack
+### 스택 탐색
 
-- <kbd>J</kbd>: Scroll the stack view down
-- <kbd>K</kbd>: Scroll the stack view up
-- <kbd>t</kbd>: Show labels on the stack to see what items the current op will consume
+- <kbd>J</kbd>: 스택 뷰 아래로 스크롤
+- <kbd>K</kbd>: 스택 뷰 위로 스크롤
+- <kbd>t</kbd>: 스택에 라벨을 표시하여 현재 op가 어떤 항목을 소비할지 확인
 
 [op-call]: https://www.evm.codes/#f1
 [op-staticcall]: https://www.evm.codes/#fa

@@ -1,6 +1,6 @@
 ## `createSelectFork`
 
-### Signature
+### 서명
 
 ```solidity
 function createSelectFork(string calldata urlOrAlias) external returns (uint256);
@@ -14,23 +14,23 @@ function createSelectFork(string calldata urlOrAlias, uint256 block) external re
 function createSelectFork(string calldata urlOrAlias, bytes32 transaction) external returns (uint256);
 ```
 
-### Description
+### 설명
 
-Creates _and_ selects a new fork from the given endpoint and returns the identifier of the fork. If a block number is passed as an argument, the fork will begin on that block, otherwise it will begin on the _latest_ block.
+주어진 엔드포인트에서 새 포크를 생성 _하고_ 선택하며 포크의 식별자를 반환합니다. 블록 번호가 인수로 전달되면 포크는 해당 블록에서 시작하고, 그렇지 않으면 _최신_ 블록에서 시작합니다.
 
-If a transaction hash is provided, it will roll the fork to the block the transaction was mined in and replays all previously executed transactions.
+트랜잭션 해시가 제공되면 트랜잭션이 채굴된 블록으로 포크를 롤백하고 이전에 실행된 모든 트랜잭션을 다시 실행합니다.
 
-### Examples
+### 예제
 
-Create and select a new mainnet fork with the latest block number:
+최신 블록 번호로 새 메인넷 포크를 생성하고 선택:
 
 ```solidity
 uint256 forkId = vm.createSelectFork(MAINNET_RPC_URL);
 
-assertEq(block.number, 15_171_037); // as of time of writing, 2022-07-19 04:55:27 UTC
+assertEq(block.number, 15_171_037); // 작성 시점 기준, 2022-07-19 04:55:27 UTC
 ```
 
-Create and select a new mainnet fork with a given block number:
+주어진 블록 번호로 새 메인넷 포크를 생성하고 선택:
 
 ```solidity
 uint256 forkId = vm.createSelectFork(MAINNET_RPC_URL, 1_337_000);
@@ -38,7 +38,7 @@ uint256 forkId = vm.createSelectFork(MAINNET_RPC_URL, 1_337_000);
 assertEq(block.number, 1_337_000);
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [createFork](/reference/cheatcodes/create-fork.mdx)
 - [selectFork](/reference/cheatcodes/select-fork.mdx)

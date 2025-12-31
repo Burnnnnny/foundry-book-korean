@@ -1,19 +1,19 @@
 ---
-title: Foundry Prompting Guide
-description: A comprehensive prompt for developers using AI assistants to build smart contracts with Foundry
+title: Foundry 프롬프팅 가이드
+description: Foundry로 스마트 컨트랙트를 구축하는 개발자가 AI 어시스턴트를 사용할 때를 위한 포괄적인 프롬프트
 ---
 
-# Prompting
+# 프롬프팅
 
-One of the fastest ways to build smart contracts is by using AI to assist with writing boilerplate code, implementing complex testing patterns, and following security best practices. When building, iterating on, or debugging smart contracts using AI tools and Large Language Models (LLMs), a well-structured and extensive prompt helps provide the model with clearer guidelines and examples that can dramatically improve output quality.
+스마트 컨트랙트를 가장 빨리 구축하는 방법 중 하나는 AI를 사용하여 상용구(Boilerplate) 코드 작성, 복잡한 테스트 패턴 구현, 보안 모범 사례 준수 등을 지원받는 것입니다. AI 도구와 대형 언어 모델(LLM)을 사용하여 스마트 컨트랙트를 구축, 반복 또는 디버깅할 때, 잘 구조화되고 광범위한 프롬프트는 모델에게 더 명확한 가이드라인과 예시를 제공하여 결과물의 품질을 획기적으로 향상하는 데 도움이 됩니다.
 
-Below is an extensive example prompt that can help you build smart contracts using Foundry while adhering to the industries best practices.
+다음은 업계 모범 사례를 준수하면서 Foundry를 사용하여 스마트 컨트랙트를 구축하는 데 도움이 되는 광범위한 예제 프롬프트입니다.
 
-## Build smart contracts using a prompt
+## 프롬프트를 사용하여 스마트 컨트랙트 구축
 
-Use the structured prompt by copying and pasting it into your AI tool of choice (for example OpenAI's ChatGPT or Anthropic's Claude).
+구조화된 프롬프트를 복사하여 선택한 AI 도구(예: OpenAI의 ChatGPT 또는 Anthropic의 Claude)에 붙여넣어 사용하세요.
 
-**Make sure to enter your specific requirements at the end between the `<user_prompt>` and `</user_prompt>` tags**
+**`<user_prompt>`와 `</user_prompt>` 태그 사이에 구체적인 요구 사항을 입력해야 합니다.**
 
 ````xml
 <system_context>
@@ -618,23 +618,23 @@ forge script script/Deploy.s.sol \
 </user_prompt>
 ````
 
-## Example Usage
+## 예제 사용법
 
-Here's how you might customize the prompt for a specific project:
+특정 프로젝트에 맞게 프롬프트를 사용자 정의하는 방법은 다음과 같습니다:
 
 ```text
 <user_prompt>
-I need to create a vault contract with the following features:
-- ERC4626 compliant vault
-- Deposit/withdraw functionality with fees
-- Reward distribution mechanism
-- Access controls for admin functions
-- Include comprehensive testing (unit, fuzz, invariant)
-- Include deployment script with verification
-- Follow all security best practices
+다음 기능을 가진 볼트(Vault) 컨트랙트를 만들어야 합니다:
+- ERC4626 호환 볼트
+- 수수료가 포함된 입금/출금 기능
+- 보상 분배 메커니즘
+- 관리자 기능을 위한 액세스 제어
+- 포괄적인 테스트 포함 (단위, 퍼즈, 불변성)
+- 검증이 포함된 배포 스크립트 포함
+- 모든 보안 모범 사례 준수
 
-Please provide the complete implementation with proper Foundry project structure, including invariant tests with handlers to verify vault properties.
+볼트의 속성을 검증하기 위한 핸들러를 포함한 불변성 테스트 등 적절한 Foundry 프로젝트 구조를 갖춘 완전한 구현을 제공해 주세요.
 </user_prompt>
 ```
 
-Remember to always review and test any AI-generated code thoroughly before using it in production environments.
+프로덕션 환경에서 사용하기 전에 항상 AI가 생성한 코드를 철저히 검토하고 테스트해야 함을 기억하세요.

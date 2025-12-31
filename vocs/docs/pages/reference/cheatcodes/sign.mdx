@@ -1,6 +1,6 @@
 ## `sign`
 
-### Signature
+### 시그니처
 
 ```solidity
 function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, bytes32 r, bytes32 s);
@@ -10,13 +10,13 @@ function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, byt
 function sign(Wallet memory wallet, bytes32 digest) external returns (uint8 v, bytes32 r, bytes32 s);
 ```
 
-### Description
+### 설명
 
-Signs a digest `digest` with private key `privateKey` or [`Wallet`](/reference/cheatcodes/create-wallet), returning `(v, r, s)`.
+개인 키 `privateKey` 또는 [`Wallet`](/reference/cheatcodes/create-wallet)을 사용하여 다이제스트 `digest`에 서명하고 `(v, r, s)`를 반환합니다.
 
-This is useful for testing functions that take signed data and perform an `ecrecover` to verify the signer.
+이는 서명된 데이터를 가져와서 서명자를 확인하기 위해 `ecrecover`를 수행하는 함수를 테스트하는 데 유용합니다.
 
-### Examples
+### 예제
 
 ```solidity
 (address alice, uint256 alicePk) = makeAddrAndKey("alice");
@@ -27,7 +27,7 @@ address signer = ecrecover(hash, v, r, s);
 assertEq(alice, signer); // [PASS]
 ```
 
-This is useful for testing functions that require a signature:
+서명이 필요한 함수를 테스트하는 데 유용합니다:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -92,11 +92,11 @@ contract SigningExampleTest is Test {
         vm.startPrank(signer);
         bytes32 digest = keccak256(abi.encodePacked(user, amount, nonce)).toEthSignedMessageHash();
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(signerPrivateKey, digest);
-        bytes memory signature = abi.encodePacked(r, s, v); // note the order here is different from line above.
+        bytes memory signature = abi.encodePacked(r, s, v); // 여기서는 순서가 위와 다릅니다.
         vm.stopPrank();
 
         vm.startPrank(user);
-        // Give the user some ETH, just for good measure
+        // 사용자에게 ETH를 조금 줍니다.
         vm.deal(user, 1 ether);
 
         signingExample.purchase(
@@ -111,7 +111,7 @@ contract SigningExampleTest is Test {
 
 #### `Wallet`
 
-The Wallet overload is a simple wrapper that uses the wallet's private key to sign the digest
+Wallet 오버로드는 지갑의 개인 키를 사용하여 다이제스트에 서명하는 간단한 래퍼입니다.
 
 ```solidity
 Wallet memory alice = vm.createWallet("alice");

@@ -1,156 +1,156 @@
 ---
-description: Quick start guide to using Foundry's four essential tools - Forge, Anvil, Cast, and Chisel for smart contract development.
+description: 스마트 컨트랙트 개발을 위한 Foundry의 네 가지 핵심 도구인 Forge, Anvil, Cast, Chisel의 사용법을 다루는 빠른 시작 가이드입니다.
 ---
 
-## Getting Started
+## 시작하기
 
-Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust. It consists of four essential tools that suffice all the needs a blockchain app developer will ever have.
+Foundry는 Rust로 작성된, 이더리움 애플리케이션 개발을 위한 압도적으로 빠르고, 이식 가능하며, 모듈식 툴킷입니다. 블록체인 앱 개발자에게 필요한 모든 기능을 충족하는 네 가지 핵심 도구로 구성되어 있습니다.
 
-Here's an overview of the tools available at your disposal after [running foundryup](/introduction/installation#using-foundryup):
+[foundryup을 실행](/introduction/installation#using-foundryup)한 후 사용할 수 있는 도구들을 살펴보겠습니다:
 
-| Tool                             | What it enables                                                     |
+| 도구                             | 기능                                                                 |
 | -------------------------------- | ------------------------------------------------------------------- |
-| **[`forge`](/forge/overview)**   | Build, test, debug, deploy and verify smart contracts               |
-| **[`anvil`](/anvil/overview)**   | Run a local Ethereum development node with forking capabilities     |
-| **[`cast`](/cast/overview)**     | Interact with contracts, send transactions, and retrieve chain data |
-| **[`chisel`](/chisel/overview)** | Fast Solidity REPL for rapid prototyping and debugging              |
+| **[`forge`](/forge/overview)**   | 스마트 컨트랙트 빌드, 테스트, 디버그, 배포 및 검증                  |
+| **[`anvil`](/anvil/overview)**   | 포킹 기능을 갖춘 로컬 이더리움 개발 노드 실행                       |
+| **[`cast`](/cast/overview)**     | 컨트랙트와 상호 작용, 트랜잭션 전송 및 체인 데이터 조회             |
+| **[`chisel`](/chisel/overview)** | 빠른 프로토타이핑 및 디버깅을 위한 빠른 Solidity REPL               |
 
 :::tip
-You can always view detailed help for any command or subcommand by appending `--help` to it.
+명령어나 하위 명령어 뒤에 `--help`를 붙여 언제든지 자세한 도움말을 볼 수 있습니다.
 :::
 
 ---
 
 ### Forge
 
-Forge is a command-line tool for building, testing, and deploying smart contracts.
+Forge는 스마트 컨트랙트를 빌드, 테스트 및 배포하기 위한 커맨드 라인 도구입니다.
 
-#### Initialize a new project
+#### 새 프로젝트 초기화
 
 ```bash
-# Create a new project called Counter
+# Counter라는 새 프로젝트 생성
 forge init Counter
 cd Counter
 ```
 
-#### Build and test contracts
+#### 컨트랙트 빌드 및 테스트
 
 ```bash
-# Compile your contracts
+# 컨트랙트 컴파일
 forge build
 
-# Run your test suite
+# 테스트 스위트 실행
 forge test
 
-# Run tests against live chain state by forking
+# 포킹을 통해 실제 체인 상태에 대해 테스트 실행
 forge test --fork-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
-#### Deploy contracts
+#### 컨트랙트 배포
 
 ```bash
-# Use forge scripts to deploy contracts
-# Set your private key
+# forge 스크립트를 사용하여 컨트랙트 배포
+# 개인 키 설정
 export PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
 
-# Deploy to local anvil instance
+# 로컬 anvil 인스턴스에 배포
 forge script script/Counter.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private-key $PRIVATE_KEY
 ```
 
-`forge` also enables more advanced workflows such as:
+`forge`는 다음과 같은 고급 워크플로우도 가능하게 합니다:
 
-- [Table testing](/forge/advanced-testing/table-testing) - Property-based testing with test cases inputs organized into a table format
-- [Fuzz testing](/forge/advanced-testing/fuzz-testing) - Property-based testing with randomized inputs
-- [Invariant testing](/forge/advanced-testing/invariant-testing) - Test system-wide properties across function call sequences
-- [Gas tracking](/forge/gas-tracking/overview) - Monitor and optimize gas consumption across your contracts
-- [Coverage reports](/forge/reference/coverage) - Generate detailed test coverage analysis with `forge coverage`
+- [테이블 테스트](/forge/advanced-testing/table-testing) - 테스트 케이스 입력을 테이블 형식으로 구성한 속성 기반(Property-based) 테스트
+- [퍼즈 테스트](/forge/advanced-testing/fuzz-testing) - 무작위 입력을 사용한 속성 기반 테스트
+- [불변성 테스트](/forge/advanced-testing/invariant-testing) - 함수 호출 시퀀스 전반에 걸친 시스템 전체 속성 테스트
+- [가스 추적](/forge/gas-tracking/overview) - 컨트랙트 전반의 가스 소비 모니터링 및 최적화
+- [커버리지 보고서](/forge/reference/coverage) - `forge coverage`로 상세한 테스트 커버리지 분석 생성
 
-Learn more about `forge` [here](/forge/overview).
+[여기](/forge/overview)에서 `forge`에 대해 더 자세히 알아보세요.
 
 ---
 
 ### Anvil
 
-Anvil is a fast local Ethereum development node that is perfect for testing your contracts and other blockchain workflows in a controlled environment.
+Anvil은 통제된 환경에서 컨트랙트 및 기타 블록체인 워크플로우를 테스트하기에 완벽한 빠른 로컬 이더리움 개발 노드입니다.
 
-#### Start a local development node
+#### 로컬 개발 노드 시작
 
 ```bash
-# Start anvil with 10 pre-funded accounts
+# 10개의 사전 자금이 지원된 계정으로 anvil 시작
 anvil
 ```
 
-#### Fork mainnet state
+#### 메인넷 상태 포크
 
 ```bash
-# Fork latest mainnet state for testing
+# 테스트를 위해 최신 메인넷 상태 포크
 anvil --fork-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
-`anvil` comes up with other advanced capabilities such as:
+`anvil`은 다음과 같은 고급 기능도 제공합니다:
 
-- **Custom `anvil_` methods** - Advanced node control including [account impersonation](/anvil/reference#anvil_impersonateaccount), [state manipulation](/anvil/reference#anvil_setbalance), and [mining control](/anvil/reference#anvil_mine)
-- **Forking capabilities** - Fork anvil off another live chain
+- **사용자 정의 `anvil_` 메서드** - [계정 가장](/anvil/reference#anvil_impersonateaccount), [상태 조작](/anvil/reference#anvil_setbalance), [채굴 제어](/anvil/reference#anvil_mine)를 포함한 고급 노드 제어
+- **포킹 기능** - 다른 라이브 체인에서 anvil 포크
 
-All of the above is provided while maintaining full compliance with the Ethereum JSON-RPC spec.
+위의 모든 기능은 이더리움 JSON-RPC 사양을 완벽하게 준수하면서 제공됩니다.
 
-Learn more about `anvil` [here](/anvil/overview).
+[여기](/anvil/overview)에서 `anvil`에 대해 더 자세히 알아보세요.
 
 ### Cast
 
-Cast is your Swiss army knife for interacting with Ethereum applications from the command line. You can make smart contract calls, send transactions, or retrieve any type of chain data.
+Cast는 커맨드 라인에서 이더리움 애플리케이션과 상호 작용하기 위한 만능 도구입니다. 스마트 컨트랙트 호출, 트랜잭션 전송, 모든 유형의 체인 데이터 조회가 가능합니다.
 
-#### Read contract data
+#### 컨트랙트 데이터 읽기
 
 ```bash
-# Check ETH balance
+# ETH 잔액 확인
 cast balance vitalik.eth --ether --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 
-# Call a contract function to read data
+# 데이터를 읽기 위해 컨트랙트 함수 호출
 cast call 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 \
 "balanceOf(address)" 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045 \
 --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
-#### Send transactions
+#### 트랜잭션 전송
 
 ```bash
-# Set your private key
+# 개인 키 설정
 export PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
 
-# Send ETH to an address
+# 주소로 ETH 전송
 cast send 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --value 10000000 --private-key $PRIVATE_KEY
 ```
 
-#### Interact with JSON-RPC
+#### JSON-RPC와 상호 작용
 
 ```bash
-# Call JSON-RPC methods directly
+# JSON-RPC 메서드 직접 호출
 cast rpc eth_getHeaderByNumber $(cast 2h 22539851) --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 
-# Get latest block number
+# 최신 블록 번호 가져오기
 cast block-number --rpc-url https://reth-ethereum.ithaca.xyz/rpc
 ```
 
-Learn more about `cast` [here](/cast/overview).
+[여기](/cast/overview)에서 `cast`에 대해 더 자세히 알아보세요.
 
 ---
 
 ### Chisel
 
-Chisel is a fast, utilitarian, and verbose Solidity REPL for rapid prototyping and debugging. It's perfect for testing Solidity snippets and exploring contract behavior interactively.
+Chisel은 빠른 프로토타이핑 및 디버깅을 위한 빠르고 실용적이며 상세한 Solidity REPL입니다. Solidity 스니펫을 테스트하고 컨트랙트 동작을 대화형으로 탐색하기에 완벽합니다.
 
-#### Start the REPL
+#### REPL 시작
 
 ```bash
-# Launch chisel REPL
+# chisel REPL 실행
 chisel
 ```
 
-#### Interactive Solidity development
+#### 대화형 Solidity 개발
 
 ```solidity
-// Create and query variables
+// 변수 생성 및 조회
 ➜ uint256 a = 123;
 ➜ a
 Type: uint256
@@ -158,11 +158,11 @@ Type: uint256
 ├ Hex (full word): 0x000000000000000000000000000000000000000000000000000000000000007b
 └ Decimal: 123
 
-// Test contract functions
+// 컨트랙트 함수 테스트
 ➜ function add(uint256 x, uint256 y) public pure returns (uint256) { return x + y; }
 ➜ add(5, 10)
 Type: uint256
 └ Decimal: 15
 ```
 
-Learn more about `chisel` [here](/chisel/overview).
+[여기](/chisel/overview)에서 `chisel`에 대해 더 자세히 알아보세요.

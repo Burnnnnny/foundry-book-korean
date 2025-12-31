@@ -1,6 +1,6 @@
 ## cast call
 
-Perform a call on an account without publishing a transaction
+트랜잭션을 게시하지 않고 계정에 대해 호출(call)을 수행합니다.
 
 ```bash
 $ cast call --help
@@ -10,145 +10,138 @@ $ cast call --help
 Usage: cast call [OPTIONS] [TO] [SIG] [ARGS]... [COMMAND]
 
 Commands:
-  --create  ignores the address field and simulates creating a contract
-  help      Print this message or the help of the given subcommand(s)
+  --create  주소 필드를 무시하고 컨트랙트 생성을 시뮬레이션합니다.
+  help      이 메시지 또는 주어진 하위 명령의 도움말을 인쇄합니다.
 
 Arguments:
   [TO]
-          The destination of the transaction
+          트랜잭션의 수신자
 
   [SIG]
-          The signature of the function to call
+          호출할 함수의 서명
 
   [ARGS]...
-          The arguments of the function to call
+          호출할 함수의 인수
 
 Options:
       --data <DATA>
-          Raw hex-encoded data for the transaction. Used instead of \[SIG\] and
-          \[ARGS\]
+          트랜잭션의 원시 16진수 인코딩 데이터. \[SIG\] 및 \[ARGS\] 대신 사용됩니다.
 
       --trace
-          Forks the remote rpc, executes the transaction locally and prints a
-          trace
+          원격 RPC를 포크하고 로컬에서 트랜잭션을 실행한 뒤 트레이스를 인쇄합니다.
 
       --disable-labels
-          Disables the labels in the traces. Can only be set with `--trace`
+          트레이스에서 레이블을 비활성화합니다. `--trace`와 함께만 설정할 수 있습니다.
 
       --debug
-          Opens an interactive debugger. Can only be used with `--trace`
+          대화형 디버거를 엽니다. `--trace`와 함께만 사용할 수 있습니다.
 
       --decode-internal
-          Identify internal functions in traces.
+          트레이스에서 내부 함수를 식별합니다.
           
-          This will trace internal functions and decode stack parameters.
+          이는 내부 함수를 추적하고 스택 매개변수를 디코딩합니다.
           
-          Parameters stored in memory (such as bytes or arrays) are currently
-          decoded only when a single function is matched, similarly to
-          `--debug`, for performance reasons.
+          메모리에 저장된 매개변수(예: 바이트 또는 배열)는 성능상의 이유로
+          `--debug`와 유사하게 단일 함수가 일치할 때만 디코딩됩니다.
 
       --labels <LABELS>
-          Labels to apply to the traces; format: `address:label`. Can only be
-          used with `--trace`
+          트레이스에 적용할 레이블; 형식: `address:label`. `--trace`와 함께만
+          사용할 수 있습니다.
 
       --evm-version <EVM_VERSION>
-          The EVM Version to use. Can only be used with `--trace`
+          사용할 EVM 버전. `--trace`와 함께만 사용할 수 있습니다.
 
   -b, --block <BLOCK>
-          The block height to query at.
+          쿼리할 블록 높이.
           
-          Can also be the tags earliest, finalized, safe, latest, or pending.
+          earliest, finalized, safe, latest, 또는 pending 태그도 가능합니다.
 
   -h, --help
-          Print help (see a summary with '-h')
+          도움말 인쇄 ('-h'로 요약 보기)
 
   -j, --threads <THREADS>
-          Number of threads to use. Specifying 0 defaults to the number of
-          logical cores
+          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
           
           [aliases: --jobs]
 
 Transaction options:
       --gas-limit <GAS_LIMIT>
-          Gas limit for the transaction
+          트랜잭션의 가스 제한
           
           [env: ETH_GAS_LIMIT=]
 
       --gas-price <PRICE>
-          Gas price for legacy transactions, or max fee per gas for EIP1559
-          transactions, either specified in wei, or as a string with a unit
-          type.
+          레거시 트랜잭션의 가스 가격, 또는 EIP1559 트랜잭션의 가스당 최대 수수료.
+          wei로 지정하거나 단위 유형이 있는 문자열로 지정합니다.
           
           Examples: 1ether, 10gwei, 0.01ether
           
           [env: ETH_GAS_PRICE=]
 
       --priority-gas-price <PRICE>
-          Max priority fee per gas for EIP1559 transactions
+          EIP1559 트랜잭션의 가스당 최대 우선 수수료
           
           [env: ETH_PRIORITY_GAS_PRICE=]
 
       --value <VALUE>
-          Ether to send in the transaction, either specified in wei, or as a
-          string with a unit type.
+          트랜잭션에 보낼 이더. wei로 지정하거나 단위 유형이 있는 문자열로 지정합니다.
           
           Examples: 1ether, 10gwei, 0.01ether
 
       --nonce <NONCE>
-          Nonce for the transaction
+          트랜잭션의 논스(Nonce)
 
       --legacy
-          Send a legacy transaction instead of an EIP1559 transaction.
+          EIP1559 트랜잭션 대신 레거시 트랜잭션을 보냅니다.
           
-          This is automatically enabled for common networks without EIP1559.
+          EIP1559가 없는 일반적인 네트워크에서는 자동으로 활성화됩니다.
 
       --blob
-          Send a EIP-4844 blob transaction
+          EIP-4844 블롭(blob) 트랜잭션을 보냅니다.
 
       --blob-gas-price <BLOB_PRICE>
-          Gas price for EIP-4844 blob transaction
+          EIP-4844 블롭(blob) 트랜잭션의 가스 가격
           
           [env: ETH_BLOB_GAS_PRICE=]
 
       --auth <AUTH>
-          EIP-7702 authorization list.
+          EIP-7702 인증 목록.
           
-          Can be either a hex-encoded signed authorization or an address.
+          16진수로 인코딩된 서명된 인증 또는 주소일 수 있습니다.
 
       --access-list [<ACCESS_LIST>]
-          EIP-2930 access list.
+          EIP-2930 액세스 목록.
           
-          Accepts either a JSON-encoded access list or an empty value to create
-          the access list via an RPC call to `eth_createAccessList`. To retrieve
-          only the access list portion, use the `cast access-list` command.
+          JSON으로 인코딩된 액세스 목록을 받거나, 빈 값을 받아 `eth_createAccessList`에 대한
+          RPC 호출을 통해 액세스 목록을 생성합니다. 액세스 목록 부분만 검색하려면
+          `cast access-list` 명령어를 사용하세요.
 
 Rpc options:
   -r, --rpc-url <URL>
-          The RPC endpoint, default value is http://localhost:8545
+          RPC 엔드포인트. 기본값은 http://localhost:8545
           
           [env: ETH_RPC_URL=]
 
   -k, --insecure
-          Allow insecure RPC connections (accept invalid HTTPS certificates).
+          안전하지 않은 RPC 연결 허용 (유효하지 않은 HTTPS 인증서 수락).
           
-          When the provider's inner runtime transport variant is HTTP, this
-          configures the reqwest client to accept invalid certificates.
+          공급자의 내부 런타임 전송 변형이 HTTP일 때, 이 옵션은 reqwest 클라이언트가
+          유효하지 않은 인증서를 수락하도록 구성합니다.
 
       --flashbots
-          Use the Flashbots RPC URL with fast mode
+          Flashbots RPC URL을 빠른 모드로 사용
           ([https://rpc.flashbots.net/fast](https://rpc.flashbots.net/fast)).
           
-          This shares the transaction privately with all registered builders.
+          이는 모든 등록된 빌더와 트랜잭션을 비공개로 공유합니다.
           
-          See:
+          참조:
           [https://docs.flashbots.net/flashbots-protect/quick-start#faster-transactions](https://docs.flashbots.net/flashbots-protect/quick-start#faster-transactions)
 
       --jwt-secret <JWT_SECRET>
-          JWT Secret for the RPC endpoint.
+          RPC 엔드포인트의 JWT 시크릿.
           
-          The JWT secret will be used to create a JWT for a RPC. For example,
-          the following can be used to simulate a CL `engine_forkchoiceUpdated`
-          call:
+          JWT 시크릿은 RPC용 JWT를 생성하는 데 사용됩니다. 예를 들어, 다음을 사용하여
+          CL `engine_forkchoiceUpdated` 호출을 시뮬레이션할 수 있습니다:
           
           cast rpc --jwt-secret <JWT_SECRET> engine_forkchoiceUpdatedV2
           '["0x6bb38c26db65749ab6e472080a3d20a2f35776494e72016d1e339593f21c59bc",
@@ -158,47 +151,46 @@ Rpc options:
           [env: ETH_RPC_JWT_SECRET=]
 
       --rpc-timeout <RPC_TIMEOUT>
-          Timeout for the RPC request in seconds.
+          RPC 요청의 시간 초과(초).
           
-          The specified timeout will be used to override the default timeout for
-          RPC requests.
+          지정된 시간 초과는 RPC 요청의 기본 시간 초과를 재정의하는 데 사용됩니다.
           
           Default value: 45
           
           [env: ETH_RPC_TIMEOUT=]
 
       --rpc-headers <RPC_HEADERS>
-          Specify custom headers for RPC requests
+          RPC 요청에 대한 사용자 정의 헤더 지정
           
           [env: ETH_RPC_HEADERS=]
 
 Wallet options - raw:
   -f, --from <ADDRESS>
-          The sender account
+          발신자 계정
           
           [env: ETH_FROM=]
 
   -i, --interactive
-          Open an interactive prompt to enter your private key
+          개인 키를 입력할 대화형 프롬프트 열기
 
       --private-key <RAW_PRIVATE_KEY>
-          Use the provided private key
+          제공된 개인 키 사용
 
       --mnemonic <MNEMONIC>
-          Use the mnemonic phrase of mnemonic file at the specified path
+          지정된 경로의 니모닉 파일 또는 니모닉 문구 사용
 
       --mnemonic-passphrase <PASSPHRASE>
-          Use a BIP39 passphrase for the mnemonic
+          니모닉에 BIP39 암호 문구 사용
 
       --mnemonic-derivation-path <PATH>
-          The wallet derivation path.
+          지갑 파생 경로.
           
-          Works with both --mnemonic-path and hardware wallets.
+          --mnemonic-path 및 하드웨어 지갑 모두에서 작동합니다.
 
       --mnemonic-index <INDEX>
-          Use the private key from the given mnemonic index.
+          주어진 니모닉 인덱스의 개인 키 사용.
           
-          Used with --mnemonic-path.
+          --mnemonic-path와 함께 사용됩니다.
           
           [default: 0]
 
@@ -206,130 +198,127 @@ Wallet options - raw:
           [env: CHAIN=]
 
       --with-local-artifacts
-          Use current project artifacts for trace decoding
+          트레이스 디코딩에 현재 프로젝트 아티팩트 사용
           
           [aliases: --la]
 
       --override-balance <ADDRESS:BALANCE>
-          Override the accounts balance. Format:
+          계정 잔액 재정의. 형식:
           "address:balance,address:balance"
 
       --override-nonce <ADDRESS:NONCE>
-          Override the accounts nonce. Format: "address:nonce,address:nonce"
+          계정 논스(nonce) 재정의. 형식: "address:nonce,address:nonce"
 
       --override-code <ADDRESS:CODE>
-          Override the accounts code. Format: "address:code,address:code"
+          계정 코드 재정의. 형식: "address:code,address:code"
 
       --override-state <ADDRESS:SLOT:VALUE>
-          Override the accounts state and replace the current state entirely
-          with the new one. Format: "address:slot:value,address:slot:value"
+          계정 상태를 재정의하고 현재 상태를 완전히 새로운 상태로 대체합니다.
+          형식: "address:slot:value,address:slot:value"
 
       --override-state-diff <ADDRESS:SLOT:VALUE>
-          Override the accounts state specific slots and preserve the rest of
-          the state. Format: "address:slot:value,address:slot:value"
+          계정 상태의 특정 슬롯을 재정의하고 나머지 상태는 보존합니다.
+          형식: "address:slot:value,address:slot:value"
 
       --block.time <TIME>
-          Override the block timestamp
+          블록 타임스탬프 재정의
 
       --block.number <NUMBER>
-          Override the block number
+          블록 번호 재정의
 
 Wallet options - keystore:
       --keystore <PATH>
-          Use the keystore in the given folder or file
+          주어진 폴더 또는 파일의 키스토어 사용
           
           [env: ETH_KEYSTORE=]
 
       --account <ACCOUNT_NAME>
-          Use a keystore from the default keystores folder
-          (~/.foundry/keystores) by its filename
+          파일 이름을 사용하여 기본 키스토어 폴더(~/.foundry/keystores)의 키스토어 사용
           
           [env: ETH_KEYSTORE_ACCOUNT=]
 
       --password <PASSWORD>
-          The keystore password.
+          키스토어 비밀번호.
           
-          Used with --keystore.
+          --keystore와 함께 사용됩니다.
 
       --password-file <PASSWORD_FILE>
-          The keystore password file path.
+          키스토어 비밀번호 파일 경로.
           
-          Used with --keystore.
+          --keystore와 함께 사용됩니다.
           
           [env: ETH_PASSWORD=]
 
 Wallet options - hardware wallet:
   -l, --ledger
-          Use a Ledger hardware wallet
+          Ledger 하드웨어 지갑 사용
 
   -t, --trezor
-          Use a Trezor hardware wallet
+          Trezor 하드웨어 지갑 사용
 
 Wallet options - remote:
       --aws
-          Use AWS Key Management Service.
+          AWS Key Management Service 사용.
           
-          Ensure the AWS_KMS_KEY_ID environment variable is set.
+          AWS_KMS_KEY_ID 환경 변수가 설정되어 있는지 확인하세요.
 
       --gcp
-          Use Google Cloud Key Management Service.
+          Google Cloud Key Management Service 사용.
           
-          Ensure the following environment variables are set: GCP_PROJECT_ID,
+          다음 환경 변수가 설정되어 있는지 확인하세요: GCP_PROJECT_ID,
           GCP_LOCATION, GCP_KEY_RING, GCP_KEY_NAME, GCP_KEY_VERSION.
           
-          See: [https://cloud.google.com/kms/docs](https://cloud.google.com/kms/docs)
+          참조: [https://cloud.google.com/kms/docs](https://cloud.google.com/kms/docs)
 
       --turnkey
-          Use Turnkey.
+          Turnkey 사용.
           
-          Ensure the following environment variables are set:
+          다음 환경 변수가 설정되어 있는지 확인하세요:
           TURNKEY_API_PRIVATE_KEY, TURNKEY_ORGANIZATION_ID, TURNKEY_ADDRESS.
           
-          See: [https://docs.turnkey.com/getting-started/quickstart](https://docs.turnkey.com/getting-started/quickstart)
+          참조: [https://docs.turnkey.com/getting-started/quickstart](https://docs.turnkey.com/getting-started/quickstart)
 
 Wallet options - browser:
       --browser
-          Use a browser wallet
+          브라우저 지갑 사용
 
       --browser-port <PORT>
-          Port for the browser wallet server
+          브라우저 지갑 서버 포트
           
           [default: 9545]
 
       --browser-disable-open
-          Whether to open the browser for wallet connection
+          지갑 연결을 위해 브라우저를 열지 여부
 
 Display options:
       --color <COLOR>
-          The color of the log messages
+          로그 메시지의 색상
 
-          Possible values:
-          - auto:   Intelligently guess whether to use color output (default)
-          - always: Force color output
-          - never:  Force disable color output
+          가능한 값:
+          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
+          - always: 색상 출력 강제
+          - never:  색상 출력 강제 비활성화
 
       --json
-          Format log messages as JSON
+          로그 메시지를 JSON으로 포맷팅
 
       --md
-          Format log messages as Markdown
+          로그 메시지를 Markdown으로 포맷팅
 
   -q, --quiet
-          Do not print log messages
+          로그 메시지를 인쇄하지 않음
 
   -v, --verbosity...
-          Verbosity level of the log messages.
+          로그 메시지의 상세 수준.
           
-          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
+          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
           
-          Depending on the context the verbosity levels have different meanings.
+          문맥에 따라 상세 수준은 다른 의미를 가짐.
           
-          For example, the verbosity levels of the EVM are:
-          - 2 (-vv): Print logs for all tests.
-          - 3 (-vvv): Print execution traces for failing tests.
-          - 4 (-vvvv): Print execution traces for all tests, and setup traces
-          for failing tests.
-          - 5 (-vvvvv): Print execution and setup traces for all tests,
-          including storage changes and
-            backtraces with line numbers.
+          예를 들어, EVM의 상세 수준은 다음과 같음:
+          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
+          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
+          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
+          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
+            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
 ```

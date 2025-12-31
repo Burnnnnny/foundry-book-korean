@@ -1,18 +1,18 @@
 ## `prevrandao`
 
-### Signature
+### 시그니처
 
 ```solidity
 function prevrandao(bytes32) external;
 ```
 
-### Description
+### 설명
 
-Sets `block.prevrandao`.
+`block.prevrandao`를 설정합니다.
 
-If used with an EVM version previous to the Paris hard fork, it will revert. In that case, use [`vm.difficulty`][prevrandao] instead.
+Paris 하드 포크 이전의 EVM 버전에서 사용하면 되돌려집니다(revert). 이 경우 대신 [`vm.difficulty`][prevrandao]를 사용하세요.
 
-### Examples
+### 예제
 
 ```solidity
 vm.prevrandao(bytes32(uint256(42)));

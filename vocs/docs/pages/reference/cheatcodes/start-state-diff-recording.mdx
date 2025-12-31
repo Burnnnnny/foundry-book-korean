@@ -1,13 +1,12 @@
 ## `startStateDiffRecording`
 
-### Signature
+### 시그니처
 
 ```solidity
 function startStateDiffRecording()
 ```
 
-### Description
+### 설명
 
-Records all state changes as part of CREATE, CALL or SELFDESTRUCT opcodes in order,
-along with the context of the calls.
-Refer to [`stopAndReturnStateDiff`](/reference/cheatcodes/stop-and-return-state-diff.mdx) for more details on how to access and interpret the recorded state changes.
+호출 컨텍스트와 함께 CREATE, CALL 또는 SELFDESTRUCT 작업 코드(opcode)의 일부로 모든 상태 변경을 순서대로 기록합니다.
+기록된 상태 변경에 액세스하고 해석하는 방법에 대한 자세한 내용은 [`stopAndReturnStateDiff`](/reference/cheatcodes/stop-and-return-state-diff.mdx)를 참조하세요.

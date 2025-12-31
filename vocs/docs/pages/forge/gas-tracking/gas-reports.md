@@ -1,28 +1,28 @@
 ---
-description: Generate detailed gas consumption reports for contract functions.
+description: 컨트랙트 함수에 대한 상세 가스 소비 보고서를 생성합니다.
 ---
 
-## Gas Reports
+## 가스 보고서 (Gas Reports)
 
-Forge can produce gas reports for your contracts. You can configure which contracts output gas reports via the `gas_reports` field in `foundry.toml`.
+Forge는 컨트랙트에 대한 가스 보고서를 생성할 수 있습니다. `foundry.toml`의 `gas_reports` 필드를 통해 가스 보고서를 출력할 컨트랙트를 구성할 수 있습니다.
 
-To produce reports for specific contracts:
+특정 컨트랙트에 대한 보고서를 생성하려면:
 
 ```toml
 gas_reports = ["MyContract", "MyContractFactory"]
 ```
 
-To produce reports for all contracts:
+모든 컨트랙트에 대한 보고서를 생성하려면:
 
 ```toml
 gas_reports = ["*"]
 ```
 
-To generate gas reports, run `forge test --gas-report`.
+가스 보고서를 생성하려면 `forge test --gas-report`를 실행하세요.
 
-You can also use it in combination with other subcommands, such as `forge test --match-test testBurn --gas-report`, to generate only a gas report relevant to this test.
+`forge test --match-test testBurn --gas-report`와 같은 다른 하위 명령어와 함께 사용하여 이 테스트와 관련된 가스 보고서만 생성할 수도 있습니다.
 
-Example output:
+출력 예시:
 
 ```
 ╭───────────────────────┬─────────────────┬────────┬────────┬────────┬─────────╮
@@ -72,13 +72,13 @@ Example output:
 ╰───────────────────────┴─────────────────┴────────┴────────┴────────┴─────────╯
 ```
 
-You can also ignore contracts via the `gas_reports_ignore` field in `foundry.toml`:
+`foundry.toml`의 `gas_reports_ignore` 필드를 통해 컨트랙트를 무시할 수도 있습니다:
 
 ```toml
 gas_reports_ignore = ["Example"]
 ```
 
-This would change the output to:
+이렇게 하면 출력이 다음과 같이 변경됩니다:
 
 ```
 ╭───────────────────────┬─────────────────┬────────┬────────┬────────┬─────────╮

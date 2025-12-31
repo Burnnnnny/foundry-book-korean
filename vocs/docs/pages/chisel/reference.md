@@ -1,73 +1,69 @@
 ## chisel
 
-### NAME
+### 이름
 
-`chisel` - Test and receive verbose feedback on Solidity inputs within a REPL environment.
+`chisel` - REPL 환경 내에서 Solidity 입력을 테스트하고 상세한 피드백을 받습니다.
 
-### SYNOPSIS
+### 시놉시스
 
 `chisel` [*options*]
 
-#### Subcommands (bin)
+#### 하위 명령 (bin)
 
 1. `chisel list`
-   - Displays all cached sessions stored in `~/.foundry/cache/chisel`.
+   - `~/.foundry/cache/chisel`에 저장된 모든 캐시된 세션을 표시합니다.
 1. `chisel load <id>`
-   - If a cached session with `id = <id>` exists, launches the REPL and loads the corresponding session.
+   - `id = <id>`인 캐시된 세션이 존재하면 REPL을 실행하고 해당 세션을 로드합니다.
 1. `chisel view <id>`
-   - If a cached session with `id = <id>` exists, displays the source code of the session's REPL contract.
+   - `id = <id>`인 캐시된 세션이 존재하면 세션의 REPL 컨트랙트 소스 코드를 표시합니다.
 1. `chisel clear-cache`
-   - Deletes all cache files within the `~/.foundry/cache/chisel` directory. These sessions are unrecoverable, so use this command with care.
+   - `~/.foundry/cache/chisel` 디렉토리 내의 모든 캐시 파일을 삭제합니다. 이 세션들은 복구할 수 없으므로 이 명령은 주의해서 사용하세요.
 
-#### Flags
+#### 플래그
 
-See `man chisel` or `chisel --help` for all available environment configuration flags.
+모든 사용 가능한 환경 구성 플래그에 대해서는 `man chisel` 또는 `chisel --help`를 참조하세요.
 
-### DESCRIPTION
+### 설명
 
-Chisel is a Solidity REPL (short for "read-eval-print loop") that allows developers to write
-and test Solidity code snippets. It provides an interactive environment for writing and executing
-Solidity code, as well as a set of built-in commands for working with and debugging your code. This
-makes it a useful tool for quickly testing and experimenting with Solidity code without having to
-spin up a sandbox foundry test suite.
+Chisel은 개발자가 Solidity 코드 조각을 작성하고 테스트할 수 있게 해주는 Solidity REPL("read-eval-print loop"의 줄임말)입니다. 이는 Solidity 코드를 작성하고 실행할 수 있는 대화형 환경을 제공하며, 코드 작업 및 디버깅을 위한 내장 명령어 세트도 제공합니다. 따라서 샌드박스 Foundry 테스트 스위트를 구동하지 않고도 Solidity 코드를 빠르게 테스트하고 실험할 수 있는 유용한 도구입니다.
 
-### Usage
+### 사용법
 
-To open chisel, simply execute the `chisel` binary.
+chisel을 열려면 단순히 `chisel` 바이너리를 실행하세요.
 
-From there, input valid Solidity code. There are two kinds of inputs to the chisel prompt apart from commands:
+거기서 유효한 Solidity 코드를 입력하세요. 명령어 외에도 chisel 프롬프트에는 두 가지 종류의 입력이 있습니다:
 
-1. Expressions
-   - Expressions are statements that return a value or otherwise can be evaluated on their own. For example,
-     `1 << 8` is an expression that will evaluate to a `uint256` with the value `256`. Expressions will be
-     evaluated up front, and will not persist in the session state past their evaluation.
-   - Examples:
+1. 표현식 (Expressions)
+   - 표현식은 값을 반환하거나 자체적으로 평가될 수 있는 문장입니다. 예를 들어,
+     `1 << 8`은 값 `256`을 가진 `uint256`으로 평가되는 표현식입니다. 표현식은
+     즉시 평가되며, 평가 후 세션 상태에 유지되지 않습니다.
+   - 예시:
      - `address(0).balance`
      - `abi.encode(256, bytes32(0), "Chisel!")`
      - `myViewFunc(128)`
      - ...
-1. Statements
+1. 문장 (Statements)
 
-   - Statements are snippets of code that are meant to persist in the session's state. Statements include
-     variable definitions, calls to non-state-mutating functions that return a value, and contract, function,
-     event, error, mapping, or struct definitions. If you would like an expression to be evaluated as a statement,
-     a semi-colon (`;`) can be appended to the end.
-   - Examples:
+   - 문장은 세션의 상태에 유지되도록 의도된 코드 조각입니다. 문장에는
+     변수 정의, 값을 반환하는 비상태 변경 함수 호출, 그리고 컨트랙트, 함수,
+     이벤트, 에러, 매핑 또는 구조체 정의가 포함됩니다. 표현식을 문장으로 평가하려면
+     끝에 세미콜론(`;`)을 추가하면 됩니다.
+   - 예시:
 
      - `uint256 a = 0xa57b`
-     - `myStateMutatingFunc(128)` || `myViewFunc(128);`. Notice the `;`
+     - `myStateMutatingFunc(128)` || `myViewFunc(128);`. `;`에 주목하세요.
      - ```solidity
        function hash64(
          bytes32 _a,
          bytes32 _b
        ) internal pure returns (bytes32 _hash) {
            assembly {
-               // Store the 64 bytes we want to hash in scratch space
+               // 해시하려는 64바이트를 스크래치 공간에 저장
                mstore(0x00, _a)
                mstore(0x20, _b)
 
-               // Hash the memory in scratch space
-               // and assign the result to `_hash`
+               // 스크래치 공간의 메모리를 해시하고
+               // 결과를 `_hash`에 할당
                _hash := keccak256(0x00, 0x40)
            }
        }
@@ -77,27 +73,27 @@ From there, input valid Solidity code. There are two kinds of inputs to the chis
      - `struct Complex256 { uint256 re; uint256 im; }`
      - ...
 
-#### Available Commands
+#### 사용 가능한 명령어
 
 ```text
 // [!include ~/snippets/output/chisel/help:output]
 ```
 
-**General**
+**일반 (General)**
 
 `!help` | `!h`
 
-Display all commands.
+모든 명령어를 표시합니다.
 
 `!quit` | `!q`
 
-Quit Chisel.
+Chisel을 종료합니다.
 
 `!exec <command> [args]` | `!e <command> [args]`
 
-Execute a shell command and print the output.
+셸 명령어를 실행하고 출력을 인쇄합니다.
 
-Example:
+예시:
 
 ```sh
 ➜ !e ls
@@ -131,101 +127,101 @@ tsconfig.build.tsbuildinfo
 tsconfig.json
 ```
 
-**Session**
+**세션 (Session)**
 
 `!clear` | `!c`
 
-Clear current session source.
+현재 세션 소스를 지웁니다.
 
-Under the hood, each Chisel session has an underlying contract that is altered as you input statements. This command clears this contract and resets your session to the default state.
+내부적으로 각 Chisel 세션에는 문장을 입력함에 따라 변경되는 기본 컨트랙트가 있습니다. 이 명령은 이 컨트랙트를 지우고 세션을 기본 상태로 재설정합니다.
 
 `!source` | `!so`
 
-Display the source code of the current session.
+현재 세션의 소스 코드를 표시합니다.
 
-As mentioned above, each Chisel session has an underlying contract. This command will display the source code of this contract.
+위에서 언급했듯이, 각 Chisel 세션에는 기본 컨트랙트가 있습니다. 이 명령은 이 컨트랙트의 소스 코드를 표시합니다.
 
 `!save [id]` | `!s [id]`
 
-Save the current session to cache.
+현재 세션을 캐시에 저장합니다.
 
-Chisel allows for caching sessions, which can be very useful if you are testing more complex logic in Chisel or if you want to return to a session at a later time. All cached Chisel sessions are stored in `~/.foundry/cache/chisel`.
+Chisel은 세션 캐싱을 허용하는데, 이는 Chisel에서 더 복잡한 로직을 테스트하거나 나중에 세션으로 돌아가고 싶을 때 매우 유용할 수 있습니다. 모든 캐시된 Chisel 세션은 `~/.foundry/cache/chisel`에 저장됩니다.
 
-If an `id` argument is not supplied, Chisel will automatically assign a numerical ID to the session you are saving.
+`id` 인수가 제공되지 않으면 Chisel은 저장하는 세션에 자동으로 숫자 ID를 할당합니다.
 
 `!load <id>` | `!l <id>`
 
-Load a previous session ID from cache.
+캐시에서 이전 세션 ID를 로드합니다.
 
-This command will load a previously cached session from the cache. Along with the session's source, all environment settings will also be loaded. The `id` argument must correspond with an existing cached session in the `~/.foundry/cache/chisel` directory.
+이 명령은 이전에 캐시된 세션을 캐시에서 로드합니다. 세션의 소스와 함께 모든 환경 설정도 로드됩니다. `id` 인수는 `~/.foundry/cache/chisel` 디렉토리에 있는 기존 캐시된 세션과 일치해야 합니다.
 
 `!list` | `!ls`
 
-List all cached sessions.
+모든 캐시된 세션을 나열합니다.
 
-This command will display all cached chisel sessions within the `~/.foundry/cache/chisel` directory.
+이 명령은 `~/.foundry/cache/chisel` 디렉토리 내의 모든 캐시된 chisel 세션을 표시합니다.
 
 `!clearcache` | `!cc`
 
-Clear the chisel cache of all stored sessions.
+저장된 모든 세션의 chisel 캐시를 지웁니다.
 
-Deletes all cache files within the `~/.foundry/cache/chisel` directory. These sessions are unrecoverable, so use this command with care.
+`~/.foundry/cache/chisel` 디렉토리 내의 모든 캐시 파일을 삭제합니다. 이 세션들은 복구할 수 없으므로 이 명령은 주의해서 사용하세요.
 
 `!export` | `!ex`
 
-Export the current session source to a script file.
+현재 세션 소스를 스크립트 파일로 내보냅니다.
 
-If `chisel` was executed from the root directory of a foundry project, it is possible to export your current session to a foundry script in the `scripts` dir of your project.
+Foundry 프로젝트의 루트 디렉토리에서 `chisel`이 실행된 경우, 현재 세션을 프로젝트의 `scripts` 디렉토리에 있는 foundry 스크립트로 내보낼 수 있습니다.
 
 `!fetch <addr> <name>` | `!fe <addr> <name>`
 
-Fetch the interface of a verified contract on Etherscan.
+Etherscan에서 검증된 컨트랙트의 인터페이스를 가져옵니다.
 
-This command will attempt to parse the interface of a verified contract @ `<addr>` from the Etherscan API. If successful, the interface will be inserted into the session source with the name `<name>`.
+이 명령은 Etherscan API에서 `<addr>`에 있는 검증된 컨트랙트의 인터페이스를 파싱하려고 시도합니다. 성공하면 인터페이스가 `<name>`이라는 이름으로 세션 소스에 삽입됩니다.
 
-At the moment, only interfaces of verified contracts on Ethereum mainnet can be fetched. In the future, Chisel will support fetching interfaces from multiple Etherscan-supported chains.
+현재는 이더리움 메인넷에서 검증된 컨트랙트의 인터페이스만 가져올 수 있습니다. 추후 Chisel은 여러 Etherscan 지원 체인에서 인터페이스를 가져오는 것을 지원할 예정입니다.
 
 `!edit`
 
-Open the current session's `run()` function in an editor.
+현재 세션의 `run()` 함수를 편집기에서 엽니다.
 
-chisel will use the editor defined in the `$EDITOR` environment variable.
+chisel은 `$EDITOR` 환경 변수에 정의된 편집기를 사용합니다.
 
-**Environment**
+**환경 (Environment)**
 
 `!fork <url>` | `!f <url>`
 
-Fork an RPC for the current session. Supply 0 arguments to return to a local network.
+현재 세션에 대해 RPC를 포크합니다. 로컬 네트워크로 돌아가려면 인수를 0개 제공하세요.
 
-Attempts to fork the state of the provided RPC. If no URL is provided, returns to using a blank, local devnet state.
+제공된 RPC의 상태를 포크하려고 시도합니다. URL이 제공되지 않으면 빈 로컬 devnet 상태를 사용하는 것으로 돌아갑니다.
 
 `!traces` | `!t`
 
-Enable / disable traces for the current session.
+현재 세션에 대한 트레이스를 활성화/비활성화합니다.
 
-When tracing is enabled, foundry-style call tracing and logs will be printed after each statement is inserted.
+트레이싱이 활성화되면 각 문장이 삽입된 후 foundry 스타일의 호출 트레이싱 및 로그가 인쇄됩니다.
 
-**Debug**
+**디버그 (Debug)**
 
 `!memdump` | `!md`
 
-Dump the raw memory of the current state.
+현재 상태의 원시 메모리를 덤프합니다.
 
-Attempts to dump the raw memory of the machine state after the last instruction of the REPL contract's `run` function has finished executing.
+REPL 컨트랙트의 `run` 함수의 마지막 명령어 실행이 완료된 후 기계 상태의 원시 메모리를 덤프하려고 시도합니다.
 
 `!stackdump` | `!sd`
 
-Dump the raw stack of the current state.
+현재 상태의 원시 스택을 덤프합니다.
 
-Attempts to dump the raw stack of the machine state after the last instruction of the REPL contract's `run` function has finished executing.
+REPL 컨트랙트의 `run` 함수의 마지막 명령어 실행이 완료된 후 기계 상태의 원시 스택을 덤프하려고 시도합니다.
 
 `!rawstack <var>` | `!rs <var>`
 
-Display the raw value of a variable's stack allocation. For variables that are > 32 bytes in length, this will display their memory pointer.
+변수의 스택 할당의 원시 값을 표시합니다. 길이가 32바이트를 초과하는 변수의 경우 메모리 포인터를 표시합니다.
 
-This command is useful when you want to view the full raw stack allocation for a variable that is less than 32 bytes in length.
+이 명령은 길이가 32바이트 미만인 변수에 대한 전체 원시 스택 할당을 보고 싶을 때 유용합니다.
 
-Example:
+예시:
 
 ```sh
 ➜ address addr

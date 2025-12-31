@@ -1,6 +1,6 @@
 ## forge build
 
-Build the project's smart contracts
+프로젝트의 스마트 컨트랙트를 빌드합니다.
 
 ```bash
 $ forge build --help
@@ -11,243 +11,233 @@ Usage: forge build [OPTIONS] [PATHS]...
 
 Options:
   -h, --help
-          Print help (see a summary with '-h')
+          도움말 인쇄 ('-h'로 요약 보기)
 
   -j, --threads <THREADS>
-          Number of threads to use. Specifying 0 defaults to the number of
-          logical cores
+          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
           
           [aliases: --jobs]
 
 Build options:
       --names
-          Print compiled contract names
+          컴파일된 컨트랙트 이름 인쇄
 
       --sizes
-          Print compiled contract sizes. Constructor argument length is not
-          included in the calculation of initcode size
+          컴파일된 컨트랙트 크기 인쇄. 생성자 인수 길이는 initcode 크기
+          계산에 포함되지 않음
 
       --ignore-eip-3860
-          Ignore initcode contract bytecode size limit introduced by EIP-3860
+          EIP-3860에 의해 도입된 initcode 컨트랙트 바이트코드 크기 제한 무시
 
       --no-cache
-          Disable the cache
+          캐시 비활성화
 
       --dynamic-test-linking
-          Enable dynamic test linking
+          동적 테스트 링킹 활성화
 
       --skip <SKIP>...
-          Skip building files whose names contain the given filter.
+          이름에 주어진 필터가 포함된 파일 빌드 건너뛰기.
           
-          `test` and `script` are aliases for `.t.sol` and `.s.sol`.
+          `test`와 `script`는 `.t.sol`과 `.s.sol`의 별칭입니다.
 
   [PATHS]...
-          Build source files from specified paths
+          지정된 경로의 소스 파일 빌드
 
 Cache options:
       --force
-          Clear the cache and artifacts folder and recompile
+          캐시 및 아티팩트 폴더를 지우고 재컴파일
 
 Linker options:
       --libraries <LIBRARIES>
-          Set pre-linked libraries
+          사전 링크된 라이브러리 설정
           
           [env: DAPP_LIBRARIES=]
 
 Compiler options:
       --ignored-error-codes <ERROR_CODES>
-          Ignore solc warnings by error code
+          오류 코드로 solc 경고 무시
 
   -D, --deny <LEVEL>
-          A compiler error will be triggered at the specified diagnostic level.
+          지정된 진단 수준에서 컴파일러 오류가 트리거됩니다.
           
-          Replaces the deprecated `--deny-warnings` flag.
+          사용 중단된 `--deny-warnings` 플래그를 대체합니다.
           
-          Possible values: - `never`: Do not treat any diagnostics as errors. -
-          `warnings`: Treat warnings as errors. - `notes`: Treat both, warnings
-          and notes, as errors.
+          가능한 값: - `never`: 어떤 진단도 오류로 처리하지 않음. -
+          `warnings`: 경고를 오류로 처리. - `notes`: 경고와 노트(notes)
+          모두 오류로 처리.
 
-          Possible values:
-          - never:    Always exit with zero code
-          - warnings: Exit with a non-zero code if any warnings are found
-          - notes:    Exit with a non-zero code if any notes or warnings are
-            found
+          가능한 값:
+          - never:    항상 0 코드로 종료
+          - warnings: 경고가 발견되면 0이 아닌 코드로 종료
+          - notes:    노트나 경고가 발견되면 0이 아닌 코드로 종료
 
       --no-auto-detect
-          Do not auto-detect the `solc` version
+          `solc` 버전을 자동 감지하지 않음
 
       --use <SOLC_VERSION>
-          Specify the solc version, or a path to a local solc, to build with.
+          빌드할 solc 버전을 지정하거나 로컬 solc 경로 지정.
           
-          Valid values are in the format `x.y.z`, `solc:x.y.z` or
-          `path/to/solc`.
+          유효한 값은 `x.y.z`, `solc:x.y.z` 또는 `path/to/solc` 형식입니다.
 
       --offline
-          Do not access the network.
+          네트워크에 액세스하지 않음.
           
-          Missing solc versions will not be installed.
+          누락된 solc 버전은 설치되지 않음.
 
       --via-ir
-          Use the Yul intermediate representation compilation pipeline
+          Yul 중간 표현(intermediate representation) 컴파일 파이프라인 사용
 
       --use-literal-content
-          Changes compilation to only use literal content and not URLs
+          컴파일 시 URL 대신 리터럴 콘텐츠만 사용하도록 변경
 
       --no-metadata
-          Do not append any metadata to the bytecode.
+          바이트코드에 메타데이터를 추가하지 않음.
           
-          This is equivalent to setting `bytecode_hash` to `none` and
-          `cbor_metadata` to `false`.
+          `bytecode_hash`를 `none`으로, `cbor_metadata`를 `false`로
+          설정하는 것과 동일함.
 
       --ast
-          Includes the AST as JSON in the compiler output
+          컴파일러 출력에 AST를 JSON으로 포함
 
       --evm-version <VERSION>
-          The target EVM version
+          대상 EVM 버전
 
       --optimize [<OPTIMIZE>]
-          Activate the Solidity optimizer
+          Solidity 최적화기(optimizer) 활성화
           
           [possible values: true, false]
 
       --optimizer-runs <RUNS>
-          The number of runs specifies roughly how often each opcode of the
-          deployed code will be executed across the life-time of the contract.
-          This means it is a trade-off parameter between code size (deploy cost)
-          and code execution cost (cost after deployment). An `optimizer_runs`
-          parameter of `1` will produce short but expensive code. In contrast, a
-          larger `optimizer_runs` parameter will produce longer but more gas
-          efficient code
+          실행 횟수(runs)는 배포된 코드의 각 오퍼코드가 컨트랙트 수명 동안
+          대략 얼마나 자주 실행될지를 지정합니다. 이는 코드 크기(배포 비용)와
+          코드 실행 비용(배포 후 비용) 간의 균형 매개변수입니다. `optimizer_runs`
+          매개변수가 `1`이면 짧지만 비싼 코드를 생성합니다. 반면, 더 큰
+          `optimizer_runs` 매개변수는 더 길지만 가스 효율적인 코드를 생성합니다.
 
       --extra-output <SELECTOR>...
-          Extra output to include in the contract's artifact.
+          컨트랙트 아티팩트에 포함할 추가 출력.
           
-          Example keys: evm.assembly, ewasm, ir, irOptimized, metadata
+          예제 키: evm.assembly, ewasm, ir, irOptimized, metadata
           
-          For a full description, see
+          전체 설명은 다음을 참조하세요:
           [https://docs.soliditylang.org/en/v0.8.13/using-the-compiler.html#input-description](https://docs.soliditylang.org/en/v0.8.13/using-the-compiler.html#input-description)
 
       --extra-output-files <SELECTOR>...
-          Extra output to write to separate files.
+          별도 파일에 기록할 추가 출력.
           
-          Valid values: metadata, ir, irOptimized, ewasm, evm.assembly
+          유효한 값: metadata, ir, irOptimized, ewasm, evm.assembly
 
 Project options:
   -o, --out <PATH>
-          The path to the contract artifacts folder
+          컨트랙트 아티팩트 폴더 경로
 
       --revert-strings <REVERT>
-          Revert string configuration.
+          리버트 문자열 구성.
           
-          Possible values are "default", "strip" (remove), "debug"
-          (Solidity-generated revert strings) and "verboseDebug"
+          가능한 값: "default", "strip" (제거), "debug" (Solidity 생성 리버트
+          문자열) 및 "verboseDebug"
 
       --build-info
-          Generate build info files
+          빌드 정보 파일 생성
 
       --build-info-path <PATH>
-          Output path to directory that build info files will be written to
+          빌드 정보 파일이 기록될 디렉토리의 출력 경로
 
       --root <PATH>
-          The project's root path.
+          프로젝트의 루트 경로.
           
-          By default root of the Git repository, if in one, or the current
-          working directory.
+          기본적으로 Git 저장소의 루트(있는 경우) 또는 현재 작업 디렉토리입니다.
 
   -C, --contracts <PATH>
-          The contracts source directory
+          컨트랙트 소스 디렉토리
 
   -R, --remappings <REMAPPINGS>
-          The project's remappings
+          프로젝트의 리매핑
 
       --remappings-env <ENV>
-          The project's remappings from the environment
+          환경(변수)에서 가져온 프로젝트 리매핑
 
       --cache-path <PATH>
-          The path to the compiler cache
+          컴파일러 캐시 경로
 
       --lib-paths <PATH>
-          The path to the library folder
+          라이브러리 폴더 경로
 
       --hardhat
-          Use the Hardhat-style project layout.
+          Hardhat 스타일 프로젝트 레이아웃 사용.
           
-          This is the same as using: `--contracts contracts --lib-paths
-          node_modules`.
+          다음과 동일함: `--contracts contracts --lib-paths node_modules`.
           
           [aliases: --hh]
 
       --config-path <FILE>
-          Path to the config file
+          구성(config) 파일 경로
 
 Watch options:
   -w, --watch [<PATH>...]
-          Watch the given files or directories for changes.
+          변경 사항에 대해 주어진 파일 또는 디렉토리 감시.
           
-          If no paths are provided, the source and test directories of the
-          project are watched.
+          경로가 제공되지 않으면 프로젝트의 소스 및 테스트 디렉토리가
+          감시됩니다.
 
       --no-restart
-          Do not restart the command while it's still running
+          명령이 아직 실행 중일 때 재시작하지 않음
 
       --run-all
-          Explicitly re-run all tests when a change is made.
+          변경이 발생했을 때 명시적으로 모든 테스트 다시 실행.
           
-          By default, only the tests of the last modified test file are
-          executed.
+          기본적으로 마지막으로 수정된 테스트 파일의 테스트만 실행됩니다.
 
       --rerun-failed
-          Re-run only previously failed tests first when a change is made.
+          변경이 발생했을 때 이전에 실패한 테스트만 먼저 다시 실행.
           
-          If all previously failed tests pass, the full test suite will be run
-          automatically. This is particularly useful for TDD workflows where you
-          want fast feedback on failures.
+          이전에 실패한 모든 테스트가 통과하면 전체 테스트 스위트가 자동으로
+          실행됩니다. 이는 실패에 대한 빠른 피드백을 원하는 TDD 워크플로에
+          특히 유용합니다.
 
       --watch-delay <DELAY>
-          File update debounce delay.
+          파일 업데이트 디바운스 지연.
           
-          During the delay, incoming change events are accumulated and only once
-          the delay has passed, is an action taken. Note that this does not mean
-          a command will be started: if --no-restart is given and a command is
-          already running, the outcome of the action will be to do nothing.
+          지연 시간 동안 들어오는 변경 이벤트가 누적되며 지연이 지나면
+          조치가 취해집니다. 이는 명령이 시작된다는 의미는 아닙니다:
+          --no-restart가 주어지고 명령이 이미 실행 중인 경우 조치의 결과는
+          아무것도 하지 않는 것입니다.
           
-          Defaults to 50ms. Parses as decimal seconds by default, but using an
-          integer with the `ms` suffix may be more convenient.
+          기본값은 50ms입니다. 기본적으로 십진수 초(seconds)로 파싱되지만,
+          `ms` 접미사와 함께 정수를 사용하는 것이 더 편리할 수 있습니다.
           
-          When using --poll mode, you'll want a larger duration, or risk
-          overloading disk I/O.
+          --poll 모드를 사용할 때는 더 긴 기간을 원하거나 디스크 I/O 과부하
+          위험이 있습니다.
 
 Display options:
       --color <COLOR>
-          The color of the log messages
+          로그 메시지의 색상
 
-          Possible values:
-          - auto:   Intelligently guess whether to use color output (default)
-          - always: Force color output
-          - never:  Force disable color output
+          가능한 값:
+          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
+          - always: 색상 출력 강제
+          - never:  색상 출력 강제 비활성화
 
       --json
-          Format log messages as JSON
+          로그 메시지를 JSON으로 포맷팅
 
       --md
-          Format log messages as Markdown
+          로그 메시지를 Markdown으로 포맷팅
 
   -q, --quiet
-          Do not print log messages
+          로그 메시지를 인쇄하지 않음
 
   -v, --verbosity...
-          Verbosity level of the log messages.
+          로그 메시지의 상세 수준.
           
-          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
+          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
           
-          Depending on the context the verbosity levels have different meanings.
+          문맥에 따라 상세 수준은 다른 의미를 가짐.
           
-          For example, the verbosity levels of the EVM are:
-          - 2 (-vv): Print logs for all tests.
-          - 3 (-vvv): Print execution traces for failing tests.
-          - 4 (-vvvv): Print execution traces for all tests, and setup traces
-          for failing tests.
-          - 5 (-vvvvv): Print execution and setup traces for all tests,
-          including storage changes and
-            backtraces with line numbers.
+          예를 들어, EVM의 상세 수준은 다음과 같음:
+          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
+          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
+          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
+          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
+            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
 ```

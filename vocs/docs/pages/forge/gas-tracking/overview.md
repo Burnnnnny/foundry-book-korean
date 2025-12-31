@@ -1,25 +1,23 @@
 ---
-description: Track and optimize gas consumption with reports, function snapshots, and section snapshots for performance analysis.
+description: 성능 분석을 위한 보고서, 함수 스냅샷 및 섹션 스냅샷을 통해 가스 소비를 추적하고 최적화합니다.
 ---
 
-## Gas Tracking
+## 가스 추적 (Gas Tracking)
 
-Forge can help you estimate how much gas your contract will consume.
+Forge는 컨트랙트가 소비할 가스의 양을 추정하는 데 도움을 줄 수 있습니다.
 
-Currently, Forge ships with three different tools for this job:
+현재 Forge는 이 작업을 위해 세 가지 다른 도구를 제공합니다:
 
-- [**Gas reports**](/forge/gas-tracking/gas-reports): Gas reports give you an overview of how much Forge thinks the
-  individual functions in your contracts will consume in gas.
-- [**Gas function snapshots**](/forge/gas-tracking/gas-function-snapshots): Gas function snapshots give you an overview of how much
-  each test function consumes in gas.
-- [**Gas section snapshots**](/forge/gas-tracking/gas-section-snapshots): Gas section snapshots give you the ability to capture gas usage over arbitrary sections inside of test functions.
-  This also tracks internal gas usage. You can access this by using the `snapshotGas*` cheatcodes inside your tests.
+- [**가스 보고서 (Gas reports)**](/forge/gas-tracking/gas-reports): 가스 보고서는 컨트랙트의 개별 함수가 소비할 것으로 Forge가 예상하는 가스량에 대한 개요를 제공합니다.
+- [**가스 함수 스냅샷 (Gas function snapshots)**](/forge/gas-tracking/gas-function-snapshots): 가스 함수 스냅샷은 각 테스트 함수가 소비하는 가스량에 대한 개요를 제공합니다.
+- [**가스 섹션 스냅샷 (Gas section snapshots)**](/forge/gas-tracking/gas-section-snapshots): 가스 섹션 스냅샷은 테스트 함수 내부의 임의의 섹션에 대한 가스 사용량을 캡처할 수 있는 기능을 제공합니다.
+  이는 내부 가스 사용량도 추적합니다. 테스트 내에서 `snapshotGas*` 치트코드를 사용하여 이에 접근할 수 있습니다.
 
-Gas reports, gas function snapshots and gas section snapshots differ in some ways:
+가스 보고서, 가스 함수 스냅샷 및 가스 섹션 스냅샷은 몇 가지 면에서 다릅니다:
 
-- Gas reports use tracing to figure out gas costs for individual contract calls.  
-  This gives more granular insight, at the cost of speed.
-- Gas function snapshots have more built-in tools, such as diffs and exporting the results to a file.
-  Snapshots are not as granular as gas reports, but they are faster to generate.
-- Gas section snapshots provides the most granular way to capture gas usage. Every captured gas snapshot is written to a file in a `snapshots` directory.
-  By default these snapshots are grouped by the contract name of the test.
+- 가스 보고서는 트레이싱(tracing)을 사용하여 개별 컨트랙트 호출에 대한 가스 비용을 계산합니다.
+  이는 속도를 희생하는 대신 더 세분화된 정보를 제공합니다.
+- 가스 함수 스냅샷에는 diff 및 결과를 파일로 내보내는 등 더 많은 기본 도구가 있습니다.
+  스냅샷은 가스 보고서만큼 세분화되지는 않지만 생성 속도가 더 빠릅니다.
+- 가스 섹션 스냅샷은 가스 사용량을 캡처하는 가장 세분화된 방법을 제공합니다. 캡처된 모든 가스 스냅샷은 `snapshots` 디렉토리의 파일에 기록됩니다.
+  기본적으로 이러한 스냅샷은 테스트의 컨트랙트 이름별로 그룹화됩니다.

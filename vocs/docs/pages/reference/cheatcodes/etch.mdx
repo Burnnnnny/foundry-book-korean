@@ -1,16 +1,16 @@
 ## `etch`
 
-### Signature
+### 서명
 
 ```solidity
 function etch(address who, bytes calldata code) external;
 ```
 
-### Description
+### 설명
 
-Sets the bytecode of an address `who` to `code`.
+`who` 주소의 바이트코드를 `code`로 설정합니다.
 
-### Examples
+### 예제
 
 ```solidity
 bytes memory code = address(awesomeContract).code;
@@ -19,9 +19,9 @@ vm.etch(targetAddr, code);
 log_bytes(address(targetAddr).code); // 0x6080604052348015610010...
 ```
 
-#### Using `vm.etch` for enabling custom precompiles
+#### 사용자 정의 프리컴파일 활성화를 위해 `vm.etch` 사용하기
 
-Some chains, like Blast or Arbitrum, run with custom precompiles. Foundry is operating on vanilla EVM and is not aware of those. If you are encountering reverts due to not available precompile, you can use `vm.etch` cheatcode to inject mock of the missing precompile to the address it is expected to appear at.
+Blast나 Arbitrum과 같은 일부 체인은 사용자 정의 프리컴파일(precompiles)과 함께 실행됩니다. Foundry는 바닐라 EVM에서 작동하며 이를 알지 못합니다. 사용할 수 없는 프리컴파일로 인해 리버트가 발생하는 경우, `vm.etch` 치트코드를 사용하여 누락된 프리컴파일의 모의(mock)를 나타날 것으로 예상되는 주소에 주입할 수 있습니다.
 
 ```solidity
 // [!include ~/snippets/projects/cheatcodes/test/BlastMock.t.sol::all]
@@ -29,15 +29,15 @@ Some chains, like Blast or Arbitrum, run with custom precompiles. Foundry is ope
 
 <div class="warning">
 
-Injecting mocks of precompiles might be tricky as such mocks will not fully emulate the actual precompile behavior on-chain.
+프리컴파일의 모의를 주입하는 것은 까다로울 수 있습니다. 이러한 모의는 온체인에서 실제 프리컴파일 동작을 완전히 에뮬레이션하지 않기 때문입니다.
 
-Mock in the case above will not cause the actual yield to be accrued if any yield mode is configured.
+위의 경우, 모의는 수익률 모드(yield mode)가 구성된 경우 실제 수익률이 발생하도록 하지 않습니다.
 
 </div>
 
-### SEE ALSO
+### 같이 보기
 
-Forge Standard Library
+Forge 표준 라이브러리
 
 - [`deployCode`](/reference/forge-std/deployCode.mdx)
 - [`deployCodeTo`](/reference/forge-std/deployCodeTo.mdx)

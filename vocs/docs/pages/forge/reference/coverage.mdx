@@ -1,6 +1,6 @@
 ## forge coverage
 
-Generate coverage reports
+커버리지 보고서를 생성합니다.
 
 ```bash
 $ forge coverage --help
@@ -11,552 +11,531 @@ Usage: forge coverage [OPTIONS] [PATH]
 
 Options:
       --report <REPORT>
-          The report type to use for coverage.
+          커버리지에 사용할 보고서 유형.
           
-          This flag can be used multiple times.
+          이 플래그는 여러 번 사용할 수 있습니다.
           
           [default: summary]
           [possible values: summary, lcov, debug, bytecode]
 
       --lcov-version <LCOV_VERSION>
-          The version of the LCOV "tracefile" format to use.
+          사용할 LCOV "tracefile" 형식의 버전.
           
-          Format: `MAJOR[.MINOR]`.
+          형식: `MAJOR[.MINOR]`.
           
-          Main differences: - `1.x`: The original v1 format. - `2.0`: Adds
-          support for "line end" numbers for functions. - `2.2`: Changes the
-          format of functions.
+          주요 차이점: - `1.x`: 원래 v1 형식. - `2.0`: 함수에 대한 "줄 끝" 번호
+          지원 추가. - `2.2`: 함수의 형식 변경.
           
           [default: 1]
 
       --ir-minimum
-          Enable viaIR with minimum optimization
+          최소 최적화로 viaIR 활성화
           
-          This can fix most of the "stack too deep" errors while resulting a
-          relatively accurate source map.
+          이는 대부분의 "stack too deep" 오류를 수정하면서 비교적 정확한 소스 맵을
+          제공할 수 있습니다.
 
   -r, --report-file <PATH>
-          The path to output the report.
+          보고서를 출력할 경로.
           
-          If not specified, the report will be stored in the root of the
-          project.
+          지정하지 않으면 보고서는 프로젝트의 루트에 저장됩니다.
 
       --include-libs
-          Whether to include libraries in the coverage report
+          커버리지 보고서에 라이브러리 포함 여부
 
       --exclude-tests
-          Whether to exclude tests from the coverage report
+          커버리지 보고서에서 테스트 제외 여부
 
   -h, --help
-          Print help (see a summary with '-h')
+          도움말 인쇄 ('-h'로 요약 보기)
 
 Display options:
   -v, --verbosity...
-          Verbosity level of the log messages.
+          로그 메시지의 상세 수준.
           
-          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
+          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
           
-          Depending on the context the verbosity levels have different meanings.
+          문맥에 따라 상세 수준은 다른 의미를 가짐.
           
-          For example, the verbosity levels of the EVM are:
-          - 2 (-vv): Print logs for all tests.
-          - 3 (-vvv): Print execution traces for failing tests.
-          - 4 (-vvvv): Print execution traces for all tests, and setup traces
-          for failing tests.
-          - 5 (-vvvvv): Print execution and setup traces for all tests,
-          including storage changes and
-            backtraces with line numbers.
+          예를 들어, EVM의 상세 수준은 다음과 같음:
+          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
+          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
+          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
+          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
+            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
 
   -q, --quiet
-          Do not print log messages
+          로그 메시지를 인쇄하지 않음
 
       --json
-          Format log messages as JSON
+          로그 메시지를 JSON으로 포맷팅
 
       --md
-          Format log messages as Markdown
+          로그 메시지를 Markdown으로 포맷팅
 
       --color <COLOR>
-          The color of the log messages
+          로그 메시지의 색상
 
-          Possible values:
-          - auto:   Intelligently guess whether to use color output (default)
-          - always: Force color output
-          - never:  Force disable color output
+          가능한 값:
+          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
+          - always: 색상 출력 강제
+          - never:  색상 출력 강제 비활성화
 
   -s, --suppress-successful-traces
-          Suppress successful test traces and show only traces for failures
+          성공한 테스트 트레이스를 숨기고 실패한 트레이스만 표시
           
           [env: FORGE_SUPPRESS_SUCCESSFUL_TRACES=]
 
       --junit
-          Output test results as JUnit XML report
+          테스트 결과를 JUnit XML 보고서로 출력
 
   -l, --list
-          List tests instead of running them
+          테스트를 실행하는 대신 목록 표시
 
       --show-progress
-          Show test execution progress
+          테스트 실행 진행 상황 표시
 
       --summary
-          Print test summary table
+          테스트 요약 테이블 인쇄
 
       --detailed
-          Print detailed test summary table
+          상세 테스트 요약 테이블 인쇄
 
       --disable-labels
-          Disables the labels in the traces
+          트레이스에서 레이블 비활성화
 
 Test options:
   -j, --threads <THREADS>
-          Number of threads to use. Specifying 0 defaults to the number of
-          logical cores
+          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
           
           [aliases: --jobs]
 
       --debug
-          Run a single test in the debugger.
+          단일 테스트를 디버거에서 실행.
           
-          The matching test will be opened in the debugger regardless of the
-          outcome of the test.
+          일치하는 테스트는 결과에 관계없이 디버거에서 열립니다.
           
-          If the matching test is a fuzz test, then it will open the debugger on
-          the first failure case. If the fuzz test does not fail, it will open
-          the debugger on the last fuzz case.
+          일치하는 테스트가 퍼즈 테스트인 경우, 첫 번째 실패 사례에서 디버거를
+          엽니다. 퍼즈 테스트가 실패하지 않으면 마지막 퍼즈 사례에서 디버거를
+          엽니다.
 
       --flamegraph
-          Generate a flamegraph for a single test. Implies `--decode-internal`.
+          단일 테스트에 대한 플레임그래프(flamegraph) 생성.
+          `--decode-internal`을 함축합니다.
           
-          A flame graph is used to visualize which functions or operations
-          within the smart contract are consuming the most gas overall in a
-          sorted manner.
+          플레임 그래프는 스마트 컨트랙트 내의 어떤 함수나 작업이 전체적으로
+          가스를 가장 많이 소비하는지 정렬된 방식으로 시각화하는 데 사용됩니다.
 
       --flamechart
-          Generate a flamechart for a single test. Implies `--decode-internal`.
+          단일 테스트에 대한 플레임차트(flamechart) 생성.
+          `--decode-internal`을 함축합니다.
           
-          A flame chart shows the gas usage over time, illustrating when each
-          function is called (execution order) and how much gas it consumes at
-          each point in the timeline.
+          플레임 차트는 시간 경과에 따른 가스 사용량을 보여주며, 각 함수가
+          호출되는 시점(실행 순서)과 타임라인의 각 지점에서 소비하는 가스의 양을
+          보여줍니다.
 
       --decode-internal
-          Identify internal functions in traces.
+          트레이스에서 내부 함수 식별.
           
-          This will trace internal functions and decode stack parameters.
+          이 옵션은 내부 함수를 추적하고 스택 파라미터를 디코딩합니다.
           
-          Parameters stored in memory (such as bytes or arrays) are currently
-          decoded only when a single function is matched, similarly to
-          `--debug`, for performance reasons.
+          메모리에 저장된 파라미터(예: bytes 또는 배열)는 성능상의 이유로
+          `--debug`와 유사하게 단일 함수가 일치될 때만 디코딩됩니다.
 
       --dump <PATH>
-          Dumps all debugger steps to file
+          모든 디버거 단계를 파일로 덤프
 
       --gas-report
-          Print a gas report
+          가스 보고서 인쇄
           
           [env: FORGE_GAS_REPORT=]
 
       --gas-snapshot-check <GAS_SNAPSHOT_CHECK>
-          Check gas snapshots against previous runs
+          이전 실행과 가스 스냅샷 대조 확인
           
           [env: FORGE_SNAPSHOT_CHECK=]
           [possible values: true, false]
 
       --gas-snapshot-emit <GAS_SNAPSHOT_EMIT>
-          Enable/disable recording of gas snapshot results
+          가스 스냅샷 결과 기록 활성화/비활성화
           
           [env: FORGE_SNAPSHOT_EMIT=]
           [possible values: true, false]
 
       --allow-failure
-          Exit with code 0 even if a test fails
+          테스트가 실패하더라도 코드 0으로 종료
           
           [env: FORGE_ALLOW_FAILURE=]
 
       --trace-depth <TRACE_DEPTH>
-          Defines the depth of a trace
+          트레이스의 깊이 정의
 
       --fail-fast
-          Stop running tests after the first failure
+          첫 번째 실패 후 테스트 실행 중지
 
       --etherscan-api-key <KEY>
-          The Etherscan (or equivalent) API key
+          Etherscan (또는 동등한) API 키
           
           [env: ETHERSCAN_API_KEY=]
 
       --fuzz-seed <FUZZ_SEED>
-          Set seed used to generate randomness during your fuzz runs
+          퍼즈 실행 중 무작위성 생성에 사용할 시드 설정
 
       --fuzz-runs <RUNS>
           [env: FOUNDRY_FUZZ_RUNS=]
 
       --fuzz-timeout <TIMEOUT>
-          Timeout for each fuzz run in seconds
+          각 퍼즈 실행에 대한 타임아웃(초)
           
           [env: FOUNDRY_FUZZ_TIMEOUT=]
 
       --fuzz-input-file <FUZZ_INPUT_FILE>
-          File to rerun fuzz failures from
+          퍼즈 실패를 다시 실행할 파일
 
       --rerun
-          Re-run recorded test failures from last run. If no failure recorded
-          then regular test run is performed
+          마지막 실행에서 기록된 테스트 실패 다시 실행. 기록된 실패가 없으면
+          일반 테스트 실행 수행
 
   [PATH]
-          The contract file you want to test, it's a shortcut for --match-path
+          테스트할 컨트랙트 파일. --match-path의 단축형
 
 Test filtering:
       --match-test <REGEX>
-          Only run test functions matching the specified regex pattern
+          지정된 정규식 패턴과 일치하는 테스트 함수만 실행
           
           [aliases: --mt]
 
       --no-match-test <REGEX>
-          Only run test functions that do not match the specified regex pattern
+          지정된 정규식 패턴과 일치하지 않는 테스트 함수만 실행
           
           [aliases: --nmt]
 
       --match-contract <REGEX>
-          Only run tests in contracts matching the specified regex pattern
+          지정된 정규식 패턴과 일치하는 컨트랙트의 테스트만 실행
           
           [aliases: --mc]
 
       --no-match-contract <REGEX>
-          Only run tests in contracts that do not match the specified regex
-          pattern
+          지정된 정규식 패턴과 일치하지 않는 컨트랙트의 테스트만 실행
           
           [aliases: --nmc]
 
       --match-path <GLOB>
-          Only run tests in source files matching the specified glob pattern
+          지정된 glob 패턴과 일치하는 소스 파일의 테스트만 실행
           
           [aliases: --mp]
 
       --no-match-path <GLOB>
-          Only run tests in source files that do not match the specified glob
-          pattern
+          지정된 glob 패턴과 일치하지 않는 소스 파일의 테스트만 실행
           
           [aliases: --nmp]
 
       --no-match-coverage <REGEX>
-          Only show coverage for files that do not match the specified regex
-          pattern
+          지정된 정규식 패턴과 일치하지 않는 파일에 대한 커버리지만 표시
           
           [aliases: --nmco]
 
 EVM options:
   -f, --fork-url <URL>
-          Fetch state over a remote endpoint instead of starting from an empty
-          state.
+          빈 상태에서 시작하는 대신 원격 엔드포인트에서 상태 가져오기.
           
-          If you want to fetch state from a specific block number, see
-          --fork-block-number.
+          특정 블록 번호에서 상태를 가져오려면 --fork-block-number 참조.
           
           [aliases: --rpc-url]
 
       --fork-block-number <BLOCK>
-          Fetch state from a specific block number over a remote endpoint.
+          원격 엔드포인트에서 특정 블록 번호의 상태 가져오기.
           
-          See --fork-url.
+          --fork-url 참조.
 
       --fork-retries <RETRIES>
-          Number of retries.
+          재시도 횟수.
           
-          See --fork-url.
+          --fork-url 참조.
 
       --fork-retry-backoff <BACKOFF>
-          Initial retry backoff on encountering errors.
+          오류 발생 시 초기 재시도 백오프(backoff).
           
-          See --fork-url.
+          --fork-url 참조.
 
       --no-storage-caching
-          Explicitly disables the use of RPC caching.
+          RPC 캐싱 사용을 명시적으로 비활성화.
           
-          All storage slots are read entirely from the endpoint.
+          모든 스토리지 슬롯을 엔드포인트에서 완전히 읽음.
           
-          This flag overrides the project's configuration file.
+          이 플래그는 프로젝트의 구성 파일을 덮어씀.
           
-          See --fork-url.
+          --fork-url 참조.
 
       --initial-balance <BALANCE>
-          The initial balance of deployed test contracts
+          배포된 테스트 컨트랙트의 초기 잔액
 
       --sender <ADDRESS>
-          The address which will be executing tests/scripts
+          테스트/스크립트를 실행할 주소
 
       --ffi
-          Enable the FFI cheatcode
+          FFI 치트코드 활성화
 
       --always-use-create-2-factory
-          Use the create 2 factory in all cases including tests and
-          non-broadcasting scripts
+          테스트 및 비-브로드캐스팅 스크립트를 포함한 모든 경우에 create 2
+          팩토리 사용
 
       --create2-deployer <ADDRESS>
-          The CREATE2 deployer address to use, this will override the one in the
-          config
+          사용할 CREATE2 배포자 주소. 구성(config)에 있는 주소를 덮어씀
 
 Fork config:
       --compute-units-per-second <CUPS>
-          Sets the number of assumed available compute units per second for this
-          provider
+          이 공급자에 대해 가정된 초당 사용 가능한 컴퓨팅 유닛 수 설정
           
-          default value: 330
+          기본값: 330
           
-          See also --fork-url and
-          [https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second](https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second)
+          --fork-url 및
+          [https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second](https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second) 참조
 
       --no-rpc-rate-limit
-          Disables rate limiting for this node's provider.
+          이 노드 공급자에 대한 속도 제한 비활성화.
           
-          See also --fork-url and
-          [https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second](https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second)
+          --fork-url 및
+          [https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second](https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second) 참조
           
           [aliases: --no-rate-limit]
 
 Executor environment config:
       --code-size-limit <CODE_SIZE>
-          EIP-170: Contract code size limit in bytes. Useful to increase this
-          because of tests. By default, it is 0x6000 (~25kb)
+          EIP-170: 바이트 단위의 컨트랙트 코드 크기 제한. 테스트 때문에
+          늘리는 데 유용함. 기본값은 0x6000 (~25kb)
 
       --chain <CHAIN>
-          The chain name or EIP-155 chain ID
+          체인 이름 또는 EIP-155 체인 ID
           
           [aliases: --chain-id]
 
       --gas-price <GAS_PRICE>
-          The gas price
+          가스 가격
 
       --block-base-fee-per-gas <FEE>
-          The base fee in a block
+          블록의 기본 수수료(base fee)
           
           [aliases: --base-fee]
 
       --tx-origin <ADDRESS>
-          The transaction origin
+          트랜잭션 원점(origin)
 
       --block-coinbase <ADDRESS>
-          The coinbase of the block
+          블록의 코인베이스
 
       --block-timestamp <TIMESTAMP>
-          The timestamp of the block
+          블록의 타임스탬프
 
       --block-number <BLOCK>
-          The block number
+          블록 번호
 
       --block-difficulty <DIFFICULTY>
-          The block difficulty
+          블록 난이도
 
       --block-prevrandao <PREVRANDAO>
-          The block prevrandao value. NOTE: Before merge this field was mix_hash
+          블록 prevrandao 값. 참고: 병합(merge) 전에는 이 필드가 mix_hash였음
 
       --block-gas-limit <BLOCK_GAS_LIMIT>
-          The block gas limit
+          블록 가스 제한
           
           [aliases: --gas-limit]
 
       --memory-limit <MEMORY_LIMIT>
-          The memory limit per EVM execution in bytes. If this limit is
-          exceeded, a `MemoryLimitOOG` result is thrown.
+          바이트 단위의 EVM 실행 당 메모리 제한. 이 제한을 초과하면
+          `MemoryLimitOOG` 결과가 발생함.
           
-          The default is 128MiB.
+          기본값은 128MiB.
 
       --disable-block-gas-limit
-          Whether to disable the block gas limit checks
+          블록 가스 제한 검사 비활성화 여부
           
           [aliases: --no-block-gas-limit, --no-gas-limit]
 
       --enable-tx-gas-limit
-          Whether to enable tx gas limit checks as imposed by Osaka (EIP-7825)
+          Osaka (EIP-7825)에 의해 부과된 트랜잭션 가스 제한 검사 활성화 여부
           
           [aliases: --tx-gas-limit]
 
       --isolate
-          Whether to enable isolation of calls. In isolation mode all top-level
-          calls are executed as a separate transaction in a separate EVM
-          context, enabling more precise gas accounting and transaction state
-          changes
+          호출 격리 활성화 여부. 격리 모드에서는 모든 최상위 호출이 별도의
+          EVM 컨텍스트에서 별도의 트랜잭션으로 실행되어 더 정확한 가스 회계
+          및 트랜잭션 상태 변경을 가능하게 함
 
 Cache options:
       --force
-          Clear the cache and artifacts folder and recompile
+          캐시 및 아티팩트 폴더를 지우고 재컴파일
 
 Build options:
       --no-cache
-          Disable the cache
+          캐시 비활성화
 
       --dynamic-test-linking
-          Enable dynamic test linking
+          동적 테스트 링킹 활성화
 
       --skip <SKIP>...
-          Skip building files whose names contain the given filter.
+          이름에 주어진 필터가 포함된 파일 빌드 건너뛰기.
           
-          `test` and `script` are aliases for `.t.sol` and `.s.sol`.
+          `test`와 `script`는 `.t.sol`과 `.s.sol`의 별칭입니다.
 
 Linker options:
       --libraries <LIBRARIES>
-          Set pre-linked libraries
+          사전 링크된 라이브러리 설정
           
           [env: DAPP_LIBRARIES=]
 
 Compiler options:
       --ignored-error-codes <ERROR_CODES>
-          Ignore solc warnings by error code
+          오류 코드로 solc 경고 무시
 
   -D, --deny <LEVEL>
-          A compiler error will be triggered at the specified diagnostic level.
+          지정된 진단 수준에서 컴파일러 오류가 트리거됩니다.
           
-          Replaces the deprecated `--deny-warnings` flag.
+          사용 중단된 `--deny-warnings` 플래그를 대체합니다.
           
-          Possible values: - `never`: Do not treat any diagnostics as errors. -
-          `warnings`: Treat warnings as errors. - `notes`: Treat both, warnings
-          and notes, as errors.
+          가능한 값: - `never`: 어떤 진단도 오류로 처리하지 않음. -
+          `warnings`: 경고를 오류로 처리. - `notes`: 경고와 노트(notes)
+          모두 오류로 처리.
 
-          Possible values:
-          - never:    Always exit with zero code
-          - warnings: Exit with a non-zero code if any warnings are found
-          - notes:    Exit with a non-zero code if any notes or warnings are
-            found
+          가능한 값:
+          - never:    항상 0 코드로 종료
+          - warnings: 경고가 발견되면 0이 아닌 코드로 종료
+          - notes:    노트나 경고가 발견되면 0이 아닌 코드로 종료
 
       --no-auto-detect
-          Do not auto-detect the `solc` version
+          `solc` 버전을 자동 감지하지 않음
 
       --use <SOLC_VERSION>
-          Specify the solc version, or a path to a local solc, to build with.
+          빌드할 solc 버전을 지정하거나 로컬 solc 경로 지정.
           
-          Valid values are in the format `x.y.z`, `solc:x.y.z` or
-          `path/to/solc`.
+          유효한 값은 `x.y.z`, `solc:x.y.z` 또는 `path/to/solc` 형식입니다.
 
       --offline
-          Do not access the network.
+          네트워크에 액세스하지 않음.
           
-          Missing solc versions will not be installed.
+          누락된 solc 버전은 설치되지 않음.
 
       --via-ir
-          Use the Yul intermediate representation compilation pipeline
+          Yul 중간 표현(intermediate representation) 컴파일 파이프라인 사용
 
       --use-literal-content
-          Changes compilation to only use literal content and not URLs
+          컴파일 시 URL 대신 리터럴 콘텐츠만 사용하도록 변경
 
       --no-metadata
-          Do not append any metadata to the bytecode.
+          바이트코드에 메타데이터를 추가하지 않음.
           
-          This is equivalent to setting `bytecode_hash` to `none` and
-          `cbor_metadata` to `false`.
+          `bytecode_hash`를 `none`으로, `cbor_metadata`를 `false`로
+          설정하는 것과 동일함.
 
       --ast
-          Includes the AST as JSON in the compiler output
+          컴파일러 출력에 AST를 JSON으로 포함
 
       --evm-version <VERSION>
-          The target EVM version
+          대상 EVM 버전
 
       --optimize [<OPTIMIZE>]
-          Activate the Solidity optimizer
+          Solidity 최적화기(optimizer) 활성화
           
           [possible values: true, false]
 
       --optimizer-runs <RUNS>
-          The number of runs specifies roughly how often each opcode of the
-          deployed code will be executed across the life-time of the contract.
-          This means it is a trade-off parameter between code size (deploy cost)
-          and code execution cost (cost after deployment). An `optimizer_runs`
-          parameter of `1` will produce short but expensive code. In contrast, a
-          larger `optimizer_runs` parameter will produce longer but more gas
-          efficient code
+          실행 횟수(runs)는 배포된 코드의 각 오퍼코드가 컨트랙트 수명 동안
+          대략 얼마나 자주 실행될지를 지정합니다. 이는 코드 크기(배포 비용)와
+          코드 실행 비용(배포 후 비용) 간의 균형 매개변수입니다. `optimizer_runs`
+          매개변수가 `1`이면 짧지만 비싼 코드를 생성합니다. 반면, 더 큰
+          `optimizer_runs` 매개변수는 더 길지만 가스 효율적인 코드를 생성합니다.
 
       --extra-output <SELECTOR>...
-          Extra output to include in the contract's artifact.
+          컨트랙트 아티팩트에 포함할 추가 출력.
           
-          Example keys: evm.assembly, ewasm, ir, irOptimized, metadata
+          예제 키: evm.assembly, ewasm, ir, irOptimized, metadata
           
-          For a full description, see
+          전체 설명은 다음을 참조하세요:
           [https://docs.soliditylang.org/en/v0.8.13/using-the-compiler.html#input-description](https://docs.soliditylang.org/en/v0.8.13/using-the-compiler.html#input-description)
 
       --extra-output-files <SELECTOR>...
-          Extra output to write to separate files.
+          별도 파일에 기록할 추가 출력.
           
-          Valid values: metadata, ir, irOptimized, ewasm, evm.assembly
+          유효한 값: metadata, ir, irOptimized, ewasm, evm.assembly
 
 Project options:
   -o, --out <PATH>
-          The path to the contract artifacts folder
+          컨트랙트 아티팩트 폴더 경로
 
       --revert-strings <REVERT>
-          Revert string configuration.
+          리버트 문자열 구성.
           
-          Possible values are "default", "strip" (remove), "debug"
-          (Solidity-generated revert strings) and "verboseDebug"
+          가능한 값: "default", "strip" (제거), "debug" (Solidity 생성 리버트
+          문자열) 및 "verboseDebug"
 
       --build-info
-          Generate build info files
+          빌드 정보 파일 생성
 
       --build-info-path <PATH>
-          Output path to directory that build info files will be written to
+          빌드 정보 파일이 기록될 디렉토리의 출력 경로
 
       --root <PATH>
-          The project's root path.
+          프로젝트의 루트 경로.
           
-          By default root of the Git repository, if in one, or the current
-          working directory.
+          기본적으로 Git 저장소의 루트(있는 경우) 또는 현재 작업 디렉토리입니다.
 
   -C, --contracts <PATH>
-          The contracts source directory
+          컨트랙트 소스 디렉토리
 
   -R, --remappings <REMAPPINGS>
-          The project's remappings
+          프로젝트의 리매핑
 
       --remappings-env <ENV>
-          The project's remappings from the environment
+          환경(변수)에서 가져온 프로젝트 리매핑
 
       --cache-path <PATH>
-          The path to the compiler cache
+          컴파일러 캐시 경로
 
       --lib-paths <PATH>
-          The path to the library folder
+          라이브러리 폴더 경로
 
       --hardhat
-          Use the Hardhat-style project layout.
+          Hardhat 스타일 프로젝트 레이아웃 사용.
           
-          This is the same as using: `--contracts contracts --lib-paths
-          node_modules`.
+          다음과 동일함: `--contracts contracts --lib-paths node_modules`.
           
           [aliases: --hh]
 
       --config-path <FILE>
-          Path to the config file
+          구성(config) 파일 경로
 
 Watch options:
   -w, --watch [<PATH>...]
-          Watch the given files or directories for changes.
+          변경 사항에 대해 주어진 파일 또는 디렉토리 감시.
           
-          If no paths are provided, the source and test directories of the
-          project are watched.
+          경로가 제공되지 않으면 프로젝트의 소스 및 테스트 디렉토리가
+          감시됩니다.
 
       --no-restart
-          Do not restart the command while it's still running
+          명령이 아직 실행 중일 때 재시작하지 않음
 
       --run-all
-          Explicitly re-run all tests when a change is made.
+          변경이 발생했을 때 명시적으로 모든 테스트 다시 실행.
           
-          By default, only the tests of the last modified test file are
-          executed.
+          기본적으로 마지막으로 수정된 테스트 파일의 테스트만 실행됩니다.
 
       --rerun-failed
-          Re-run only previously failed tests first when a change is made.
+          변경이 발생했을 때 이전에 실패한 테스트만 먼저 다시 실행.
           
-          If all previously failed tests pass, the full test suite will be run
-          automatically. This is particularly useful for TDD workflows where you
-          want fast feedback on failures.
+          이전에 실패한 모든 테스트가 통과하면 전체 테스트 스위트가 자동으로
+          실행됩니다. 이는 실패에 대한 빠른 피드백을 원하는 TDD 워크플로에
+          특히 유용합니다.
 
       --watch-delay <DELAY>
-          File update debounce delay.
+          파일 업데이트 디바운스 지연.
           
-          During the delay, incoming change events are accumulated and only once
-          the delay has passed, is an action taken. Note that this does not mean
-          a command will be started: if --no-restart is given and a command is
-          already running, the outcome of the action will be to do nothing.
+          지연 시간 동안 들어오는 변경 이벤트가 누적되며 지연이 지나면
+          조치가 취해집니다. 이는 명령이 시작된다는 의미는 아닙니다:
+          --no-restart가 주어지고 명령이 이미 실행 중인 경우 조치의 결과는
+          아무것도 하지 않는 것입니다.
           
-          Defaults to 50ms. Parses as decimal seconds by default, but using an
-          integer with the `ms` suffix may be more convenient.
+          기본값은 50ms입니다. 기본적으로 십진수 초(seconds)로 파싱되지만,
+          `ms` 접미사와 함께 정수를 사용하는 것이 더 편리할 수 있습니다.
           
-          When using --poll mode, you'll want a larger duration, or risk
-          overloading disk I/O.
+          --poll 모드를 사용할 때는 더 긴 기간을 원하거나 디스크 I/O 과부하
+          위험이 있습니다.
 ```

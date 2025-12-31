@@ -1,56 +1,56 @@
 ---
-title: Foundry Releases
-description: Latest release notes for Foundry
+title: Foundry 릴리스
+description: Foundry의 최신 릴리스 노트
 ---
 
-# v1.3.1 [August 12, 2025]
+# v1.3.1 [2025년 8월 12일]
 
 # Foundry v1.3.1
 
-Foundry v1.3.1 is a bugfix release for anvil, cast and forge.
+Foundry v1.3.1은 anvil, cast, forge를 위한 버그 수정 릴리스입니다.
 
-## Anvil Fixes
-- fix(anvil): unwrap panic in eth/backend/mem/mod.rs ([#11141](https://github.com/foundry-rs/foundry/pull/11141)) by [@zerosnacks](https://github.com/zerosnacks)  
-- fix: use empty 7702 auths ([#11182](https://github.com/foundry-rs/foundry/pull/11182)) by [@mattsse](https://github.com/mattsse) 
+## Anvil 수정 사항
+- fix(anvil): eth/backend/mem/mod.rs에서 unwrap 패닉 수정 ([#11141](https://github.com/foundry-rs/foundry/pull/11141)) by [@zerosnacks](https://github.com/zerosnacks)
+- fix: 빈 7702 auths 사용 ([#11182](https://github.com/foundry-rs/foundry/pull/11182)) by [@mattsse](https://github.com/mattsse)
 
-## Cast Fixes
-- fix(cast): use all providers if local artifacts used ([#11090](https://github.com/foundry-rs/foundry/pull/11090)) by [@grandizzy](https://github.com/grandizzy)  
-- fix(cast): improve handling of mktx --raw-unsigned with runtime validation ([#11111](https://github.com/foundry-rs/foundry/pull/11111)) by [@mablr](https://github.com/mablr) 
+## Cast 수정 사항
+- fix(cast): 로컬 아티팩트 사용 시 모든 공급자 사용 ([#11090](https://github.com/foundry-rs/foundry/pull/11090)) by [@grandizzy](https://github.com/grandizzy)
+- fix(cast): 런타임 검증을 통한 mktx --raw-unsigned 처리 개선 ([#11111](https://github.com/foundry-rs/foundry/pull/11111)) by [@mablr](https://github.com/mablr)
 
-## Forge Fixes
-- fix(forge): consistent handling unresolved imports ([#11164](https://github.com/foundry-rs/foundry/pull/11164)) by [@grandizzy](https://github.com/grandizzy)  
-- fix(lint): exclude disabled ids in multi-lint passes ([#11122](https://github.com/foundry-rs/foundry/pull/11122)) by [@0xrusowsky](https://github.com/0xrusowsky)  
-- fix(forge): bump compilers to fix remapping sol file ([#11184](https://github.com/foundry-rs/foundry/pull/11184)) by [@grandizzy](https://github.com/grandizzy) 
-- fix(coverage): disambiguate duplicate function names ([#11188](https://github.com/foundry-rs/foundry/pull/11188)) by [@DaniPopes](https://github.com/DaniPopes) 
-- fix(forge): set state changes journal in active fork ([#11196](https://github.com/foundry-rs/foundry/pull/11196)) by [@grandizzy](https://github.com/grandizzy)
-- fix(forge): improve error messages for etherscan verification failures ([#11194](https://github.com/foundry-rs/foundry/pull/11194)) by [@shiyasmohd](https://github.com/shiyasmohd) 
-- fix(fmt): don't panic on stdin read failure ([#11226](https://github.com/foundry-rs/foundry/pull/11226)) by [@DaniPopes](https://github.com/DaniPopes) 
-- fix(forge script): repeated vm.createSelectFork with same RPC causes segfault ([#11250](https://github.com/foundry-rs/foundry/pull/11250)) by [@zerosnacks](https://github.com/zerosnacks) 
+## Forge 수정 사항
+- fix(forge): 해결되지 않은 import 일관된 처리 ([#11164](https://github.com/foundry-rs/foundry/pull/11164)) by [@grandizzy](https://github.com/grandizzy)
+- fix(lint): 다중 lint 패스에서 비활성화된 id 제외 ([#11122](https://github.com/foundry-rs/foundry/pull/11122)) by [@0xrusowsky](https://github.com/0xrusowsky)
+- fix(forge): 리매핑 sol 파일 수정을 위해 컴파일러 버전 올림 ([#11184](https://github.com/foundry-rs/foundry/pull/11184)) by [@grandizzy](https://github.com/grandizzy)
+- fix(coverage): 중복된 함수 이름 명확화 ([#11188](https://github.com/foundry-rs/foundry/pull/11188)) by [@DaniPopes](https://github.com/DaniPopes)
+- fix(forge): 활성 포크에 상태 변경 저널 설정 ([#11196](https://github.com/foundry-rs/foundry/pull/11196)) by [@grandizzy](https://github.com/grandizzy)
+- fix(forge): etherscan 검증 실패에 대한 오류 메시지 개선 ([#11194](https://github.com/foundry-rs/foundry/pull/11194)) by [@shiyasmohd](https://github.com/shiyasmohd)
+- fix(fmt): stdin 읽기 실패 시 패닉 방지 ([#11226](https://github.com/foundry-rs/foundry/pull/11226)) by [@DaniPopes](https://github.com/DaniPopes)
+- fix(forge script): 동일한 RPC로 반복된 vm.createSelectFork가 segfault 유발하는 문제 수정 ([#11250](https://github.com/foundry-rs/foundry/pull/11250)) by [@zerosnacks](https://github.com/zerosnacks)
 
-## Full Changelog:
+## 전체 변경 로그:
  https://github.com/foundry-rs/foundry/compare/v1.3.0...v1.3.1
 
 
-## Previous Releases
+## 이전 릴리스
 
-| Version | Release Date | Release Notes |
+| 버전 | 출시일 | 릴리스 노트 |
 |---------|--------------|---------------|
-| v1.3.0-rc4 | July 30, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0-rc4) |
-| v1.3.0 | July 31, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0) |
-| v1.3.0-rc3 | July 29, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0-rc3) |
-| v1.3.0-rc2 | July 24, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0-rc2) |
-| v1.3.0-rc1 | July 17, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0-rc1) |
-| v1.2.3 | June 8, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.2.3) |
-| v1.2.2 | May 30, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.2.2) |
-| v1.2.1-rc | May 21, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.2.1-rc) |
-| v1.2.1 | May 26, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.2.1) |
-| v1.2.0-rc1 | May 19, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.2.0-rc1) |
-| v1.2.0-rc | May 13, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.2.0-rc) |
-| v1.2.0 | May 19, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.2.0) |
-| v1.1.0 | April 28, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.1.0) |
-| v1.0.0 | February 10, 2025 | [View](https://github.com/foundry-rs/foundry/releases/tag/v1.0.0) |
+| v1.3.0-rc4 | 2025년 7월 30일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0-rc4) |
+| v1.3.0 | 2025년 7월 31일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0) |
+| v1.3.0-rc3 | 2025년 7월 29일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0-rc3) |
+| v1.3.0-rc2 | 2025년 7월 24일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0-rc2) |
+| v1.3.0-rc1 | 2025년 7월 17일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.3.0-rc1) |
+| v1.2.3 | 2025년 6월 8일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.2.3) |
+| v1.2.2 | 2025년 5월 30일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.2.2) |
+| v1.2.1-rc | 2025년 5월 21일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.2.1-rc) |
+| v1.2.1 | 2025년 5월 26일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.2.1) |
+| v1.2.0-rc1 | 2025년 5월 19일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.2.0-rc1) |
+| v1.2.0-rc | 2025년 5월 13일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.2.0-rc) |
+| v1.2.0 | 2025년 5월 19일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.2.0) |
+| v1.1.0 | 2025년 4월 28일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.1.0) |
+| v1.0.0 | 2025년 2월 10일 | [보기](https://github.com/foundry-rs/foundry/releases/tag/v1.0.0) |
 
 
 ---
 
-*This page is automatically updated with the latest release information from the [Foundry GitHub repository](https://github.com/foundry-rs/foundry/releases).*
+*이 페이지는 [Foundry GitHub 저장소](https://github.com/foundry-rs/foundry/releases)의 최신 릴리스 정보로 자동 업데이트됩니다.*

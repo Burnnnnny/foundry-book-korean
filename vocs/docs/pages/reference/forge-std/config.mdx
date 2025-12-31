@@ -1,6 +1,6 @@
 ## Config
 
-The `Config` abstract contract provides a streamlined way to manage configuration for multi-chain environments in tests and scripts. It automatically loads and parses TOML configuration files, creates forks for specified chains, and provides type-safe access to configuration variables.
+`Config` 추상 컨트랙트는 테스트 및 스크립트에서 멀티체인 환경을 위한 구성을 관리하는 간소화된 방법을 제공합니다. TOML 구성 파일을 자동으로 로드 및 파싱하고, 지정된 체인에 대한 포크를 생성하며, 구성 변수에 대한 타입 안전(type-safe) 접근을 제공합니다.
 
 ### Import
 
@@ -10,7 +10,7 @@ import {Config} from "forge-std/Config.sol";
 
 ### Usage
 
-Inherit from both `Test` (or `Script`) and `Config`:
+`Test`(또는 `Script`)와 `Config`를 모두 상속받습니다:
 
 ```solidity
 contract MyTest is Test, Config {
@@ -23,41 +23,41 @@ contract MyTest is Test, Config {
 
 ### Storage Variables
 
-The `Config` contract provides these storage variables:
+`Config` 컨트랙트는 다음 스토리지 변수를 제공합니다:
 
-- **`config`**: A `StdConfig` instance holding all configuration data
-- **`chainIds`**: Array of chain IDs for which forks have been created
-- **`forkOf`**: Mapping from chain ID to fork ID for easy fork switching
+- **`config`**: 모든 구성 데이터를 보유하는 `StdConfig` 인스턴스
+- **`chainIds`**: 포크가 생성된 체인 ID 배열
+- **`forkOf`**: 간편한 포크 전환을 위한 체인 ID에서 포크 ID로의 매핑
 
 ### Functions
 
 #### `_loadConfig`
 
-Loads configuration from a TOML file.
+TOML 파일에서 구성을 로드합니다.
 
 ```solidity
 function _loadConfig(string memory filePath, bool writeToFile) internal
 ```
 
 **Parameters:**
-- `filePath`: Path to the TOML configuration file
-- `writeToFile`: Whether updates should be written back to the TOML file
+- `filePath`: TOML 구성 파일의 경로
+- `writeToFile`: 업데이트 내용을 TOML 파일에 다시 기록할지 여부
 
 #### `_loadConfigAndForks`
 
-Loads configuration and creates forks for each chain specified in the config.
+구성을 로드하고 구성에 지정된 각 체인에 대한 포크를 생성합니다.
 
 ```solidity
 function _loadConfigAndForks(string memory filePath, bool writeToFile) internal
 ```
 
 **Parameters:**
-- `filePath`: Path to the TOML configuration file
-- `writeToFile`: Whether updates should be written back to the TOML file (only possible when scripting)
+- `filePath`: TOML 구성 파일의 경로
+- `writeToFile`: 업데이트 내용을 TOML 파일에 다시 기록할지 여부 (스크립팅 시에만 가능)
 
 ### Configuration File Format
 
-The TOML configuration file must follow this structure:
+TOML 구성 파일은 다음 구조를 따라야 합니다:
 
 ```toml
 # Using Alloy chain aliases (must match exactly) or numberic chain IDs (always works)
@@ -85,19 +85,19 @@ weth = "0x4200000000000000000000000000000000000006"
 
 #### Chain Identifiers
 
-The top-level chain key must be one of:
-- **Numeric chain ID**: `[1]`, `[10]`, `[11155111]` - Works for any chain, including custom networks
-- **Alloy chain alias**: `[mainnet]`, `[optimism]`, `[sepolia]` - Must match an exact alias from [Alloy chains](https://github.com/alloy-rs/chains/blob/main/src/named.rs)
+최상위 체인 키는 다음 중 하나여야 합니다:
+- **숫자 체인 ID**: `[1]`, `[10]`, `[11155111]` - 커스텀 네트워크를 포함한 모든 체인에서 작동합니다.
+- **Alloy 체인 별칭**: `[mainnet]`, `[optimism]`, `[sepolia]` - [Alloy 체인](https://github.com/alloy-rs/chains/blob/main/src/named.rs)의 정확한 별칭과 일치해야 합니다.
 
 :::warning
-Custom chain names like `my_local_chain` will fail with `InvalidChainKey` error unless they exist in Alloy chains. For new/custom networks, fall back to the chain ID.
+`my_local_chain`과 같은 커스텀 체인 이름은 Alloy 체인에 존재하지 않는 경우 `InvalidChainKey` 에러를 발생시킵니다. 새 네트워크나 커스텀 네트워크의 경우 체인 ID를 사용하세요.
 :::
 
 **Key points:**
-- Top-level keys represent chain identifiers (names or IDs)
-- Under each chain, variables are organized by type: `bool`, `address`, `uint`, `int`, `bytes32`, `string`, `bytes`
-- Environment variables are automatically resolved (e.g., `${MAINNET_RPC}`)
-- Arrays are supported for all types
+- 최상위 키는 체인 식별자(이름 또는 ID)를 나타냅니다.
+- 각 체인 아래에서 변수는 `bool`, `address`, `uint`, `int`, `bytes32`, `string`, `bytes` 타입별로 구성됩니다.
+- 환경 변수는 자동으로 확인됩니다(예: `${MAINNET_RPC}`).
+- 모든 타입에 대해 배열이 지원됩니다.
 
 ### Example: Multi-chain Testing
 
@@ -153,5 +153,5 @@ contract DeploymentScript is Script, Config {
 
 ### See Also
 
-- [StdConfig](/reference/forge-std/std-config.mdx) - The underlying configuration contract
-- [Scripting with Config](/guides/scripting-with-config.md) - Guide for orchestrating scripts with Config
+- [StdConfig](/reference/forge-std/std-config.mdx) - 기본 구성 컨트랙트
+- [Scripting with Config](/guides/scripting-with-config.md) - Config를 사용한 스크립트 오케스트레이션 가이드

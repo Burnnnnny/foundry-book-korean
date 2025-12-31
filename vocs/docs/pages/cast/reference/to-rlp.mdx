@@ -1,13 +1,14 @@
 ## cast to-rlp
 
-RLP encodes hex data, or an array of hex data.
+hex 데이터 또는 hex 데이터의 배열을 RLP 인코딩합니다.
 
-Accepts a hex-encoded string, or an array of hex-encoded strings. Can be
-arbitrarily recursive.
+hex로 인코딩된 문자열 또는 hex로 인코딩된 문자열의 배열을 허용합니다. 임의로 재귀적일 수 있습니다.
 
-Examples: - `cast to-rlp "[]"` -> `0xc0` - `cast to-rlp "0x22"` -> `0x22` -
-`cast to-rlp "[\"0x61\"]"` -> `0xc161` - `cast to-rlp "[\"0xf1\", \"f2\"]"` ->
-`0xc481f181f2`
+예시:
+- `cast to-rlp "[]"` -> `0xc0`
+- `cast to-rlp "0x22"` -> `0x22`
+- `cast to-rlp "[\"0x61\"]"` -> `0xc161`
+- `cast to-rlp "[\"0xf1\", \"f2\"]"` -> `0xc481f181f2`
 
 ```bash
 $ cast to-rlp --help

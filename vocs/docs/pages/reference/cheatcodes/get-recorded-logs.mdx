@@ -1,6 +1,6 @@
 ## `getRecordedLogs`
 
-### Signature
+### 시그니처
 
 ```solidity
 struct Log {
@@ -16,13 +16,13 @@ returns (
 );
 ```
 
-### Description
+### 설명
 
-Gets the emitted events recorded by [`recordLogs`](/reference/cheatcodes/record-logs.mdx).
+[`recordLogs`](/reference/cheatcodes/record-logs.mdx)로 기록된 이벤트를 가져옵니다.
 
-This function will consume the recorded logs when called.
+이 함수를 호출하면 기록된 로그가 소비(제거)됩니다.
 
-### Examples
+### 예제
 
 ```solidity
 /// event LogTopic1(
@@ -40,23 +40,22 @@ This function will consume the recorded logs when called.
 /// bytes memory testData1 = "Other data";
 
 
-// Start the recorder
+// 레코더 시작
 vm.recordLogs();
 
 emit LogTopic1(10, testData0);
 emit LogTopic12(20, 30, testData1);
 
-// Notice that your entries are <Interface>.Log[]
-// as opposed to <instance>.Log[]
+// 항목들은 <instance>.Log[]가 아닌 <Interface>.Log[]임에 유의하세요.
 Vm.Log[] memory entries = vm.getRecordedLogs();
 
 assertEq(entries.length, 2);
 
-// Recall that topics[0] is the event signature
+// topics[0]은 이벤트 시그니처임을 기억하세요.
 assertEq(entries[0].topics.length, 2);
 assertEq(entries[0].topics[0], keccak256("LogTopic1(uint256,bytes)"));
 assertEq(entries[0].topics[1], bytes32(uint256(10)));
-// assertEq won't compare bytes variables. Try with strings instead.
+// assertEq는 bytes 변수를 비교하지 않습니다. 대신 문자열로 시도해보세요.
 assertEq(abi.decode(entries[0].data, (string)), string(testData0));
 
 assertEq(entries[1].topics.length, 3);
@@ -65,11 +64,11 @@ assertEq(entries[1].topics[1], bytes32(uint256(20)));
 assertEq(entries[1].topics[2], bytes32(uint256(30)));
 assertEq(abi.decode(entries[1].data, (string)), string(testData1));
 
-// Emit another event
+// 다른 이벤트 방출
 emit LogTopic1(40, testData0);
 
-// Your last read consumed the recorded logs,
-// you will only get the latest emitted even after that call
+// 마지막 읽기에서 기록된 로그가 소비되었으므로,
+// 해당 호출 이후에 발생한 이벤트만 가져옵니다.
 entries = vm.getRecordedLogs();
 
 assertEq(entries.length, 1);

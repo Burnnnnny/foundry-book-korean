@@ -1,30 +1,30 @@
 ---
-description: Best practices for writing clean, secure, and maintainable smart contracts with proper imports and formatting.
+description: 적절한 임포트와 포맷팅을 사용하여 깔끔하고 안전하며 유지 보수가 쉬운 스마트 컨트랙트를 작성하기 위한 모범 사례입니다.
 ---
 
-## General Contract Guidance
+## 일반적인 컨트랙트 지침
 
-### Named Imports
+### 명명된 임포트 (Named Imports)
 
-Always use named import syntax, don't import full files. This restricts what is being imported to just the named items, not everything in the file. Importing full files can result in solc complaining about duplicate definitions and slither erroring, especially as repos grow and have more dependencies with overlapping names.
+항상 명명된 임포트(named import) 구문을 사용하고, 전체 파일을 임포트하지 마세요. 이렇게 하면 파일의 모든 항목이 아닌 명명된 항목만 임포트하도록 제한됩니다. 전체 파일을 임포트하면 특히 저장소가 커지고 이름이 겹치는 종속성이 많아질 때, `solc`가 중복 정의에 대해 불평하거나 `slither` 오류가 발생할 수 있습니다.
 
-- Good: `import {MyContract} from "src/MyContract.sol"` to only import `MyContract`.
-- Bad: `import "src/MyContract.sol"` imports everything in `MyContract.sol`. (Importing `forge-std/Test` or `Script` can be an exception here, so you get the console library, etc).
+- 좋음: `MyContract`만 임포트하는 `import {MyContract} from "src/MyContract.sol"`.
+- 나쁨: `MyContract.sol`의 모든 것을 임포트하는 `import "src/MyContract.sol"`. (`forge-std/Test`나 `Script`를 임포트하여 콘솔 라이브러리 등을 가져오는 경우는 예외일 수 있습니다).
 
-### Absolute vs Relative Imports
+### 절대 경로 vs 상대 경로 임포트
 
-Note the tradeoffs between absolute and relative paths for imports (where absolute paths are relative to the repo root, e.g. `"src/interfaces/IERC20.sol"`), and choose the best approach for your project:
+임포트에 대한 절대 경로와 상대 경로 간의 장단점을 확인하고(여기서 절대 경로는 저장소 루트를 기준으로 함, 예: `"src/interfaces/IERC20.sol"`), 프로젝트에 가장 적합한 접근 방식을 선택하세요:
 
-- Absolute paths make it easier to see where files are from and reduce churn when moving files around.
-- Relative paths make it more likely your editor can provide features like linting and autocomplete, since editors/extensions may not understand your remappings.
+- 절대 경로는 파일의 출처를 쉽게 파악할 수 있게 하고 파일을 이동할 때의 번거로움을 줄여줍니다.
+- 상대 경로는 에디터/확장 프로그램이 리매핑(remappings)을 이해하지 못할 수 있으므로, 린팅 및 자동 완성과 같은 기능을 제공할 가능성을 높여줍니다.
 
-### Copying Libraries from Dependencies
+### 종속성에서 라이브러리 복사하기
 
-If copying a library from a dependency (instead of importing it), use the `ignore = []` option in the config file to avoid formatting that file. This makes diffing it against the original simpler for reviewers and auditors.
+종속성에서 라이브러리를 복사하는 경우(임포트하는 대신), 구성 파일의 `ignore = []` 옵션을 사용하여 해당 파일의 포맷팅을 피하세요. 이렇게 하면 리뷰어와 감사자가 원본과 비교하기가 더 쉬워집니다.
 
-### Formatting
+### 포맷팅
 
-Similarly, feel free to use the `// forgefmt: disable-*` comment directives to ignore lines/sections of code that look better with manual formatting. Supported values for `*` are:
+마찬가지로, 수동 포맷팅이 더 좋아 보이는 코드 줄/섹션을 무시하려면 `// forgefmt: disable-*` 주석 지시문을 자유롭게 사용하세요. `*`에 지원되는 값은 다음과 같습니다:
 
 - `disable-line`
 - `disable-next-line`
@@ -32,13 +32,13 @@ Similarly, feel free to use the `// forgefmt: disable-*` comment directives to i
 - `disable-start`
 - `disable-end`
 
-### Write Secure Code
+### 안전한 코드 작성
 
-Additional best practices from [samsczun](https://twitter.com/samczsun)'s [How Do You Even Write Secure Code Anyways](https://www.youtube.com/watch?v=Wm3t8Fuiy1E) talk:
+[samsczun](https://twitter.com/samczsun)의 [도대체 안전한 코드는 어떻게 작성하나요](https://www.youtube.com/watch?v=Wm3t8Fuiy1E) 강연에서 발췌한 추가적인 모범 사례들입니다:
 
-- Use descriptive variable names.
-- Limit the number of active variables.
-- No redundant logic.
-- Early exit as much as possible to reduce mental load when seeing the code.
-- Related code should be placed near each other.
-- Delete unused code.
+- 서술적인 변수 이름을 사용하세요.
+- 활성 변수의 수를 제한하세요.
+- 불필요한 로직을 없애세요.
+- 코드를 볼 때의 정신적 부하를 줄이기 위해 가능한 한 조기 종료(early exit)하세요.
+- 관련된 코드는 서로 가까이 배치해야 합니다.
+- 사용하지 않는 코드는 삭제하세요.

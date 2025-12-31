@@ -1,24 +1,24 @@
 import TxValueOption from "./tx-value-option.mdx";
 
-#### Transaction Options
+#### 트랜잭션 옵션 (Transaction Options)
 
 `--gas-limit` _gas_limit_  
-&nbsp;&nbsp;&nbsp;&nbsp;Gas limit for the transaction.
+&nbsp;&nbsp;&nbsp;&nbsp;트랜잭션의 가스 한도입니다.
 
 `--gas-price` _price_  
-&nbsp;&nbsp;&nbsp;&nbsp;Gas price for the transaction, or max fee per gas for EIP1559 transactions.
+&nbsp;&nbsp;&nbsp;&nbsp;트랜잭션의 가스 가격 또는 EIP1559 트랜잭션의 경우 가스당 최대 수수료입니다.
 
 `--priority-gas-price` _price_  
-&nbsp;&nbsp;&nbsp;&nbsp;Max priority fee per gas for EIP1559 transactions.
+&nbsp;&nbsp;&nbsp;&nbsp;EIP1559 트랜잭션의 경우 가스당 최대 우선 순위 수수료입니다.
 
 <TxValueOption />
 
 `--nonce` _nonce_  
-&nbsp;&nbsp;&nbsp;&nbsp;Nonce for the transaction.
+&nbsp;&nbsp;&nbsp;&nbsp;트랜잭션의 논스(nonce)입니다.
 
 `--legacy`  
-&nbsp;&nbsp;&nbsp;&nbsp;Send a legacy transaction instead of an [EIP1559][eip1559] transaction.
+&nbsp;&nbsp;&nbsp;&nbsp;[EIP1559][eip1559] 트랜잭션 대신 레거시 트랜잭션을 보냅니다.
 
-&nbsp;&nbsp;&nbsp;&nbsp;This is automatically enabled for common networks without EIP1559.
+&nbsp;&nbsp;&nbsp;&nbsp;이는 EIP1559가 없는 일반적인 네트워크에 대해 자동으로 활성화됩니다.
 
 [eip1559]: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1559.md

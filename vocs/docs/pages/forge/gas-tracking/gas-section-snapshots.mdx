@@ -1,13 +1,13 @@
 ---
-description: Capture granular gas usage measurements for arbitrary code sections using snapshotGas cheatcodes in tests.
+description: 테스트에서 snapshotGas 치트코드를 사용하여 임의의 코드 섹션에 대한 세분화된 가스 사용량 측정을 캡처합니다.
 ---
 
 import GasSnapshots from "../../reference/cheatcodes/gas-snapshots.mdx";
 
-# Gas Section Snapshots
+# 가스 섹션 스냅샷 (Gas Section Snapshots)
 
-Forge can capture gas snapshots over arbitrary sections inside of your test functions. This can be useful to get a granular measurement of how much gas your logic is consuming as both external calls and internal gas usage are measured.
+Forge는 테스트 함수 내의 임의의 섹션에 대한 가스 스냅샷을 캡처할 수 있습니다. 이는 외부 호출과 내부 가스 사용량이 모두 측정되므로 로직이 얼마나 많은 가스를 소비하는지에 대한 세분화된 측정을 얻는 데 유용할 수 있습니다.
 
-Instead of running a command like `forge snapshot` or `forge test --gas-report`, you use the `snapshotGas` [cheatcodes](/reference/cheatcodes/gas-snapshots) in your tests to capture gas usage as follows:
+`forge snapshot` 또는 `forge test --gas-report`와 같은 명령어를 실행하는 대신, 테스트에서 `snapshotGas` [치트코드](/reference/cheatcodes/gas-snapshots)를 사용하여 다음과 같이 가스 사용량을 캡처합니다:
 
 <GasSnapshots />

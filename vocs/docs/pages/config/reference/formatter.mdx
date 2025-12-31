@@ -1,26 +1,26 @@
 ## Formatter
 
-Configuration related to the behavior of the Forge formatter. Each of these keys live under the `[fmt]` section.
+Forge 포맷터의 동작과 관련된 구성입니다. 각 키는 `[fmt]` 섹션 아래에 있습니다.
 
 ### `single_line_statement_blocks`
 
-> This allows configuring the style of statement blocks independently of the line length.
+> 줄 길이와 관계없이 문장 블록(statement blocks)의 스타일을 구성할 수 있습니다.
 
-The `single_line_statement_blocks` configuration option in Foundry controls whether statement blocks (code blocks enclosed in `{ }`) will be formatted to a single line or multiple lines.
+Foundry의 `single_line_statement_blocks` 구성 옵션은 문장 블록(`{ }`로 묶인 코드 블록)을 한 줄로 포맷할지 여러 줄로 포맷할지 제어합니다.
 
-It has three possible values:
+세 가지 가능한 값이 있습니다:
 
-- `"single"` - Statement blocks will be formatted to a single line if possible.
-- `"multi"` - Statement blocks will always be formatted to multiple lines.
-- `"preserve"` - Keep the existing single/multi line formatting of statement blocks.
+- `"single"` - 가능한 경우 문장 블록을 한 줄로 포맷합니다.
+- `"multi"` - 문장 블록을 항상 여러 줄로 포맷합니다.
+- `"preserve"` - 문장 블록의 기존 단일/다중 줄 포맷을 유지합니다.
 
-For example, with `"single"`:
+예를 들어 `"single"`의 경우:
 
 ```solidity
 if (true) { return true; }
 ```
 
-With `"multi"`:
+`"multi"`의 경우:
 
 ```solidity
 if (true) {
@@ -28,27 +28,25 @@ if (true) {
 }
 ```
 
-And with `"preserve"`, it will keep the original formatting of the code.
+그리고 `"preserve"`의 경우, 코드의 원래 포맷을 유지합니다.
 
 ### `multiline_func_header`
 
-> This allows configuring the formatting of long function headers.
+> 긴 함수 헤더의 포맷팅을 구성할 수 있습니다.
 
 - Type: string
 - Default: `attributes_first`
-- Environment: `FOUNDRY_FMT_MULTILINE_FUNC_HEADER` or `DAPP_FMT_MULTILINE_FUNC_HEADER`
+- Environment: `FOUNDRY_FMT_MULTILINE_FUNC_HEADER` 또는 `DAPP_FMT_MULTILINE_FUNC_HEADER`
 
-The `multiline_func_header` configuration option in Foundry controls how function headers (the line containing the function name, parameters, return values etc.) are formatted when they exceed the max line length.
+Foundry의 `multiline_func_header` 구성 옵션은 함수 헤더(함수 이름, 매개변수, 반환 값 등을 포함하는 줄)가 최대 줄 길이를 초과할 때 포맷하는 방법을 제어합니다.
 
-Style of multiline function header in case it doesn't fit in one line. Valid possible values:
+한 줄에 맞지 않는 경우 다중 줄 함수 헤더의 스타일입니다. 유효한 값은 다음과 같습니다:
 
-- `"attributes_first"` - (default) Write function attributes multiline first
-- `"params_first"` - Break the function header into multiple lines, with each parameter on its own line. The function name stays on the first line.
-- `"all"` - If function parameters or attributes are multiline, multiline everything
+- `"attributes_first"` - (기본값) 함수 속성을 먼저 다중 줄로 작성합니다.
+- `"params_first"` - 함수 헤더를 여러 줄로 나누고 각 매개변수를 별도의 줄에 배치합니다. 함수 이름은 첫 번째 줄에 유지됩니다.
+- `"all"` - 함수 매개변수나 속성이 다중 줄인 경우 모든 것을 다중 줄로 만듭니다.
 
-Style of multiline function header in case it doesn't fit in one line. Valid values are:
-
-For example, with `"params_first"`:
+예를 들어 `"params_first"`의 경우:
 
 ```solidity
 function myFunction(
@@ -61,7 +59,7 @@ function myFunction(
 
 ```
 
-And with `"all"`:
+그리고 `"all"`의 경우:
 
 ```solidity
 function myFunction(
@@ -78,51 +76,55 @@ function myFunction(
 
 ### `sort_imports`
 
-> helps organize imports and makes it easier to find specific imports quickly.
+> 임포트(imports)를 정리하고 특정 임포트를 빠르게 찾는 데 도움이 됩니다.
 
-The `sort_imports` configuration option in Foundry controls whether import statements are sorted alphabetically within their import groups.
+Foundry의 `sort_imports` 구성 옵션은 임포트 문이 임포트 그룹 내에서 알파벳순으로 정렬되는지 여부를 제어합니다.
 
-From the code snippets provided:
+제공된 코드 스니펫에서:
 
-- In `fmt.rs`, `sort_imports` is a configuration option that can be set to `true` or `false`.
-- In `formatter.rs`, the `sort_imports()` method is called to sort import statements alphabetically if `sort_imports` is enabled.
-- It finds import groups separated by blank lines in the source code.
-- Then sorts the import statements within each group alphabetically.
+- `fmt.rs`에서 `sort_imports`는 `true` 또는 `false`로 설정할 수 있는 구성 옵션입니다.
+- `formatter.rs`에서 `sort_imports`가 활성화된 경우 `sort_imports()` 메서드가 호출되어 임포트 문을 알파벳순으로 정렬합니다.
+- 소스 코드에서 빈 줄로 구분된 임포트 그룹을 찾습니다.
+- 그런 다음 각 그룹 내의 임포트 문을 알파벳순으로 정렬합니다.
 
-So in summary, enabling `sort_imports` will reorder solidity import statements alphabetically within their section groups, while preserving the relative ordering of the groups.
+요약하면, `sort_imports`를 활성화하면 그룹의 상대적 순서를 유지하면서 섹션 그룹 내에서 solidity 임포트 문을 알파벳순으로 재정렬합니다.
 
 ### `contract_new_lines`
 
-> Controls the addition of blank lines before and after contract definitions.
+> 컨트랙트 정의 앞뒤에 빈 줄 추가를 제어합니다.
 
-The `contract_new_lines` configuration option in Foundry controls whether empty lines are added before and after contract definitions.
+Foundry의 `contract_new_lines` 구성 옵션은 컨트랙트 정의 앞뒤에 빈 줄을 추가할지 여부를 제어합니다.
 
-When enabled (`contract_new_lines = true`):
+활성화된 경우(`contract_new_lines = true`):
 
-- An empty line will be added before the start of a contract definition.
-- An empty line will also be added after the end of a contract definition.
+- 컨트랙트 정의가 시작되기 전에 빈 줄이 추가됩니다.
+- 컨트랙트 정의가 끝난 후에도 빈 줄이 추가됩니다.
 
-For example, with `contract_new_lines` enabled:
+예를 들어 `contract_new_lines`가 활성화된 경우:
 
 ```solidity
-// Empty line before contract contract MyContract { // ... } // Empty line after contract
+// 컨트랙트 전 빈 줄 
+contract MyContract { 
+// ... 
+} 
+// 컨트랙트 후 빈 줄
 ```
 
-This helps visually separate contract definitions and improve readability.
+이는 시각적으로 컨트랙트 정의를 분리하고 가독성을 높이는 데 도움이 됩니다.
 
-When disabled (`contract_new_lines = false`), empty lines will not be added around contracts.
+비활성화된 경우(`contract_new_lines = false`), 컨트랙트 주위에 빈 줄이 추가되지 않습니다.
 
-So in summary, the `contract_new_lines` option controls the addition of blank lines before and after contract definitions.
+요약하면, `contract_new_lines` 옵션은 컨트랙트 정의 앞뒤에 빈 줄 추가를 제어합니다.
 
 ### `override_spacing`
 
-The `override_spacing` configuration option in Foundry controls whether a space is printed between the `override` keyword and the parent contracts when overriding a function or modifier.
+Foundry의 `override_spacing` 구성 옵션은 함수나 수정자를 재정의(override)할 때 `override` 키워드와 부모 컨트랙트 사이에 공백을 출력할지 여부를 제어합니다.
 
-When `override_spacing` is enabled:
+`override_spacing`이 활성화된 경우:
 
-- A space will be added after the `override` keyword.
+- `override` 키워드 뒤에 공백이 추가됩니다.
 
-For example:
+예를 들어:
 
 ```solidity
 contract Child is Parent {
@@ -130,7 +132,7 @@ contract Child is Parent {
 }
 ```
 
-When disabled, there will be no space between `override` and the parent contracts:
+비활성화된 경우, `override`와 부모 컨트랙트 사이에 공백이 없습니다:
 
 ```solidity
 contract Child is Parent {
@@ -138,95 +140,95 @@ contract Child is Parent {
 }
 ```
 
-Enables configuring the styling of override declarations.
+재정의 선언의 스타일 구성을 활성화합니다.
 
-- `override_spacing = true` - Print a space after `override`
-- `override_spacing = false` - No space after `override`
+- `override_spacing = true` - `override` 뒤에 공백 출력
+- `override_spacing = false` - `override` 뒤에 공백 없음
 
 ### `line_length`
 
 - Type: number
 - Default: 120
-- Environment: `FOUNDRY_FMT_LINE_LENGTH` or `DAPP_FMT_LINE_LENGTH`
+- Environment: `FOUNDRY_FMT_LINE_LENGTH` 또는 `DAPP_FMT_LINE_LENGTH`
 
-Maximum line length where formatter will try to wrap the line.
+포맷터가 줄 바꿈을 시도할 최대 줄 길이입니다.
 
 ### `tab_width`
 
 - Type: number
 - Default: 4
-- Environment: `FOUNDRY_FMT_TAB_WIDTH` or `DAPP_FMT_TAB_WIDTH`
+- Environment: `FOUNDRY_FMT_TAB_WIDTH` 또는 `DAPP_FMT_TAB_WIDTH`
 
-Number of spaces per indentation level.
+들여쓰기 수준당 공백 수입니다.
 
 ### `bracket_spacing`
 
 - Type: bool
 - Default: false
-- Environment: `FOUNDRY_FMT_BRACKET_SPACING` or `DAPP_FMT_BRACKET_SPACING`
+- Environment: `FOUNDRY_FMT_BRACKET_SPACING` 또는 `DAPP_FMT_BRACKET_SPACING`
 
-Whether or not to print spaces between brackets.
+괄호 사이에 공백을 출력할지 여부입니다.
 
 ### `int_types`
 
 - Type: string
 - Default: `long`
-- Environment: `FOUNDRY_FMT_INT_TYPES` or `DAPP_FMT_INT_TYPES`
+- Environment: `FOUNDRY_FMT_INT_TYPES` 또는 `DAPP_FMT_INT_TYPES`
 
-Style of uint/int256 types. Valid values are:
+uint/int256 타입의 스타일입니다. 유효한 값은 다음과 같습니다:
 
-- `long` (default): Use the explicit `uint256` or `int256`
-- `short`: Use the implicit `uint` or `int`
-- `preserve`: Use the type defined in the source code
+- `long` (기본값): 명시적 `uint256` 또는 `int256` 사용
+- `short`: 암시적 `uint` 또는 `int` 사용
+- `preserve`: 소스 코드에 정의된 타입 사용
 
 ### `quote_style`
 
 - Type: string
 - Default: `double`
-- Environment: `FOUNDRY_FMT_QUOTE_STYLE` or `DAPP_FMT_QUOTE_STYLE`
+- Environment: `FOUNDRY_FMT_QUOTE_STYLE` 또는 `DAPP_FMT_QUOTE_STYLE`
 
-Defines the quotation mark style. Valid values are:
+따옴표 스타일을 정의합니다. 유효한 값은 다음과 같습니다:
 
-- `double` (default): Use double quotes where possible (`"`)
-- `single`: Use single quotes where possible (`'`)
-- `preserve`: Use quotation mark defined in the source code
+- `double` (기본값): 가능한 경우 큰따옴표(`"`) 사용
+- `single`: 가능한 경우 작은따옴표(`'`) 사용
+- `preserve`: 소스 코드에 정의된 따옴표 사용
 
 ### `number_underscore`
 
 - Type: string
 - Default: `preserve`
-- Environment: `FOUNDRY_FMT_NUMBER_UNDERSCORE` or `DAPP_FMT_NUMBER_UNDERSCORE`
+- Environment: `FOUNDRY_FMT_NUMBER_UNDERSCORE` 또는 `DAPP_FMT_NUMBER_UNDERSCORE`
 
-Style of underscores in number literals. Valid values are:
+숫자 리터럴의 밑줄 스타일입니다. 유효한 값은 다음과 같습니다:
 
-- `preserve` (default): Use the underscores defined in the source code
-- `thousands`: Add an underscore every thousand, if greater than 9999. i.e. `1000` is formatted as `1000` and `10000` as `10_000`
-- `remove`: Remove all underscores
+- `preserve` (기본값): 소스 코드에 정의된 밑줄 사용
+- `thousands`: 9999보다 큰 경우 천 단위마다 밑줄 추가. 즉, `1000`은 `1000`으로, `10000`은 `10_000`으로 포맷됩니다.
+- `remove`: 모든 밑줄 제거
 
 ### `hex_underscore`
 
 - Type: string
 - Default: `remove`
-- Environment: `FOUNDRY_FMT_HEX_UNDERSCORE` or `DAPP_FMT_HEX_UNDERSCORE`
+- Environment: `FOUNDRY_FMT_HEX_UNDERSCORE` 또는 `DAPP_FMT_HEX_UNDERSCORE`
 
-Style of underscores in bytes literals. Valid values are:
+바이트 리터럴의 밑줄 스타일입니다. 유효한 값은 다음과 같습니다:
 
-- `preserve`: Use the underscores defined in the source code
-- `remove` (default): Remove all underscores
-- `bytes`: Add underscore as separator between byte boundaries. i.e. `hex"deadbeef"` is formatted as `hex"de_ad_be_ef"`
+- `preserve`: 소스 코드에 정의된 밑줄 사용
+- `remove` (기본값): 모든 밑줄 제거
+- `bytes`: 바이트 경계 사이에 구분자로 밑줄 추가. 즉, `hex"deadbeef"`는 `hex"de_ad_be_ef"`로 포맷됩니다.
 
 ### `wrap_comments`
 
 - Type: bool
 - Default: false
-- Environment: `FOUNDRY_FMT_WRAP_COMMENTS` or `DAPP_FMT_WRAP_COMMENTS`
+- Environment: `FOUNDRY_FMT_WRAP_COMMENTS` 또는 `DAPP_FMT_WRAP_COMMENTS`
 
-Whether or not to wrap comments on `line_length` reached.
+`line_length`에 도달했을 때 주석을 줄 바꿈할지 여부입니다.
 
 ### `ignore`
 
 - Type: array of strings (patterns)
 - Default: `[]`
-- Environment: `FOUNDRY_FMT_IGNORE` or `DAPP_FMT_IGNORE`
+- Environment: `FOUNDRY_FMT_IGNORE` 또는 `DAPP_FMT_IGNORE`
 
-List of files to ignore when formatting. This is a comma separated list of glob patterns.
+포맷할 때 무시할 파일 목록입니다. 이는 glob 패턴의 쉼표로 구분된 목록입니다.

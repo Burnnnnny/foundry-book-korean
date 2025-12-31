@@ -1,6 +1,6 @@
 ## `prank`
 
-### Signature
+### 시그니처
 
 ```solidity
 function prank(address msgSender) external;
@@ -18,18 +18,18 @@ function prank(address msgSender, address txOrigin) external;
 function prank(address msgSender, address txOrigin, bool delegateCall) external;
 ```
 
-### Description
+### 설명
 
-- `prank(address msgSender)`: sets `msg.sender` to the specified address **for the next call**. "The next call" includes static calls as well, but not delegate calls or calls to the cheat code address.
-- `prank(address msgSender, address txOrigin)`: sets `msg.sender` and the `tx.origin` addresses **for the next call**.
-- `prank(address msgSender, bool delegateCall)`: if `delegateCall` value is `true` then sets `msg.sender` to the specified address **for the next delegate call**.
-- `prank(address msgSender, address txOrigin, bool delegateCall)`: if `delegateCall` value is `true` then sets `msg.sender` and the `tx.origin` addresses **for the next delegate call**.
+- `prank(address msgSender)`: **다음 호출에 대해** `msg.sender`를 지정된 주소로 설정합니다. "다음 호출"에는 정적 호출(static call)도 포함되지만, 위임 호출(delegate call)이나 치트 코드 주소에 대한 호출은 포함되지 않습니다.
+- `prank(address msgSender, address txOrigin)`: **다음 호출에 대해** `msg.sender`와 `tx.origin` 주소를 설정합니다.
+- `prank(address msgSender, bool delegateCall)`: `delegateCall` 값이 `true`이면 **다음 위임 호출에 대해** `msg.sender`를 지정된 주소로 설정합니다.
+- `prank(address msgSender, address txOrigin, bool delegateCall)`: `delegateCall` 값이 `true`이면 **다음 위임 호출에 대해** `msg.sender`와 `tx.origin` 주소를 설정합니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> The delegate calls cannot be pranked from an EOA.
+> 위임 호출은 EOA(외부 소유 계정)에서 프랭크(prank)할 수 없습니다.
 
-### Examples
+### 예제
 
 ```solidity
 /// function withdraw() public {
@@ -39,8 +39,8 @@ vm.prank(owner);
 myContract.withdraw(); // [PASS]
 ```
 
-### SEE ALSO
+### 같이 보기
 
-Forge Standard Library
+Forge 표준 라이브러리
 
 [`hoax`](/reference/forge-std/hoax.mdx)

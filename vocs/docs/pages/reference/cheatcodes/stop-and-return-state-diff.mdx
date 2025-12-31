@@ -1,6 +1,6 @@
 ## `stopAndReturnStateDiff`
 
-### Signature
+### 시그니처
 
 ```solidity
 enum AccountAccessKind {
@@ -50,92 +50,91 @@ struct StorageAccess {
 function stopAndReturnStateDiff() external returns (AccountAccess[] memory accesses);
 ```
 
-### Description
+### 설명
 
-Retrieves state changes recorded after a call to [`startStateDiffRecording`](/reference/cheatcodes/start-state-diff-recording.mdx). This function will consume the recorded state diffs when called and disable state diff recording. One may call `startStateDiffRecording` to resume recording.
+[`startStateDiffRecording`](/reference/cheatcodes/start-state-diff-recording.mdx) 호출 후 기록된 상태 변경 사항을 검색합니다. 이 함수를 호출하면 기록된 상태 차이가 소비(제거)되고 상태 차이 기록이 비활성화됩니다. 녹음을 다시 시작하려면 `startStateDiffRecording`을 호출할 수 있습니다.
 
-There are two types of state change records; account accesses and storage accesses represented as `AccountAccess` and `StorageAccess`.
+상태 변경 기록에는 두 가지 유형이 있습니다. `AccountAccess` 및 `StorageAccess`로 표시되는 계정 액세스 및 스토리지 액세스입니다.
 
-Account state changes (`AccountAccess`) are recorded at the start of a new EVM context; i.e. induced by the various CREATE, CALL and SELFDESTRUCT operations.
-An `AccountAccess` record contain storage accesses, represented as `StorageAccess`, that occurred before it was preempted via sub-calls or create operations.
+계정 상태 변경(`AccountAccess`)은 새로운 EVM 컨텍스트가 시작될 때 기록됩니다. 즉, 다양한 CREATE, CALL 및 SELFDESTRUCT 작업에 의해 유도됩니다.
+`AccountAccess` 레코드에는 하위 호출이나 생성 작업으로 인해 선점되기 전에 발생한 `StorageAccess`로 표시되는 스토리지 액세스가 포함됩니다.
 
-The ordering of `AccountAccess` records reflect the EVM execution order of their associated operations. An `AccountAccess` is created whenever an EVM context is created or resumed.
-If a sub-context is created, a `Resume` `AccountAccess` is recorded to indicate that a previous `AccountAccess` that was pre-emptied has been resumed.
+`AccountAccess` 레코드의 순서는 관련 작업의 EVM 실행 순서를 반영합니다. `AccountAccess`는 EVM 컨텍스트가 생성되거나 재개될 때마다 생성됩니다.
+하위 컨텍스트가 생성되면, 이전에 선점된 `AccountAccess`가 재개되었음을 나타내기 위해 `Resume` `AccountAccess`가 기록됩니다.
 
 ### `AccountAccessKind`
 
-The kind of account access that determines the `account` that was accessed. This is typically designated by the EVM operation that initiated the account's execution context.
-If kind is `Call`, `DelegateCall`, `StaticCall` or `CallCode`, then the `account` is the callee.
-If kind is Create, then the account is the newly created account.
-If kind is SelfDestruct, then the account is the selfdestruct recipient.
-If kind is a Resume, then account represents an execution context that had resumed.
+액세스된 `account`를 결정하는 계정 액세스 종류입니다. 이는 일반적으로 계정의 실행 컨텍스트를 시작한 EVM 작업에 의해 지정됩니다.
+kind가 `Call`, `DelegateCall`, `StaticCall` 또는 `CallCode`인 경우 `account`는 호출 수신자(callee)입니다.
+kind가 Create인 경우 계정은 새로 생성된 계정입니다.
+kind가 SelfDestruct인 경우 계정은 selfdestruct 수신자입니다.
+kind가 Resume인 경우 계정은 재개된 실행 컨텍스트를 나타냅니다.
 
-- `Call` - The account was called
-- `DelegateCall` - The account was called via delegate call
-- `CallCode` - The account was called via callcode
-- `StaticCall` - The account was called via staticcall
-- `Create` - The account was created
-- `SelfDestruct` - The account was selfdestructed
-- `Resume` - Indicates that a previously pre-emptied account access was resumed
-- `Balance` - The account's balance was read
-- `Extcodesize` - The account's codesize was read
-- `Extcodehash` - The account's codehash was read
-- `Extcodecopy` - The account's code was copied
+- `Call` - 계정이 호출됨
+- `DelegateCall` - 계정이 delegate call을 통해 호출됨
+- `CallCode` - 계정이 callcode를 통해 호출됨
+- `StaticCall` - 계정이 staticcall을 통해 호출됨
+- `Create` - 계정이 생성됨
+- `SelfDestruct` - 계정이 selfdestruct됨
+- `Resume` - 이전에 선점된 계정 액세스가 재개되었음을 나타냄
+- `Balance` - 계정의 잔액을 읽음
+- `Extcodesize` - 계정의 코드 크기를 읽음
+- `Extcodehash` - 계정의 코드 해시를 읽음
+- `Extcodecopy` - 계정의 코드가 복사됨
 
 ### `AccountAccess`
 
-- `chainInfo` - The chain and fork the accessed occurred.
-- `kind` - The kind of account access. This determines how to interpret the `AccountAccess`
-- `account` - The account that was accessed. It's the account created for `AccountAccessKind.Create`.
-  In the case of an `AccountAccessKind.SelfDestruct`, it's the selfdestruct recipient.
-  For all other types of `AccountAccessKind`, it's the account of the current EVM context.
-- `accessor` - What accessed `account`. That is either the account creator, caller or the account being selfdestructed.
-- `initialized` - If the account was initialized or empty prior to the access.
-  An account is considered initialized if it has code, a
-  non-zero nonce, or a non-zero balance.
-- `oldBalance`: The previous balance of the accessed `account`.
-- `newBalance` - The potential new balance of the accessed account.
-  That is, all balance changes are recorded here, even if reverts occurred.
-- `deployedCode` - Code of the `account` deployed in the case of `AccountAccessKind.Create`. This field is empty For all other account access kinds.
-- `value` - The value passed along with the account access.
-- `data` - Input data provided (i.e. `msg.data`) in the case of a `CREATE` or `CALL` type access.
-- `reverted` - If this access reverted in either the current or parent context.
-- `storageAccesses` - An ordered list of storage accesses made while the account access is non-preemptive.
-- `depth` - Call depth traversed during the recording of state differences.
+- `chainInfo` - 액세스가 발생한 체인 및 포크.
+- `kind` - 계정 액세스의 종류. 이는 `AccountAccess`를 해석하는 방법을 결정합니다.
+- `account` - 액세스된 계정. `AccountAccessKind.Create`의 경우 생성된 계정입니다.
+  `AccountAccessKind.SelfDestruct`의 경우 selfdestruct 수신자입니다.
+  다른 모든 유형의 `AccountAccessKind`의 경우 현재 EVM 컨텍스트의 계정입니다.
+- `accessor` - `account`에 액세스한 주체. 계정 생성자, 호출자 또는 selfdestruct되는 계정입니다.
+- `initialized` - 액세스 전에 계정이 초기화되었는지 또는 비어 있었는지 여부.
+  코드가 있거나, 0이 아닌 논스(nonce)가 있거나, 0이 아닌 잔액이 있으면 계정이 초기화된 것으로 간주됩니다.
+- `oldBalance`: 액세스된 `account`의 이전 잔액.
+- `newBalance` - 액세스된 계정의 잠재적인 새 잔액.
+  즉, 리버트(revert)가 발생하더라도 모든 잔액 변경 사항이 여기에 기록됩니다.
+- `deployedCode` - `AccountAccessKind.Create`의 경우 배포된 `account`의 코드. 이 필드는 다른 모든 계정 액세스 종류의 경우 비어 있습니다.
+- `value` - 계정 액세스와 함께 전달된 값.
+- `data` - `CREATE` 또는 `CALL` 유형 액세스의 경우 제공된 입력 데이터(즉, `msg.data`).
+- `reverted` - 이 액세스가 현재 또는 상위 컨텍스트에서 되돌려졌는지(revert) 여부.
+- `storageAccesses` - 계정 액세스가 선점되지 않는 동안 수행된 정렬된 스토리지 액세스 목록.
+- `depth` - 상태 차이 기록 중에 순회한 호출 깊이.
 
 ### `StorageAccess`
 
-The storage accesses made during an `AccountAccess`. `StorageAccess` cannot exist without an associated `AccountAccess`. This means that when state diffs begins on the given context, storage accesses made during that context are not recorded as the context (but not its sub-contexts) isn't recorded.
+`AccountAccess` 중에 수행된 스토리지 액세스입니다. `StorageAccess`는 연관된 `AccountAccess` 없이는 존재할 수 없습니다. 즉, 주어진 컨텍스트에서 상태 차이가 시작되면 해당 컨텍스트(하위 컨텍스트 제외)가 기록되지 않으므로 해당 컨텍스트 중에 수행된 스토리지 액세스는 기록되지 않습니다.
 
-`StorageAccess` contains the following fields:
+`StorageAccess`에는 다음 필드가 포함됩니다:
 
-- `account` - A account whose storage was accessed
-- `slot` - The slot that was accessed
-- `isWrite` - If the access was a write
-- `previousValue` - The value of the slot prior to this storage access
-- `newValue` - The value of the slot after this storage access
-- `reverted` - If this access was reverted
+- `account` - 스토리지가 액세스된 계정
+- `slot` - 액세스된 슬롯
+- `isWrite` - 액세스가 쓰기였는지 여부
+- `previousValue` - 이 스토리지 액세스 이전의 슬롯 값
+- `newValue` - 이 스토리지 액세스 이후의 슬롯 값
+- `reverted` - 이 액세스가 되돌려졌는지 여부
 
-### Resumed `AccountAccess`
+### 재개된 `AccountAccess`
 
-This type of AccountAccess is generated when a sub-context returns to its parent context. It retains the same values as the original context, including `accessor`, `account`, `initialized`, `storageAccesses`, and `reverted`.
-The following control flow table illustrate how Resume AccountAccesses are recorded.
+이 유형의 AccountAccess는 하위 컨텍스트가 상위 컨텍스트로 반환될 때 생성됩니다. `accessor`, `account`, `initialized`, `storageAccesses` 및 `reverted`를 포함하여 원래 컨텍스트와 동일한 값을 유지합니다.
+다음 제어 흐름 표는 Resume AccountAccesses가 기록되는 방식을 보여줍니다.
 
-| Step in Contract A's `alpha()` | Step in Contract B's `beta()` | AccountAccess Records State                                                                                     |
-| ------------------------------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Call A.alpha()                 |                               | [A.call]                                                                                                        |
-| Access state                   |                               | [A.call[A.access]]                                                                                              |
-| Call B.beta()                  | B.beta() begins               | [A.call[A.access], B.call]                                                                                      |
-| (Execution Paused)             | Access state                  | [A.call[A.access], B.call[B.access]]                                                                            |
-|                                | Return                        |                                                                                                                 |
-| Resume execution               | (Return to A.alpha())         | [A.call[A.access], B.call[B.access]]                                                                            |
-| Access state                   |                               | [<br></br>&emsp;A.call[A.access], <br></br>&emsp;B.call[B.access], <br></br>&emsp;A.resume[A.access']<br></br>] |
+| Contract A의 `alpha()` 단계 | Contract B의 `beta()` 단계 | AccountAccess 기록 상태                                                                                         |
+| --------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Call A.alpha()              |                            | [A.call]                                                                                                        |
+| Access state                |                            | [A.call[A.access]]                                                                                              |
+| Call B.beta()               | B.beta() 시작              | [A.call[A.access], B.call]                                                                                      |
+| (실행 일시 중지)            | Access state               | [A.call[A.access], B.call[B.access]]                                                                            |
+|                             | 반환                       |                                                                                                                 |
+| 실행 재개                   | (A.alpha()로 반환)         | [A.call[A.access], B.call[B.access]]                                                                            |
+| Access state                |                            | [<br></br>&emsp;A.call[A.access], <br></br>&emsp;B.call[B.access], <br></br>&emsp;A.resume[A.access']<br></br>] |
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> A Resumed AccountAccess is created only if storage accesses occurred after a context was resumed.
+> 재개된 AccountAccess는 컨텍스트가 재개된 후 스토리지 액세스가 발생한 경우에만 생성됩니다.
 
-### Example: Recording storage state changes during a CREATE operation
+### 예제: CREATE 작업 중 스토리지 상태 변경 기록
 
 ```solidity
 contract Contract {
@@ -169,9 +168,9 @@ assertEq(records[0].storageAccesses[0].newValue, bytes32(uint(100)));
 assertEq(records[0].storageAccesses[0].reverted, false);
 ```
 
-Note that there are no `Resume` account accesses in this example.
+이 예제에는 `Resume` 계정 액세스가 없습니다.
 
-### Example: Resumed Account Access
+### 예제: 재개된 계정 액세스
 
 ```solidity
 contract Foo {
@@ -200,23 +199,23 @@ Vm.AccountAccess memory fooCall = records[0];
 assertEq(fooCall.kind, Vm.AccountAccessKind.Call);
 assertEq(fooCall.account, address(foo));
 assertEq(fooCall.accessor, address(this));
-// foo.val increment
+// foo.val 증가
 assertEq(fooCall.storageAccesses.length, 2);
 assertEq(fooCall.storageAccesses[0].isWrite, false);
 assertEq(fooCall.storageAccesses[1].isWrite, true);
 assertEq(fooCall.storageAccesses[1].oldValue, bytes32(uint(0)));
 assertEq(fooCall.storageAccesses[1].newValue, bytes32(uint(1)));
 
-// bar.run CALL
+// bar.run 호출
 Vm.AccountAccess memory barCall = records[1];
 assertEq(barCall.kind, Vm.AccountAccessKind.Call);
 assertEq(barCall.account, address(bar));
 assertEq(barCall.accessor, address(foo));
 
-// foo.run RESUME
+// foo.run 재개
 Vm.AccountAccess memory fooResume = records[2];
 assertEq(fooResume.kind, Vm.AccountAccessKind.Resume);
-// foo.val increment
+// foo.val 증가
 assertEq(fooResume.storageAccesses.length, 2);
 assertEq(fooResume.storageAccesses[0].isWrite, false);
 assertEq(fooResume.storageAccesses[1].isWrite, true);

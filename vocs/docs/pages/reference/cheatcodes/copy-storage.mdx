@@ -1,19 +1,19 @@
 ## `copyStorage`
 
-### Signature
+### 서명
 
 ```solidity
 function copyStorage(address from, address to) external;
 ```
 
-### Description
+### 설명
 
-Utility cheatcode to copy storage of `from` contract to another `to` contract.
-Cheatcode is not allowed if the target address has arbitrary storage set.
+`from` 컨트랙트의 스토리지를 다른 `to` 컨트랙트로 복사하는 유틸리티 치트코드입니다.
+대상 주소에 임의의 스토리지가 설정된 경우 치트코드가 허용되지 않습니다.
 
-### Examples
+### 예제
 
-Given a contract
+다음 컨트랙트가 주어졌을 때:
 ```solidity
 contract Counter {
     uint256 public count;
@@ -23,19 +23,18 @@ contract Counter {
     }
 }
 ```
-using `copyStorage` cheatcode copies the storage set on an instance to another address:
+`copyStorage` 치트코드를 사용하여 한 인스턴스에 설정된 스토리지를 다른 주소로 복사합니다:
 ```solidity
 function testCopyStorage() public {
     Counter original = new Counter();
     original.setCount(1000);
     Counter copy = new Counter();
     copy.setCount(1);
-    // Check initial count on copy.
+    // 복사본의 초기 카운트 확인
     assertEq(copy.count(), 1);
 
     vm.copyStorage(address(original), address(copy));
-    // Value is copied from first contract to copy.
+    // 첫 번째 컨트랙트에서 복사본으로 값이 복사됨
     assertEq(copy.count(), 1000);
 }
 ```
-

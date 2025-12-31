@@ -1,28 +1,27 @@
 ---
-description: Chisel is a fast Solidity REPL for interactive prototyping and debugging with verbose feedback and project integration.
+description: Chisel은 자세한 피드백과 프로젝트 통합 기능을 갖춘 대화형 프로토타이핑 및 디버깅을 위한 빠른 Solidity REPL입니다.
 ---
 
 ## Chisel
 
-Chisel is a fast, utilitarian, and verbose Solidity REPL.
+Chisel은 빠르고 실용적이며 상세한 Solidity REPL입니다.
 
-The `chisel` binary can be used both within and outside of a Foundry project.
-If the binary is executed in a Foundry project root, Chisel will inherit the project's configuration options.
+`chisel` 바이너리는 Foundry 프로젝트 내부와 외부 모두에서 사용할 수 있습니다.
+바이너리가 Foundry 프로젝트 루트에서 실행되면 Chisel은 프로젝트의 구성 옵션을 상속합니다.
 
-Chisel is part of the Foundry suite and is installed alongside `forge`, `cast`, and `anvil`. If you haven't installed Foundry
-yet, see [Foundry installation](/introduction/installation).
+Chisel은 Foundry 제품군의 일부이며 `forge`, `cast`, `anvil`과 함께 설치됩니다. 아직 Foundry를 설치하지 않았다면 [Foundry 설치](/introduction/installation)를 참조하세요.
 
-### Getting started
+### 시작하기
 
-To use Chisel, simply type `chisel`.
+Chisel을 사용하려면 `chisel`을 입력하기만 하면 됩니다.
 
 ```sh
 chisel
 ```
 
-From here, start writing Solidity code! Chisel will offer verbose feedback on each input.
+여기서부터 Solidity 코드를 작성해 보세요! Chisel은 각 입력에 대해 상세한 피드백을 제공합니다.
 
-Create a variable `a` and query it:
+변수 `a`를 생성하고 조회합니다:
 
 ```console
 ➜ uint256 a = 123;
@@ -33,7 +32,7 @@ Type: uint256
 └ Decimal: 123
 ```
 
-Finally, run `!source` to see `a` was applied:
+마지막으로 `!source`를 실행하여 `a`가 적용되었는지 확인합니다:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -51,10 +50,10 @@ contract REPL {
 }
 ```
 
-To see available commands, type `!help` within the REPL.
+사용 가능한 명령어를 보려면 REPL 내에서 `!help`를 입력하세요.
 
 <br></br>
 
 :::info
-See the [`chisel` Reference](/chisel/reference) for in depth information on Chisel and its capabilities.
+Chisel과 그 기능에 대한 자세한 정보는 [`chisel` 참조](/chisel/reference)를 확인하세요.
 :::

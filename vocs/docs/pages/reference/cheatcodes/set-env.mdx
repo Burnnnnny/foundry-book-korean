@@ -1,29 +1,26 @@
 ## `setEnv`
 
-### Signature
+### 시그니처
 
 ```solidity
 function setEnv(string calldata key, string calldata value) external;
 ```
 
-### Description
+### 설명
 
-Set an environment variable `key=value`.
+환경 변수 `key=value`를 설정합니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> Environment variables set by a process are only accessible by itself and its child
-> processes. Thus, calling `setEnv` will only modify environment variables of the currently running
-> `forge` process, and won't affect the shell (`forge`'s parent process), i.e., the they won't persist
-> after the `forge` process exit.
+> 프로세스에 의해 설정된 환경 변수는 해당 프로세스와 자식 프로세스에서만 액세스할 수 있습니다. 따라서 `setEnv`를 호출하면 현재 실행 중인 `forge` 프로세스의 환경 변수만 수정되며 셸(`forge`의 부모 프로세스)에는 영향을 미치지 않습니다. 즉, `forge` 프로세스가 종료된 후에는 유지되지 않습니다.
 
-### Tips
+### 팁
 
-- The environment variable key can't be empty.
-- The environment variable key can't contain the equal sign `=` or the NUL character `\0`.
-- The environment variable value can't contain the NUL character `\0`.
+- 환경 변수 키는 비어 있을 수 없습니다.
+- 환경 변수 키에는 등호 `=` 또는 NUL 문자 `\0`이 포함될 수 없습니다.
+- 환경 변수 값에는 NUL 문자 `\0`이 포함될 수 없습니다.
 
-### Examples
+### 예제
 
 ```solidity
 string memory key = "hello";

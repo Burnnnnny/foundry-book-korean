@@ -1,18 +1,18 @@
 ## `arithmeticError`
 
-### Signature
+### 시그니처
 
 ```solidity
 stdError.arithmeticError
 ```
 
-### Description
+### 설명
 
-The internal Solidity error when an arithmetic operation fails, e.g. underflow and overflow.
+산술 연산이 실패할 때(예: 언더플로우 및 오버플로우) 발생하는 내부 Solidity 오류입니다.
 
-### Example
+### 예제
 
-Assume we have a basic vault contract that can store some token (`wmdToken`):
+일부 토큰(`wmdToken`)을 저장할 수 있는 기본 금고(vault) 컨트랙트가 있다고 가정해 봅시다:
 
 ```solidity
 contract BasicVault {
@@ -43,7 +43,7 @@ contract BasicVault {
 }
 ```
 
-We have a test function to ensure that a user is unable to withdraw tokens in excess of his deposit, like so:
+사용자가 예치금을 초과하여 토큰을 인출할 수 없도록 보장하는 테스트 함수가 있습니다:
 
 ```solidity
 function testUserCannotWithdrawExcessOfDeposit() public {
@@ -53,8 +53,8 @@ function testUserCannotWithdrawExcessOfDeposit() public {
 }
 ```
 
-1. User has tokens of amount `userTokens` deposited in a Vault contract.
-2. User attempts to withdraw tokens of amount in excess of his deposits.
-3. This leads to an underflow error, resulting from: `balances[msg.sender] -= amount;` as it would evaluate into a negative value.
+1. 사용자가 금고 컨트랙트에 `userTokens` 금액의 토큰을 예치했습니다.
+2. 사용자가 예치금을 초과하는 금액의 토큰을 인출하려고 시도합니다.
+3. 이는 `balances[msg.sender] -= amount;`에서 음수 값이 되므로 언더플로우 오류로 이어집니다.
 
-To catch the error "Arithmetic over/underflow", we insert `vm.expectRevert(stdError.arithmeticError)` just before the function call that is expected to result in an underflow.
+"Arithmetic over/underflow" 오류를 포착하기 위해 언더플로우가 발생할 것으로 예상되는 함수 호출 바로 앞에 `vm.expectRevert(stdError.arithmeticError)`를 삽입합니다.

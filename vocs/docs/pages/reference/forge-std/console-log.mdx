@@ -1,16 +1,16 @@
 ## Console Logging
 
-- Similar to Hardhat's console functions.
-- You can use it in calls and transactions. It also works with view and pure functions.
-- It always works, regardless of the call or transaction failing or being successful.
-- To use it you need import it:
+- Hardhat의 콘솔 함수와 유사합니다.
+- 호출(call) 및 트랜잭션에서 사용할 수 있습니다. `view` 및 `pure` 함수에서도 작동합니다.
+- 호출이나 트랜잭션의 실패 또는 성공 여부에 관계없이 항상 작동합니다.
+- 사용하려면 임포트해야 합니다:
     - `import {console} from "forge-std/console.sol";`
-- You can call console.log with up to 4 parameters in any order of following types:
+- 다음 타입의 파라미터를 최대 4개까지 순서에 상관없이 사용하여 `console.log`를 호출할 수 있습니다:
     - `uint`
     - `string`
     - `bool`
     - `address`
-- There's also the single parameter API for the types above, and additionally bytes, bytes1... up to bytes32:
+- 위 타입들에 대한 단일 파라미터 API도 있으며, 추가로 `bytes`, `bytes1`... `bytes32`까지 지원합니다:
     - `console.logInt(int i)`
     - `console.logUint(uint i)`
     - `console.logString(string memory s)`
@@ -21,42 +21,42 @@
     - `console.logBytes2(bytes2 b)`
     - ...
     - `console.logBytes32(bytes32 b)`
-- console.log implements the same formatting options that can be found in Hardhat's console.log.
-    - Example: `console.log("Changing owner from %s to %s", currentOwner, newOwner)`
-- console.log is implemented in standard Solidity and it is compatible Anvil and Hardhat Networks.
-- console.log calls can run in other networks, like mainnet, kovan, ropsten, etc. They do nothing in those networks, but do spend a minimal amount of gas.
+- `console.log`는 Hardhat의 `console.log`와 동일한 포맷팅 옵션을 구현합니다.
+    - 예: `console.log("Changing owner from %s to %s", currentOwner, newOwner)`
+- `console.log`는 표준 솔리디티로 구현되었으며 Anvil 및 Hardhat 네트워크와 호환됩니다.
+- `console.log` 호출은 메인넷, Kovan, Ropsten 등 다른 네트워크에서도 실행될 수 있습니다. 해당 네트워크에서는 아무 작업도 수행하지 않지만 최소한의 가스를 소비합니다.
 
 
 ### `console.log(format[,...args])`
-The `console.log()` method prints a formatted string using the first argument as a printf-like format string which can contain zero or more format specifiers. Each specifier is replaced with the converted value from the corresponding argument. Supported specifiers are:
+`console.log()` 메서드는 첫 번째 인자를 printf 스타일의 포맷 문자열로 사용하여 포맷된 문자열을 출력합니다. 포맷 문자열은 0개 이상의 포맷 지정자를 포함할 수 있습니다. 각 지정자는 해당 인자의 변환된 값으로 대체됩니다. 지원되는 지정자는 다음과 같습니다:
 
-- `%s`: String will be used to convert all values to a human-readable string. `uint256`, `int256` and `bytes` values are converted to their `0x` hex encoded values.
-- `%d`: Number will be used to convert all values to a human-readable string. This is identical to `%s`.
-- `%i`: Works the same way as `%d`.
-- `%e`: The exponential representation of a number. For `uint256` and `int256` types.
-- `%x`: The hexadecimal representation of a number. For `uint256` and `int256` types.
-- `%o`: Object. A string representation of an object with generic JavaScript-styled object formatting. For solidity types, this basically surround the string representation of the value in single-quotes.
-- `%%`: single percent sign ('%'). This does not consume an argument.
-- Returns: `<string>` The formatted string
+- `%s`: 문자열은 모든 값을 사람이 읽을 수 있는 문자열로 변환하는 데 사용됩니다. `uint256`, `int256`, `bytes` 값은 `0x` 16진수 인코딩 값으로 변환됩니다.
+- `%d`: 숫자는 모든 값을 사람이 읽을 수 있는 문자열로 변환하는 데 사용됩니다. 이는 `%s`와 동일합니다.
+- `%i`: `%d`와 동일하게 작동합니다.
+- `%e`: 숫자의 지수 표현입니다. `uint256` 및 `int256` 타입용입니다.
+- `%x`: 숫자의 16진수 표현입니다. `uint256` 및 `int256` 타입용입니다.
+- `%o`: 객체. 일반적인 JavaScript 스타일의 객체 포맷팅을 사용한 객체의 문자열 표현입니다. 솔리디티 타입의 경우 기본적으로 값의 문자열 표현을 작은따옴표로 감쌉니다.
+- `%%`: 단일 퍼센트 기호 ('%'). 이는 인자를 소비하지 않습니다.
+- 반환값: `<string>` 포맷된 문자열
 
-If a specifier does not have a corresponding argument, it is not replaced:
+지정자에 해당하는 인자가 없으면 대체되지 않습니다:
 ```solidity
 console.log("%s:%s", "foo");
 // Returns: "foo:%s"
 ```
 
-Values that are not part of the format string are formatted using as a human-readable string representation.
+포맷 문자열의 일부가 아닌 값은 사람이 읽을 수 있는 문자열 표현을 사용하여 포맷됩니다.
 
-If there are more arguments passed to the console.log() method than the number of specifiers, the extra arguments are concatenated to the returned string, separated by spaces:
+`console.log()` 메서드에 전달된 인자가 지정자의 수보다 많은 경우, 추가 인자는 공백으로 구분되어 반환된 문자열에 연결됩니다:
 ```solidity
 console.log("%s:%s", "foo", "bar", "baz");
 // Returns: "foo:bar baz"
 ```
 
-If only one argument is passed to console.log(), it is returned as it is without any formatting:
+`console.log()`에 하나의 인자만 전달되면 포맷팅 없이 그대로 반환됩니다:
 ```solidity
 console.log("%% %s");
 // Returns: "%% %s"
 ```
 
-The String format specifier (`%s`) should be used in most cases unless specific functionality is needed from other format specifiers.
+다른 포맷 지정자의 특정 기능이 필요하지 않은 경우 대부분의 경우 문자열 포맷 지정자(`%s`)를 사용해야 합니다.

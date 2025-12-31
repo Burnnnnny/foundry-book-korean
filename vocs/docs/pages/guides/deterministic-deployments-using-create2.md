@@ -1,33 +1,32 @@
 ---
-description: Deploy smart contracts to predictable addresses across multiple networks using CREATE2 opcode for counterfactual interactions.
+description: CREATE2 오퍼코드를 사용하여 반사실적(counterfactual) 상호 작용을 위한 예측 가능한 주소로 여러 네트워크에 스마트 컨트랙트를 배포합니다.
 ---
 
-## Deterministic deployments using `CREATE2`
+## `CREATE2`를 사용한 결정론적 배포
 
-Enshrined into the EVM as part of the [Constantinople fork](https://ethereum.org/en/history/#constantinople) of 2019, `CREATE2` is an opcode that started its journey as [EIP-1014](https://eips.ethereum.org/EIPS/eip-1014).
-`CREATE2` allows you to deploy smart contracts to deterministic addresses, based on parameters controlled by the deployer.
+2019년 [Constantinople 포크](https://ethereum.org/en/history/#constantinople)의 일부로 EVM에 포함된 `CREATE2`는 [EIP-1014](https://eips.ethereum.org/EIPS/eip-1014)로 여정을 시작한 오퍼코드입니다.
+`CREATE2`를 사용하면 배포자가 제어하는 매개변수를 기반으로 결정론적 주소에 스마트 컨트랙트를 배포할 수 있습니다.
 
-As a result, it's often mentioned as enabling "counterfactual" deployments, where you can interact with an addresses that haven't been created yet because `CREATE2` guarantees known code can be placed at that address.
+결과적으로 `CREATE2`는 알려진 코드가 해당 주소에 배치될 것임을 보장하므로, 아직 생성되지 않은 주소와 상호 작용할 수 있는 "반사실적(counterfactual)" 배포를 가능하게 한다고 자주 언급됩니다.
 
-This is in contrast to the `CREATE` opcode, where the address of the deployed contract is a function of the deployer's nonce.
-With `CREATE2`, you can use the same deployer account to deploy contracts to the same address across multiple networks, even if the address has varying nonces.
+이는 배포된 컨트랙트의 주소가 배포자의 논스(nonce)에 대한 함수인 `CREATE` 오퍼코드와 대조됩니다.
+`CREATE2`를 사용하면 주소의 논스가 다르더라도 동일한 배포자 계정을 사용하여 여러 네트워크의 동일한 주소에 컨트랙트를 배포할 수 있습니다.
 
-For the best user experience it is recommended to avoid having different addresses of the same deployment across different EVM chains.
+최상의 사용자 경험을 위해서는 여러 EVM 체인에서 동일한 배포에 대해 서로 다른 주소를 갖지 않는 것이 좋습니다.
 
 :::note
-This guide is intended to help you get started with configuring deterministic deployments using `CREATE2`.
-By default, `new Counter{salt: salt}()` will use the deterministic deployer at [`0x4e59b44847b379578588920ca78fbf26c0b4956c`](https://github.com/Arachnid/deterministic-deployment-proxy). Note that the deployer may not be available on all EVM chains.
-A different deployer address can be configured by setting `create2_deployer` in `foundry.toml` or by using `--create2-deployer` argument.
-
+이 가이드는 `CREATE2`를 사용하여 결정론적 배포를 구성하는 데 도움을 주기 위한 것입니다.
+기본적으로 `new Counter{salt: salt}()`는 [`0x4e59b44847b379578588920ca78fbf26c0b4956c`](https://github.com/Arachnid/deterministic-deployment-proxy)에 있는 결정론적 배포자를 사용합니다. 배포자는 모든 EVM 체인에서 사용 가능하지 않을 수 있습니다.
+다른 배포자 주소는 `foundry.toml`에서 `create2_deployer`를 설정하거나 `--create2-deployer` 인수를 사용하여 구성할 수 있습니다.
 :::
 
-Follow these steps to set up deterministic deployments:
+결정론적 배포를 설정하려면 다음 단계를 따르세요:
 
 ::::steps
 
-### Configure your `foundry.toml`
+### `foundry.toml` 구성하기
 
-In order to reliably deploy to deterministic addresses we will need to make sure our bytecode stays the same. To do so configure our `foundry.toml` as follows:
+결정론적 주소에 신뢰할 수 있게 배포하려면 바이트코드가 동일하게 유지되어야 합니다. 이를 위해 `foundry.toml`을 다음과 같이 구성하세요:
 
 ```toml
 [profile.default]
@@ -37,29 +36,29 @@ bytecode_hash = "none"
 cbor_metadata = false
 ```
 
-### Pin your Solc version
+### Solc 버전 고정
 
-It is required to pin your `solc` (Solidity) version. It is generally recommended to use a recent version or, if preferred, the latest version.
+`solc` (Solidity) 버전을 고정해야 합니다. 일반적으로 최신 버전이나 선호하는 경우 가장 최신 버전을 사용하는 것이 좋습니다.
 
 ```toml
 solc = "<SOLC_VERSION>"
 ```
 
-### Set your EVM version
+### EVM 버전 설정
 
-Next, configure your `evm_version`. It is generally recommended to use the most recent hardfork but depending on your deployment targets this may need to use an older hardfork due to opcode incompatibilities.
+다음으로 `evm_version`을 구성하세요. 일반적으로 최신 하드포크를 사용하는 것이 좋지만, 배포 대상에 따라 오퍼코드 비호환성으로 인해 이전 하드포크를 사용해야 할 수도 있습니다.
 
 ```toml
 evm_version = "<EVM_VERSION>"
 ```
 
-### Configure metadata and bytecode settings
+### 메타데이터 및 바이트코드 설정 구성
 
-By default the Solidity compiler appends the hash of the metadata file at end of the bytecode. This bytecode includes things like the compiler version and the ABI.
+기본적으로 Solidity 컴파일러는 바이트코드 끝에 메타데이터 파일의 해시를 추가합니다. 이 바이트코드에는 컴파일러 버전 및 ABI와 같은 내용이 포함됩니다.
 
-Since the source file hashes are included in the metadata file, even if a single byte of source files changes, the metadata hash changes too. That means, if we can compile a contract with given source files and the bytecode + the appended metadata hash are exactly the same as an on-chain contract, we can be sure that this is a byte-by-byte match of the same source files and the same compilation settings.
+소스 파일 해시가 메타데이터 파일에 포함되므로 소스 파일의 단일 바이트라도 변경되면 메타데이터 해시도 변경됩니다. 즉, 주어진 소스 파일로 컨트랙트를 컴파일할 수 있고 바이트코드 + 추가된 메타데이터 해시가 온체인 컨트랙트와 정확히 동일하다면, 이는 동일한 소스 파일과 동일한 컴파일 설정의 바이트 단위 일치임을 확신할 수 있습니다.
 
-The metadata file may look something like this:
+메타데이터 파일은 다음과 같을 수 있습니다:
 
 ```json
 {
@@ -141,71 +140,71 @@ The metadata file may look something like this:
 }
 ```
 
-Click [here](https://playground.sourcify.dev/) to learn more about the metadata file.
+메타데이터 파일에 대해 자세히 알아보려면 [여기](https://playground.sourcify.dev/)를 클릭하세요.
 
-By disabling the metadata as follows:
+다음과 같이 메타데이터를 비활성화하면:
 
 ```toml
 bytecode_hash = "none"
 cbor_metadata = false
 ```
 
-You are not including the metadata hash as part of the bytecode. This means that whilst your bytecode can now be deterministic you won't be able to have a [`full match`](https://docs.sourcify.dev/docs/full-vs-partial-match/#full-perfect-matches), only a [`partial match`](https://docs.sourcify.dev/docs/full-vs-partial-match/#partial-matches) when verifying your contracts. Depending on your requirements this may be acceptable.
+바이트코드의 일부로 메타데이터 해시를 포함하지 않습니다. 즉, 바이트코드는 이제 결정론적일 수 있지만 컨트랙트를 검증할 때 [`완전 일치(full match)`](https://docs.sourcify.dev/docs/full-vs-partial-match/#full-perfect-matches)가 아닌 [`부분 일치(partial match)`](https://docs.sourcify.dev/docs/full-vs-partial-match/#partial-matches)만 가능합니다. 요구 사항에 따라 이는 허용될 수 있습니다.
 
-### Configure the optimizer
+### 최적화 도구 구성
 
-If you are enabling the `optimizer` make sure your `optimizer_runs` stay consistent.
+`optimizer`를 활성화하는 경우 `optimizer_runs`가 일관되게 유지되도록 하세요.
 
-### Set up the CREATE2 factory
+### CREATE2 팩토리 설정
 
-By default, your contracts won't use the default (or specified using the `create2_deployer` configuration) create2 factory and will default to executing the create2 opcode from the contract it's executed on. For example, this behavior occurs when running tests or executing scripts without a private key.
+기본적으로 컨트랙트는 기본(또는 `create2_deployer` 구성으로 지정된) create2 팩토리를 사용하지 않으며, 실행되는 컨트랙트에서 create2 오퍼코드를 실행하는 것으로 기본 설정됩니다. 예를 들어 개인 키 없이 테스트를 실행하거나 스크립트를 실행할 때 이러한 동작이 발생합니다.
 
-You can use the following configuration:
+항상 create2 팩토리를 사용하려면 다음 구성을 사용할 수 있습니다:
 
 ```toml
 always_use_create_2_factory = true
 ```
 
-If you wish to always use the create2 factory. This comes handy if you wish to use the create2 factory deployment addresses in your tests for example.
+예를 들어 테스트에서 create2 팩토리 배포 주소를 사용하려는 경우 유용합니다.
 
 ::::
 
-## Deploying the contract
+## 컨트랙트 배포
 
-When using Solidity's default `CREATE` where the new address of a contract is determined by taking the `hash` of the `sender`'s address and the `sender`'s `nonce`:
+Solidity의 기본 `CREATE`를 사용할 때 컨트랙트의 새 주소는 `sender` 주소의 `hash`와 `sender`의 `nonce`를 사용하여 결정됩니다:
 
 ```
 new_contract_address = keccak256(rlp_encode([sender, nonce]))[12:]
 ```
 
 ```solidity
-// Using the default CREATE opcode
+// 기본 CREATE 오퍼코드 사용
 Counter counter = new Counter();
 ```
 
-Because the `nonce` can only be used a single time it on each chain it is an unreliable way of deploying to the same contract address.
+`nonce`는 각 체인에서 한 번만 사용할 수 있기 때문에 동일한 컨트랙트 주소에 배포하는 신뢰할 수 없는 방법입니다.
 
-Instead let's use `CREATE2`'s `salt` parameter.
+대신 `CREATE2`의 `salt` 매개변수를 사용해 보겠습니다.
 
-The `salt` parameter in `CREATE2` is a key component that determines the final deployed contract address. It allows for flexibility and uniqueness in deterministic deployments. The address of the deployed contract is derived using the following formula:
+`CREATE2`의 `salt` 매개변수는 최종 배포된 컨트랙트 주소를 결정하는 핵심 구성 요소입니다. 이를 통해 결정론적 배포에서 유연성과 고유성을 확보할 수 있습니다. 배포된 컨트랙트의 주소는 다음 공식을 사용하여 파생됩니다:
 
 ```
 new_contract_address = keccak256(0xff ++ deployer ++ salt ++ keccak256(init_code))
 ```
 
 ```solidity
-// Passing the `salt` parameter to the CREATE2 opcode
+// CREATE2 오퍼코드에 `salt` 매개변수 전달
 Counter counter = new Counter{salt: salt}();
 ```
 
-- `0xff` is a fixed prefix ensuring uniqueness.
-- `deployer` is the address executing the CREATE2 operation.
-- `salt` is a 32-byte value chosen by the deployer.
-- `keccak256(bytecode)` is the hash of the contract's creation bytecode.
+- `0xff`는 고유성을 보장하는 고정 접두사입니다.
+- `deployer`는 CREATE2 작업을 실행하는 주소입니다.
+- `salt`는 배포자가 선택한 32바이트 값입니다.
+- `keccak256(bytecode)`는 컨트랙트 생성 바이트코드의 해시입니다.
 
-Given that `0xff` is fixed, the `deployer` is a deterministic deployer ([0x4e59b44847b379578588920ca78fbf26c0b4956c](https://github.com/Arachnid/deterministic-deployment-proxy)) and our bytecode is fixed we can use the `salt` parameter to fully control our new contract address.
+`0xff`는 고정되어 있고, `deployer`는 결정론적 배포자([0x4e59b44847b379578588920ca78fbf26c0b4956c](https://github.com/Arachnid/deterministic-deployment-proxy))이며 바이트코드가 고정되어 있으므로, `salt` 매개변수를 사용하여 새 컨트랙트 주소를 완전히 제어할 수 있습니다.
 
-## Additional resources
+## 추가 리소스
 
-- [Contract Metadata](https://docs.soliditylang.org/en/latest/metadata.html)
-- [Deterministic deployments agnostic to the initialization code](https://github.com/Vectorized/solady/blob/main/src/utils/CREATE3.sol)
+- [컨트랙트 메타데이터](https://docs.soliditylang.org/en/latest/metadata.html)
+- [초기화 코드와 무관한 결정론적 배포](https://github.com/Vectorized/solady/blob/main/src/utils/CREATE3.sol)

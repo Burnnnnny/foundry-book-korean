@@ -1,6 +1,6 @@
 ## `assertApproxEqRel`
 
-### Signature
+### 시그니처
 
 ```solidity
 function assertApproxEqRel(uint256 left, uint256 right, uint256 maxPercentDelta) internal;
@@ -18,13 +18,13 @@ function assertApproxEqRel(int256 left, int256 right, uint256 maxPercentDelta) i
 function assertApproxEqRel(int256 left, int256 right, uint256 maxPercentDelta, string memory err) internal;
 ```
 
-### Description
+### 설명
 
-Asserts `left` is approximately equal to `right` with delta in percentage, where `1e18` is 100%.
+`left`가 `right`와 대략적으로 같은지(백분율 차이 `maxPercentDelta` 이내) 주장(assert)합니다. 여기서 `1e18`은 100%입니다.
 
-Optionally includes an error message in the revert string.
+선택적으로 리버트(revert) 문자열에 오류 메시지를 포함할 수 있습니다.
 
-### Examples
+### 예제
 
 ```solidity
 function testRevert() external {
@@ -38,7 +38,7 @@ function testRevert() external {
 [FAIL: assertion failed: 100 !~= 200 (max delta: 40.0000000000000000%, real delta: 50.0000000000000000%)] testRevert() (gas: 23884)
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [`assertApproxEqRelDecimal`](/reference/forge-std/assertApproxEqRelDecimal.mdx)
 - [`assertApproxEqAbs`](/reference/forge-std/assertApproxEqAbs.mdx)

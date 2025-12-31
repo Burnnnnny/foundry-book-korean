@@ -1,6 +1,6 @@
 ## `envBytes32`
 
-### Signature
+### 서명
 
 ```solidity
 function envBytes32(string calldata key) external returns (bytes32 value);
@@ -10,18 +10,18 @@ function envBytes32(string calldata key) external returns (bytes32 value);
 function envBytes32(string calldata key, string calldata delimiter) external returns (bytes32[] memory values);
 ```
 
-### Description
+### 설명
 
-Read an environment variable as `bytes32` or `address[]`.
+환경 변수를 `bytes32` 또는 `bytes32[]`로 읽습니다.
 
-### Tips
+### 팁
 
-- For arrays, you can specify the delimiter used to separate the values with the `delimiter` parameter.
+- 배열의 경우, `delimiter` 매개변수로 값을 구분하는 데 사용되는 구분 기호를 지정할 수 있습니다.
 
-### Examples
+### 예제
 
-#### Single Value
-With environment variable `BYTES32_VALUE=0x00`,
+#### 단일 값
+환경 변수 `BYTES32_VALUE=0x00`가 있을 때,
 ```solidity
 string memory key = "BYTES32_VALUE";
 bytes32 expected = bytes32(0x0000000000000000000000000000000000000000000000000000000000000000);
@@ -29,8 +29,8 @@ bytes32 output = vm.envBytes32(key);
 assert(output == expected);
 ```
 
-#### Array
-With environment variable `BYTES32_VALUES=0x7109709ECfa91a80626fF3989D68f67F5b1DD12D,0x00`,
+#### 배열
+환경 변수 `BYTES32_VALUES=0x7109709ECfa91a80626fF3989D68f67F5b1DD12D,0x00`가 있을 때,
 ```solidity
 string memory key = "BYTES32_VALUES";
 string memory delimiter = ",";

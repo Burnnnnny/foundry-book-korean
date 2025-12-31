@@ -25,28 +25,28 @@ function expectCall(
 ) external;
 ```
 
-### Description
+### 설명
 
-Expects a call to a specified address `callee`, where the call data either strictly or loosely matches `data`. The cheatcode can be called in two ways:
+지정된 주소 `callee`에 대한 호출을 예상하며, 호출 데이터는 `data`와 엄격하게 또는 느슨하게 일치해야 합니다. 치트코드는 두 가지 방식으로 호출할 수 있습니다:
 
-- If no `count` parameter is specified, the call will be expected to be made at least the amount of times the cheatcode was called. For the same calldata, you cannot call the cheatcode with no `count` and then pass in a `count` parameter.
-- If `count` is specified, the call will be expected to be made strictly `count` times. For the same calldata, the `count` value cannot be overwritten with another cheatcode call, nor it can be increment by calling the cheatcode without a `count` parameter.
+- `count` 매개변수가 지정되지 않은 경우, 호출은 적어도 치트코드가 호출된 횟수만큼 이루어질 것으로 예상됩니다. 동일한 호출 데이터에 대해 `count` 없이 치트코드를 호출한 다음 `count` 매개변수를 전달할 수 없습니다.
+- `count`가 지정된 경우, 호출은 엄격하게 `count` 횟수만큼 이루어질 것으로 예상됩니다. 동일한 호출 데이터에 대해 `count` 값을 다른 치트코드 호출로 덮어쓰거나, `count` 매개변수 없이 치트코드를 호출하여 증가시킬 수 없습니다.
 
-`count` can also be set to 0 to assert that a call is not made.
+`count`를 0으로 설정하여 호출이 이루어지지 않음을 어설션할 수도 있습니다.
 
-When a call is made to `callee` the call data is first checked to see if it matches in its entirety with `data`. If not, the call data is checked to see if there is a partial match, with the match starting at the first byte of the call data.
+`callee`에 대한 호출이 이루어지면 먼저 호출 데이터가 `data`와 전체적으로 일치하는지 확인합니다. 그렇지 않은 경우 호출 데이터에 부분적인 일치가 있는지 확인하며, 일치는 호출 데이터의 첫 번째 바이트부터 시작합니다.
 
-**Using the second signature** we can also check if the call was made with the expected `msg.value`.
+**두 번째 서명을 사용하면** 호출이 예상된 `msg.value`로 이루어졌는지 확인할 수도 있습니다.
 
-If the test terminates without the call being made, the test fails.
+호출이 이루어지지 않고 테스트가 종료되면 테스트는 실패합니다.
 
-> ℹ️ **Internal calls**
+> ℹ️ **내부 호출**
 >
-> This cheatcode does not currently work on internal calls. See issue [#432](https://github.com/foundry-rs/foundry/issues/432).
+> 이 치트코드는 현재 내부 호출에서 작동하지 않습니다. 문제 [#432](https://github.com/foundry-rs/foundry/issues/432)를 참조하세요.
 
-### Examples
+### 예제
 
-Expect that `transfer` is called on a token `MyToken` one time:
+토큰 `MyToken`에서 `transfer`가 한 번 호출될 것으로 예상:
 
 ```solidity
 address alice = makeAddr("alice");
@@ -58,7 +58,7 @@ token.transfer(alice, 10);
 // [PASS]
 ```
 
-Expect that `transfer` is called on a token `MyToken` *at least* two times:
+토큰 `MyToken`에서 `transfer`가 *적어도* 두 번 호출될 것으로 예상:
 
 ```solidity
 address alice = makeAddr("alice");
@@ -75,7 +75,7 @@ token.transfer(alice, 10);
 // [PASS]
 ```
 
-Expect that `transfer` is not called on a token `MyToken`:
+토큰 `MyToken`에서 `transfer`가 호출되지 않을 것으로 예상:
 
 ```solidity
 address alice = makeAddr("alice");
@@ -87,7 +87,7 @@ token.transferFrom(alice, address(0), 10);
 // [PASS]
 ```
 
-Expect that `transfer` with any calldata is called on a token `MyToken` 2 times:
+토큰 `MyToken`에서 임의의 호출 데이터로 `transfer`가 2번 호출될 것으로 예상:
 
 ```solidity
 address alice = makeAddr("alice");
@@ -100,7 +100,7 @@ token.transfer(alice, 10);
 // [PASS]
 ```
 
-Expect that `pay` is called on a `Contract` with a specific `msg.value` and `calldata`:
+`Contract`에서 특정 `msg.value` 및 `calldata`로 `pay`가 호출될 것으로 예상:
 
 ```solidity
 Contract target = new Contract();
@@ -113,7 +113,7 @@ target.pay{value: 1}(2);
 // [PASS]
 ```
 
-Expect that `pay` is called on a `Contract` with a specific `msg.value` and `calldata` 3 times:
+`Contract`에서 특정 `msg.value` 및 `calldata`로 `pay`가 3번 호출될 것으로 예상:
 
 ```solidity
 Contract target = new Contract();

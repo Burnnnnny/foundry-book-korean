@@ -1,6 +1,6 @@
 ## `envOr`
 
-### Signature
+### 서명
 
 ```solidity
 function envOr(string calldata key, bool defaultValue) external returns (bool value);
@@ -22,29 +22,29 @@ function envOr(string calldata key, string calldata delimiter, string[] calldata
 function envOr(string calldata key, string calldata delimiter, bytes[] calldata defaultValue) external returns (bytes[] memory value);
 ```
 
-### Description
+### 설명
 
-A non-failing way to read an environment variable of any type: if the requested environment key does not exist, `envOr()` will return a default value instead of reverting (works with arrays too).
+모든 타입의 환경 변수를 실패 없이 읽는 방법입니다: 요청된 환경 키가 존재하지 않으면 `envOr()`는 리버트(revert)하는 대신 기본값(`defaultValue`)을 반환합니다 (배열에서도 작동).
 
-The returned type is determined by the type of `defaultValue` parameter passed.
+반환된 타입은 전달된 `defaultValue` 매개변수의 타입에 따라 결정됩니다.
 
-### Tips
+### 팁
 
-- Use `envOr(key, defaultValue)` to read a single value
-- Use `envOr(key, delimiter, defaultValue[])` to read an array with delimiter
-- The parsing of the environment variable will be done according to the type of `defaultValue` (e.g. if the default value type is `uint` - the environment variable will be also parsed as `uint`)
-- Use explicit casting for literals to specify type of default variable: `uint(69)` will return an `uint` but `int(69)` will return an `int`
-- Same with: `string("")` and `bytes("")` - these will return `string` and `bytes` accordingly
-- Use dynamic arrays (`bool[]`) instead of fixed-size arrays (`bool[4]`) when providing default values (only dynamic arrays are supported)
+- 단일 값을 읽으려면 `envOr(key, defaultValue)`를 사용하세요.
+- 구분 기호가 있는 배열을 읽으려면 `envOr(key, delimiter, defaultValue[])`를 사용하세요.
+- 환경 변수의 파싱은 `defaultValue`의 타입에 따라 수행됩니다 (예: 기본값 타입이 `uint`인 경우 환경 변수도 `uint`로 파싱됨).
+- 리터럴에 명시적 캐스팅을 사용하여 기본 변수의 타입을 지정하세요: `uint(69)`는 `uint`를 반환하지만 `int(69)`는 `int`를 반환합니다.
+- `string("")` 및 `bytes("")`도 마찬가지로 각각 `string`과 `bytes`를 반환합니다.
+- 기본값을 제공할 때 고정 크기 배열(`bool[4]`) 대신 동적 배열(`bool[]`)을 사용하세요 (동적 배열만 지원됨).
 
-### Examples
+### 예제
 
-#### Single Value
-If the environment variable `FORK` is not set, you can specify it to be `false` by default:
+#### 단일 값
+환경 변수 `FORK`가 설정되지 않은 경우, 기본값을 `false`로 지정할 수 있습니다:
 ```solidity
 bool fork = vm.envOr("FORK", false);
 ```
-or
+또는
 ```solidity
 address owner;
 
@@ -53,8 +53,8 @@ function setUp() {
 }
 ```
 
-#### Array
-If the environment variable `BAD_TOKENS` is not set, you can specify the default to be an empty array:
+#### 배열
+환경 변수 `BAD_TOKENS`가 설정되지 않은 경우, 기본값을 빈 배열로 지정할 수 있습니다:
 ```solidity
 address[] badTokens;
 
@@ -62,7 +62,7 @@ function envBadTokens() public {
   badTokens = vm.envOr("BAD_TOKENS", ",", badTokens);
 }
 ```
-or
+또는
 ```solidity
 function envBadTokens() public {
   address[] memory defaultBadTokens = new address[](0);

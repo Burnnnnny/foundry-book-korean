@@ -1,3 +1,3 @@
-## Miscellaneous
+## 기타 (Miscellaneous)
 
-- [Struct encoding](./struct-encoding.md)
+- [구조체 인코딩](./struct-encoding.md)

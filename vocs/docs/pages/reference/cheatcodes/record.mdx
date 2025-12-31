@@ -1,20 +1,20 @@
 ## `record`
 
-### Signature
+### 시그니처
 
 ```solidity
 function record() external;
 ```
 
-### Description
+### 설명
 
-Tell the VM to start recording all storage reads and writes. To access the reads and writes, use [`accesses`](/reference/cheatcodes/accesses.mdx).
+VM이 모든 스토리지 읽기 및 쓰기를 기록하도록 지시합니다. 읽기 및 쓰기에 액세스하려면 [`accesses`](/reference/cheatcodes/accesses.mdx)를 사용하세요.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> Every write also counts as an additional read.
+> 모든 쓰기는 추가적인 읽기로도 간주됩니다.
 
-### Examples
+### 예제
 
 ```solidity
 /// contract NumsContract {
@@ -30,8 +30,8 @@ numsContract.num2();
 emit log_uint(uint256(reads[0])); // 1
 ```
 
-### SEE ALSO
+### 같이 보기
 
-Forge Standard Library
+Forge 표준 라이브러리
 
 [Std Storage](/reference/forge-std/startHoax.mdx)

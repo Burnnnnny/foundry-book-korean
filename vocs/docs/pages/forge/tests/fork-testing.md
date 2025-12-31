@@ -1,29 +1,29 @@
 ---
-description: Test against live blockchain state using fork mode or forking cheatcodes for integration testing with real contracts.
+description: 포크 모드 또는 포크 치트코드를 사용하여 라이브 블록체인 상태에 대해 실제 컨트랙트와의 통합 테스트를 수행합니다.
 ---
 
-## Fork Testing
+## 포크 테스트 (Fork Testing)
 
-Forge supports testing in a forked environment with two different approaches:
+Forge는 두 가지 접근 방식을 통해 포크된 환경에서의 테스트를 지원합니다:
 
-- [**Forking Mode**](#forking-mode) — use a single fork for all your tests via the `forge test --fork-url` flag
-- [**Forking Cheatcodes**](#forking-cheatcodes) — create, select, and manage multiple forks directly in Solidity test code via [forking cheatcodes](/reference/cheatcodes/forking)
+- [**포크 모드 (Forking Mode)**](#forking-mode) — `forge test --fork-url` 플래그를 통해 모든 테스트에 단일 포크를 사용합니다.
+- [**포크 치트코드 (Forking Cheatcodes)**](#forking-cheatcodes) — [포크 치트코드](/reference/cheatcodes/forking)를 통해 Solidity 테스트 코드에서 직접 여러 포크를 생성, 선택 및 관리합니다.
 
-Which approach to use? Forking mode affords running an entire test suite against a specific forked environment, while forking cheatcodes provide more flexibility and expressiveness to work with multiple forks in your tests. Your particular use case and testing strategy will help inform which approach to use.
+어떤 접근 방식을 사용해야 할까요? 포크 모드는 특정 포크 환경에서 전체 테스트 스위트를 실행하는 데 적합하며, 포크 치트코드는 테스트에서 여러 포크를 다룰 때 더 많은 유연성과 표현력을 제공합니다. 특정 사용 사례와 테스트 전략에 따라 어떤 접근 방식을 사용할지 결정하면 됩니다.
 
 :::tip
-Starting with Foundry v1.3.0, forked tests using the Reth client are faster thanks to the `eth_getAccountInfo` API which reduce account data fetching from three requests to one.
+Foundry v1.3.0부터는 계정 데이터 페치(fetch) 요청을 3개에서 1개로 줄이는 `eth_getAccountInfo` API 덕분에 Reth 클라이언트를 사용하는 포크 테스트 속도가 빨라졌습니다.
 :::
 
-### Forking Mode
+### 포크 모드 (Forking Mode)
 
-To run all tests in a forked environment, such as a forked Ethereum mainnet, pass an RPC URL via the `--fork-url` flag:
+포크된 이더리움 메인넷과 같은 포크된 환경에서 모든 테스트를 실행하려면 `--fork-url` 플래그를 통해 RPC URL을 전달하세요:
 
 ```bash
 forge test --fork-url <your_rpc_url>
 ```
 
-The following values are changed to reflect those of the chain at the moment of forking:
+다음 값들은 포크 시점의 체인 값을 반영하도록 변경됩니다:
 
 - [`block_number`](/config/reference/testing#block_number)
 - [`chain_id`](/config/reference/testing#chain_id)
@@ -34,99 +34,99 @@ The following values are changed to reflect those of the chain at the moment of 
 - [`block_timestamp`](/config/reference/testing#block_timestamp)
 - [`block_difficulty`](/config/reference/testing#block_difficulty)
 
-It is possible to specify a block from which to fork with `--fork-block-number`:
+`--fork-block-number`를 사용하여 포크할 블록을 지정할 수 있습니다:
 
 ```bash
 forge test --fork-url <your_rpc_url> --fork-block-number 1
 ```
 
-Forking is especially useful when you need to interact with existing contracts. You may choose to do integration testing this way, as if you were on an actual network.
+포킹은 기존 컨트랙트와 상호작용해야 할 때 특히 유용합니다. 실제 네트워크에 있는 것처럼 통합 테스트를 수행할 수 있습니다.
 
-#### Caching
+#### 캐싱 (Caching)
 
-If both `--fork-url` and `--fork-block-number` are specified, then data for that block is cached for future test runs.
+`--fork-url`과 `--fork-block-number`가 모두 지정되면, 해당 블록의 데이터는 나중에 테스트를 실행할 때 사용할 수 있도록 캐시됩니다.
 
-The data is cached in `~/.foundry/cache/rpc/<chain name>/<block number>`. To clear the cache, simply remove the directory or run [`forge clean`](/forge/reference/clean) (removes all build artifacts and cache directories).
+데이터는 `~/.foundry/cache/rpc/<chain name>/<block number>`에 캐시됩니다. 캐시를 지우려면 단순히 디렉토리를 제거하거나 [`forge clean`](/forge/reference/clean)(모든 빌드 아티팩트 및 캐시 디렉토리 제거)을 실행하면 됩니다.
 
-It is also possible to ignore the cache entirely by passing `--no-storage-caching`, or with `foundry.toml` by configuring [`no_storage_caching`](/config/reference/testing#no_storage_caching) and [`rpc_storage_caching`](/config/reference/testing#rpc_storage_caching).
+또한 `--no-storage-caching`을 전달하거나 `foundry.toml`에서 [`no_storage_caching`](/config/reference/testing#no_storage_caching) 및 [`rpc_storage_caching`](/config/reference/testing#rpc_storage_caching)을 구성하여 캐시를 완전히 무시할 수도 있습니다.
 
-#### Improved traces
+#### 개선된 트레이스 (Improved traces)
 
-Forge supports identifying contracts in a forked environment with Etherscan.
+Forge는 Etherscan을 사용하여 포크된 환경에서 컨트랙트를 식별하는 기능을 지원합니다.
 
-To use this feature, pass the Etherscan API key via the `--etherscan-api-key` flag:
+이 기능을 사용하려면 `--etherscan-api-key` 플래그를 통해 Etherscan API 키를 전달하세요:
 
 ```bash
 forge test --fork-url <your_rpc_url> --etherscan-api-key <your_etherscan_api_key>
 ```
 
-Alternatively, you can set the `ETHERSCAN_API_KEY` environment variable.
+또는 `ETHERSCAN_API_KEY` 환경 변수를 설정할 수도 있습니다.
 
-### Forking Cheatcodes
+### 포크 치트코드 (Forking Cheatcodes)
 
-Forking cheatcodes allow you to enter forking mode programmatically in your Solidity test code. Instead of configuring forking mode via `forge` CLI arguments, these cheatcodes allow you to use forking mode on a test-by-test basis and work with multiple forks in your tests. Each fork is identified via its own unique `uint256` identifier.
+포크 치트코드를 사용하면 Solidity 테스트 코드에서 프로그래밍 방식으로 포크 모드에 진입할 수 있습니다. `forge` CLI 인수를 통해 포크 모드를 구성하는 대신, 이러한 치트코드를 사용하면 테스트별로 포크 모드를 사용하고 테스트에서 여러 포크를 다룰 수 있습니다. 각 포크는 고유한 `uint256` 식별자로 구별됩니다.
 
-#### Usage
+#### 사용법
 
-Important to keep in mind that _all_ test functions are isolated, meaning each test function is executed with a _copy_ of the state _after_ `setUp` and is executed in its own stand-alone EVM.
+_모든_ 테스트 함수는 격리되어 있으며, 각 테스트 함수는 `setUp` _이후_ 상태의 _사본_으로 실행되고 고유한 독립형 EVM에서 실행된다는 점을 기억하는 것이 중요합니다.
 
-Therefore forks created during `setUp` are available in tests. The code example below uses [`createFork`](/reference/cheatcodes/create-fork) to create two forks, but does _not_ select one initially. Each fork is identified with a unique identifier (`uint256 forkId`), which is assigned when it is first created.
+따라서 `setUp` 중에 생성된 포크는 테스트에서 사용할 수 있습니다. 아래 코드 예제는 [`createFork`](/reference/cheatcodes/create-fork)를 사용하여 두 개의 포크를 생성하지만 처음에는 하나를 선택하지 _않습니다_. 각 포크는 처음 생성될 때 할당되는 고유 식별자(`uint256 forkId`)로 식별됩니다.
 
-Enabling a specific fork is done via passing that `forkId` to [`selectFork`](/reference/cheatcodes/select-fork).
+특정 포크를 활성화하려면 해당 `forkId`를 [`selectFork`](/reference/cheatcodes/select-fork)에 전달하여 수행합니다.
 
-[`createSelectFork`](/reference/cheatcodes/create-select-fork) is a one-liner for `createFork` plus `selectFork`.
+[`createSelectFork`](/reference/cheatcodes/create-select-fork)는 `createFork`와 `selectFork`를 한 번에 수행하는 함수입니다.
 
-> WARN: `vm.createSelectFork` creates a **new** fork every time it is called. If you call `vm.createSelectFork` with the same RPC URL multiple times, it will create multiple independent forks, each starting from a clean state. Any state changes made in one fork will not be present in subsequent forks created with `vm.createSelectFork`. To preserve state changes when switching between forks, use `vm.createFork` once to create each fork, store the returned fork IDs, and then use `vm.selectFork` to switch between them.
+> 경고: `vm.createSelectFork`는 호출될 때마다 **새로운** 포크를 생성합니다. 동일한 RPC URL로 `vm.createSelectFork`를 여러 번 호출하면, 각각 깨끗한 상태에서 시작하는 여러 개의 독립적인 포크가 생성됩니다. 한 포크에서 이루어진 상태 변경은 `vm.createSelectFork`로 생성된 후속 포크에는 존재하지 않습니다. 포크 간 전환 시 상태 변경을 보존하려면, `vm.createFork`를 한 번 사용하여 각 포크를 생성하고 반환된 포크 ID를 저장한 다음 `vm.selectFork`를 사용하여 전환하세요.
 
-There can only be one fork active at a time, and the identifier for the currently active fork can be retrieved via [`activeFork`](/reference/cheatcodes/active-fork).
+한 번에 하나의 포크만 활성화할 수 있으며, 현재 활성화된 포크의 식별자는 [`activeFork`](/reference/cheatcodes/active-fork)를 통해 검색할 수 있습니다.
 
-Similar to [`roll`](/reference/cheatcodes/roll), you can set `block.number` of a fork with [`rollFork`](/reference/cheatcodes/roll-fork).
+[`roll`](/reference/cheatcodes/roll)과 유사하게 [`rollFork`](/reference/cheatcodes/roll-fork)를 사용하여 포크의 `block.number`를 설정할 수 있습니다.
 
-To understand what happens when a fork is selected, it is important to know how the forking mode works in general:
+포크가 선택될 때 어떤 일이 발생하는지 이해하려면 포크 모드가 일반적으로 어떻게 작동하는지 아는 것이 중요합니다:
 
-Each fork is a standalone EVM, i.e. all forks use completely independent storage. The only exception is the state of the `msg.sender` and the test contract itself, which are persistent across fork swaps.
-In other words all changes that are made while fork `A` is active (`selectFork(A)`) are only recorded in fork `A`'s storage and are not available if another fork is selected. However, changes recorded in the test contract itself (variables) are still available because the test contract is a _persistent_ account.
+각 포크는 독립적인 EVM입니다. 즉, 모든 포크는 완전히 독립적인 스토리지를 사용합니다. 유일한 예외는 포크 교체(swap) 간에 지속되는 `msg.sender`와 테스트 컨트랙트 자체의 상태입니다.
+즉, 포크 `A`가 활성화된 동안(`selectFork(A)`) 변경된 모든 내용은 포크 `A`의 스토리지에만 기록되며 다른 포크가 선택되면 사용할 수 없습니다. 그러나 테스트 컨트랙트 자체에 기록된 변경 사항(변수)은 테스트 컨트랙트가 _지속적인(persistent)_ 계정이므로 여전히 사용할 수 있습니다.
 
-The `selectFork` cheatcode sets the _remote_ section with the fork's data source, however the _local_ memory remains persistent across fork swaps. This also means `selectFork` can be called at all times with any fork, to set the _remote_ data source. However, it is important to keep in mind the above rules for `read/write` access always apply, meaning _writes_ are persistent across fork swaps.
+`selectFork` 치트코드는 _원격(remote)_ 섹션을 포크의 데이터 소스로 설정하지만, _로컬(local)_ 메모리는 포크 교체 간에 지속됩니다. 이는 또한 `selectFork`가 언제든지 모든 포크와 함께 호출되어 _원격_ 데이터 소스를 설정할 수 있음을 의미합니다. 그러나 `read/write` 액세스에 대한 위의 규칙이 항상 적용된다는 점을 명심해야 합니다. 즉, _쓰기_는 포크 교체 간에 지속됩니다.
 
-#### Examples
+#### 예제
 
-##### Create and Select Forks
+##### 포크 생성 및 선택
 
 ```solidity
 contract ForkTest is Test {
-    // the identifiers of the forks
+    // 포크 식별자
     uint256 mainnetFork;
     uint256 optimismFork;
 
-    //Access variables from .env file via vm.envString("varname")
-    //Replace ALCHEMY_KEY by your alchemy key or Etherscan key, change RPC url if need
-    //inside your .env file e.g:
-    //MAINNET_RPC_URL = 'https://eth-mainnet.g.alchemy.com/v2/ALCHEMY_KEY'
-    //string MAINNET_RPC_URL = vm.envString("MAINNET_RPC_URL");
-    //string OPTIMISM_RPC_URL = vm.envString("OPTIMISM_RPC_URL");
+    // .env 파일의 변수에 vm.envString("varname")을 통해 접근
+    // ALCHEMY_KEY를 알케미 키 또는 이더스캔 키로 교체하고, 필요한 경우 RPC URL 변경
+    // .env 파일 내부 예:
+    // MAINNET_RPC_URL = 'https://eth-mainnet.g.alchemy.com/v2/ALCHEMY_KEY'
+    // string MAINNET_RPC_URL = vm.envString("MAINNET_RPC_URL");
+    // string OPTIMISM_RPC_URL = vm.envString("OPTIMISM_RPC_URL");
 
-    // create two _different_ forks during setup
+    // setup 중에 두 개의 _서로 다른_ 포크 생성
     function setUp() public {
         mainnetFork = vm.createFork(MAINNET_RPC_URL);
         optimismFork = vm.createFork(OPTIMISM_RPC_URL);
     }
 
-    // demonstrate fork ids are unique
+    // 포크 id가 고유함을 증명
     function testForkIdDiffer() public {
         assert(mainnetFork != optimismFork);
     }
 
-    // select a specific fork
+    // 특정 포크 선택
     function testCanSelectFork() public {
-        // select the fork
+        // 포크 선택
         vm.selectFork(mainnetFork);
         assertEq(vm.activeFork(), mainnetFork);
 
-        // from here on data is fetched from the `mainnetFork` if the EVM requests it and written to the storage of `mainnetFork`
+        // 이제부터 EVM이 요청하면 `mainnetFork`에서 데이터를 가져오고 `mainnetFork`의 스토리지에 씁니다.
     }
 
-    // manage multiple forks in the same test
+    // 동일한 테스트에서 여러 포크 관리
     function testCanSwitchForks() public {
         vm.selectFork(mainnetFork);
         assertEq(vm.activeFork(), mainnetFork);
@@ -135,14 +135,14 @@ contract ForkTest is Test {
         assertEq(vm.activeFork(), optimismFork);
     }
 
-    // forks can be created at all times
+    // 포크는 언제든지 생성 가능
     function testCanCreateAndSelectForkInOneStep() public {
-        // creates a new fork and also selects it
+        // 새 포크를 생성하고 선택
         uint256 anotherFork = vm.createSelectFork(MAINNET_RPC_URL);
         assertEq(vm.activeFork(), anotherFork);
     }
 
-    // set `block.number` of a fork
+    // 포크의 `block.number` 설정
     function testCanSetForkBlockNumber() public {
         vm.selectFork(mainnetFork);
         vm.rollFork(1_337_000);
@@ -152,50 +152,50 @@ contract ForkTest is Test {
 }
 ```
 
-##### Separated and persistent storage
+##### 분리된 스토리지와 지속적인 스토리지
 
-As mentioned each fork is essentially an independent EVM with separated storage.
+앞서 언급했듯이 각 포크는 본질적으로 분리된 스토리지를 가진 독립적인 EVM입니다.
 
-Only the accounts of `msg.sender` and the test contract (`ForkTest`) are persistent when forks are selected. But any account can be turned into a persistent account: [`makePersistent`](/reference/cheatcodes/make-persistent).
+포크가 선택될 때 `msg.sender`와 테스트 컨트랙트(`ForkTest`)의 계정만 지속됩니다. 그러나 [`makePersistent`](/reference/cheatcodes/make-persistent)를 사용하여 모든 계정을 지속적인 계정으로 전환할 수 있습니다.
 
-An account that is _persistent_ is unique, i.e. it exists on all forks
+_지속적인(persistent)_ 계정은 고유합니다. 즉, 모든 포크에 존재합니다.
 
 ```solidity
 contract ForkTest is Test {
-    // the identifiers of the forks
+    // 포크 식별자
     uint256 mainnetFork;
     uint256 optimismFork;
 
-    //Access variables from .env file via vm.envString("varname")
-    //Replace ALCHEMY_KEY by your alchemy key or Etherscan key, change RPC url if need
-    //inside your .env file e.g:
-    //MAINNET_RPC_URL = 'https://eth-mainnet.g.alchemy.com/v2/ALCHEMY_KEY'
-    //string MAINNET_RPC_URL = vm.envString("MAINNET_RPC_URL");
-    //string OPTIMISM_RPC_URL = vm.envString("OPTIMISM_RPC_URL");
+    // .env 파일의 변수에 vm.envString("varname")을 통해 접근
+    // ALCHEMY_KEY를 알케미 키 또는 이더스캔 키로 교체하고, 필요한 경우 RPC URL 변경
+    // .env 파일 내부 예:
+    // MAINNET_RPC_URL = 'https://eth-mainnet.g.alchemy.com/v2/ALCHEMY_KEY'
+    // string MAINNET_RPC_URL = vm.envString("MAINNET_RPC_URL");
+    // string OPTIMISM_RPC_URL = vm.envString("OPTIMISM_RPC_URL");
 
-    // create two _different_ forks during setup
+    // setup 중에 두 개의 _서로 다른_ 포크 생성
     function setUp() public {
         mainnetFork = vm.createFork(MAINNET_RPC_URL);
         optimismFork = vm.createFork(OPTIMISM_RPC_URL);
     }
 
-    // creates a new contract while a fork is active
+    // 포크가 활성화된 동안 새 컨트랙트 생성
     function testCreateContract() public {
         vm.selectFork(mainnetFork);
         assertEq(vm.activeFork(), mainnetFork);
 
-        // the new contract is written to `mainnetFork`'s storage
+        // 새 컨트랙트는 `mainnetFork`의 스토리지에 기록됨
         SimpleStorageContract simple = new SimpleStorageContract();
 
-        // and can be used as normal
+        // 정상적으로 사용 가능
         simple.set(100);
         assertEq(simple.value(), 100);
 
-        // after switching to another contract we still know `address(simple)` but the contract only lives in `mainnetFork`
+        // 다른 컨트랙트로 전환한 후에도 `address(simple)`은 알 수 있지만 컨트랙트는 `mainnetFork`에만 존재함
         vm.selectFork(optimismFork);
 
-        /* this call will therefore revert because `simple` now points to a contract that does not exist on the active fork
-        * it will produce following revert message:
+        /* `simple`이 이제 활성 포크에 존재하지 않는 컨트랙트를 가리키므로 이 호출은 리버트됩니다.
+        * 다음과 같은 리버트 메시지가 생성됩니다:
         *
         * "Contract 0xCe71065D4017F316EC606Fe4422e11eB2c47c246 does not exist on active fork with id `1`
         *       But exists on non active forks: `[0]`"
@@ -203,21 +203,21 @@ contract ForkTest is Test {
         simple.value();
     }
 
-     // creates a new _persistent_ contract while a fork is active
+     // 포크가 활성화된 동안 새로운 _지속적인_ 컨트랙트 생성
      function testCreatePersistentContract() public {
         vm.selectFork(mainnetFork);
         SimpleStorageContract simple = new SimpleStorageContract();
         simple.set(100);
         assertEq(simple.value(), 100);
 
-        // mark the contract as persistent so it is also available when other forks are active
+        // 컨트랙트를 지속적인 것으로 표시하여 다른 포크가 활성화될 때도 사용할 수 있게 함
         vm.makePersistent(address(simple));
         assert(vm.isPersistent(address(simple)));
 
         vm.selectFork(optimismFork);
         assert(vm.isPersistent(address(simple)));
 
-        // This will succeed because the contract is now also available on the `optimismFork`
+        // 이제 컨트랙트가 `optimismFork`에서도 사용 가능하므로 성공합니다.
         assertEq(simple.value(), 100);
      }
 }
@@ -231,19 +231,19 @@ contract SimpleStorageContract {
 }
 ```
 
-For more details and examples, see the [forking cheatcodes](/reference/cheatcodes/forking) reference.
+자세한 내용과 예제는 [포크 치트코드](/reference/cheatcodes/forking) 참조를 확인하세요.
 
-### EVM version
+### EVM 버전
 
-Proper configuration is needed to execute forked tests with chains using different EVM versions:
+다른 EVM 버전을 사용하는 체인에서 포크된 테스트를 실행하려면 적절한 구성이 필요합니다:
 
-- if same EVM version applies for all forked chains used, then it can be globally configured in `foundry.toml` file
+- 사용되는 모든 포크된 체인에 동일한 EVM 버전이 적용되는 경우, `foundry.toml` 파일에서 전역적으로 구성할 수 있습니다:
 
 ```toml
 evm_version = "prague"
 ```
 
-- if different EVM versions are used, specific EVM test version can be set using inline configuration
+- 다른 EVM 버전을 사용하는 경우, 인라인 구성을 사용하여 특정 EVM 테스트 버전을 설정할 수 있습니다:
 
 ```solidity
 /// forge-config: default.evm_version = "shanghai"

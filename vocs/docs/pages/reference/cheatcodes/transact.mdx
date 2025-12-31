@@ -1,28 +1,28 @@
 ## `transact`
 
-### Signature
+### 시그니처
 
 ```solidity
-// Fetches the given transaction from the active fork and executes it on the current state
+// 활성 포크에서 주어진 트랜잭션을 가져와 현재 상태에서 실행합니다.
 function transact(bytes32 txHash) external;
-// Fetches the given transaction from the given fork and executes it on the current state
+// 주어진 포크에서 주어진 트랜잭션을 가져와 현재 상태에서 실행합니다.
 function transact(uint256 forkId, bytes32 txHash) external;
 ```
 
-### Description
+### 설명
 
-In forking mode, fetches the Transaction from the provider and executes it on the current state
+포킹 모드에서 공급자(provider)로부터 트랜잭션을 가져와 현재 상태에서 실행합니다.
 
-### Examples
+### 예제
 
-Enter forking mode and execute a transaction:
+포킹 모드로 진입하여 트랜잭션 실행:
 
 ```solidity
-// Enter forking mode at block: https://etherscan.io/block/15596646
+// 블록에서 포킹 모드 진입: https://etherscan.io/block/15596646
 uint256 fork = vm.createFork(MAINNET_RPC_URL, 15596646);
 vm.selectFork(fork);
 
-// a random transfer transaction in the block: https://etherscan.io/tx/0xaba74f25a17cf0d95d1c6d0085d6c83fb8c5e773ffd2573b99a953256f989c89
+// 블록 내의 임의 전송 트랜잭션: https://etherscan.io/tx/0xaba74f25a17cf0d95d1c6d0085d6c83fb8c5e773ffd2573b99a953256f989c89
 bytes32 tx = 0xaba74f25a17cf0d95d1c6d0085d6c83fb8c5e773ffd2573b99a953256f989c89;
 
 address sender = address(0xa98218cdc4f63aCe91ddDdd24F7A580FD383865b);
@@ -31,25 +31,25 @@ address recipient = address(0x0C124046Fa7202f98E4e251B50488e34416Fc306);
 assertEq(sender.balance, 5764124000000000);
 assertEq(recipient.balance, 3936000000000000);
 
-// transfer amount: 0.003936 Ether
+// 전송 금액: 0.003936 Ether
 uint256 transferAmount = 3936000000000000;
 
-// expected balance changes once the transaction is executed
+// 트랜잭션 실행 후 예상되는 잔액 변경
 uint256 expectedRecipientBalance = recipient.balance + transferAmount;
 uint256 expectedSenderBalance = sender.balance - transferAmount;
 
-// execute the transaction
+// 트랜잭션 실행
 vm.transact(tx);
 
-// recipient received transfer
+// 수신자가 전송 받음
 assertEq(recipient.balance, expectedRecipientBalance);
 
-// sender's balance decreased by transferAmount and gas
+// 발신자의 잔액이 전송 금액과 가스만큼 감소함
 assert(sender.balance < expectedSenderBalance);
 
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [roll](/reference/cheatcodes/roll.mdx)
 - [createFork](/reference/cheatcodes/create-fork.mdx)

@@ -1,26 +1,26 @@
 ## `isPersistent`
 
-### Signature
+### 시그니처
 
 ```solidity
 function isPersistent(address) external returns (bool);
 ```
 
-### Description
+### 설명
 
-Returns whether an account is marked as persistent ([`makePersistent`](/reference/cheatcodes/make-persistent.mdx)).
+계정이 영구적([`makePersistent`](/reference/cheatcodes/make-persistent.mdx))으로 표시되었는지 여부를 반환합니다.
 
-### Examples
+### 예제
 
-Check default status of `msg.sender` and the current test account
+`msg.sender`와 현재 테스트 계정의 기본 상태 확인
 
 ```solidity
-// By default the `sender` and the test contract itself are persistent
+// 기본적으로 `sender`와 테스트 컨트랙트 자체는 영구적입니다.
 assert(cheats.isPersistent(msg.sender));
 assert(cheats.isPersistent(address(this)));
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [makePersistent](/reference/cheatcodes/make-persistent.mdx)
 - [revokePersistent](/reference/cheatcodes/revoke-persistent.mdx)

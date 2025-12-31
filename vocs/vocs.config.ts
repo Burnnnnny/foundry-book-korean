@@ -1,6 +1,7 @@
 import { defineConfig } from 'vocs'
 import { sidebar } from './sidebar/sidebar'
 export default defineConfig({
+  baseUrl: process.env.BASE_URL,
   title: 'foundry - Ethereum Development Framework',
   sidebar,
   theme: {

@@ -1,105 +1,105 @@
 ---
-description: Comprehensive testing strategies including unit tests, fork tests, test organization, and harness patterns for smart contracts.
+description: 단위 테스트, 포크 테스트, 테스트 구성 및 스마트 컨트랙트를 위한 하네스 패턴을 포함한 포괄적인 테스트 전략입니다.
 ---
 
-## Tests
+## 테스트
 
 ---
 
-### General Test Guidance
+### 일반적인 테스트 지침
 
-#### Naming test files
+#### 테스트 파일 명명
 
-For testing `MyContract.sol`, the test file should be `MyContract.t.sol`. For testing `MyScript.s.sol`, the test file should be `MyScript.t.sol`.
+`MyContract.sol`을 테스트하는 경우 테스트 파일은 `MyContract.t.sol`이어야 합니다. `MyScript.s.sol`을 테스트하는 경우 테스트 파일은 `MyScript.t.sol`이어야 합니다.
 
-- If the contract is big and you want to split it over multiple files, group them logically like `MyContract.owner.t.sol`, `MyContract.deposits.t.sol`, etc.
+- 컨트랙트가 크고 여러 파일로 나누고 싶다면 `MyContract.owner.t.sol`, `MyContract.deposits.t.sol` 등과 같이 논리적으로 그룹화하세요.
 
-#### No assertions in `setUp`
+#### `setUp`에 어설션(assertions) 없음
 
-Never make assertions in the `setUp` function, instead use a dedicated test like `test_SetUpState()` if you need to ensure your `setUp` function does what you expected. More info on why in [foundry-rs/foundry#1291](https://github.com/foundry-rs/foundry/issues/1291)
+`setUp` 함수에서 절대 어설션을 수행하지 마세요. `setUp` 함수가 예상대로 수행되는지 확인해야 하는 경우 `test_SetUpState()`와 같은 전용 테스트를 사용하세요. 그 이유에 대한 자세한 내용은 [foundry-rs/foundry#1291](https://github.com/foundry-rs/foundry/issues/1291)을 참조하세요.
 
-#### Organizing and Naming tests
+#### 테스트 구성 및 명명
 
-For unit tests, there are two major ways to organize the tests:
+단위 테스트의 경우 테스트를 구성하는 두 가지 주요 방법이 있습니다:
 
-1.  Treat contracts as describe blocks:
+1.  컨트랙트를 describe 블록으로 취급:
 
-    - `contract Add` holds all unit tests for the `add` method of `MyContract`.
-    - `contract Supply` holds all tests for the `supply` method.
-    - `contract Constructor` hold all tests for the constructor.
-    - A benefit of this approach is that smaller contracts should compile faster than large ones, so this approach of many small contracts should save time as test suites get large.
+    - `contract Add`는 `MyContract`의 `add` 메서드에 대한 모든 단위 테스트를 보유합니다.
+    - `contract Supply`는 `supply` 메서드에 대한 모든 테스트를 보유합니다.
+    - `contract Constructor`는 생성자에 대한 모든 테스트를 보유합니다.
+    - 이 접근 방식의 장점은 작은 컨트랙트가 큰 컨트랙트보다 빠르게 컴파일되어야 하므로, 테스트 스위트가 커짐에 따라 많은 작은 컨트랙트로 구성하는 방식이 시간을 절약할 수 있다는 것입니다.
 
-2.  Have a Test contract per contract-under-test, with as many utilities and fixtures as you want:
+2.  테스트 대상 컨트랙트당 하나의 테스트 컨트랙트를 갖고, 원하는 만큼 유틸리티와 픽스처를 보유:
 
-    - `contract MyContractTest` holds all unit tests for `MyContract`.
-    - `function test_add_AddsTwoNumbers()` lives within `MyContractTest` to test the `add` method.
-    - `function test_supply_UsersCanSupplyTokens()` also lives within `MyContractTest` to test the `supply` method.
-    - A benefit of this approach is that test output is grouped by contract-under-test, which makes it easier to quickly see where failures are.
+    - `contract MyContractTest`는 `MyContract`에 대한 모든 단위 테스트를 보유합니다.
+    - `function test_add_AddsTwoNumbers()`는 `add` 메서드를 테스트하기 위해 `MyContractTest` 내에 존재합니다.
+    - `function test_supply_UsersCanSupplyTokens()`도 `supply` 메서드를 테스트하기 위해 `MyContractTest` 내에 존재합니다.
+    - 이 접근 방식의 장점은 테스트 출력이 테스트 대상 컨트랙트별로 그룹화되어 실패 위치를 빠르게 파악하기 쉽다는 것입니다.
 
-3.  Some general guidance for all kinds tests:
+3.  모든 종류의 테스트에 대한 몇 가지 일반적인 지침:
 
-    - Test contracts/functions should be written in the same order as the original functions in the contract-under-test.
-    - All unit tests that test the same function should live serially in the test file.
-    - Test contracts can inherit from any helper contracts you want. For example `contract MyContractTest` tests `MyContract`, but may inherit from forge-std's `Test`, as well as e.g. your own `TestUtilities` helper contract.
+    - 테스트 컨트랙트/함수는 테스트 대상 컨트랙트의 원래 함수와 동일한 순서로 작성해야 합니다.
+    - 동일한 함수를 테스트하는 모든 단위 테스트는 테스트 파일 내에서 연속적으로 위치해야 합니다.
+    - 테스트 컨트랙트는 원하는 도우미 컨트랙트에서 상속받을 수 있습니다. 예를 들어 `contract MyContractTest`는 `MyContract`를 테스트하지만, forge-std의 `Test`나 자신의 `TestUtilities` 도우미 컨트랙트에서 상속받을 수 있습니다.
 
-4.  Integration tests should live in the same `test` directory, with a clear naming convention. These may be in dedicated files, or they may live next to related unit tests in existing test files.
+4.  통합 테스트는 동일한 `test` 디렉토리에 명확한 명명 규칙을 가지고 있어야 합니다. 전용 파일에 있거나 기존 테스트 파일의 관련 단위 테스트 옆에 있을 수 있습니다.
 
-5.  Be consistent with test naming, as it's helpful for filtering tests (e.g. for gas reports you might want to filter out revert tests). When combining naming conventions, keep them alphabetical. Below is a sample of valid names. A comprehensive list of valid and invalid examples can be found [here](https://github.com/ScopeLift/scopelint/blob/1857e3940bfe92ac5a136827374f4b27ff083971/src/check/validators/test_names.rs#L106-L143).
+5.  테스트 명명은 일관성을 유지하세요. 이는 테스트 필터링에 도움이 됩니다(예: 가스 보고서의 경우 되돌리기(revert) 테스트를 필터링하고 싶을 수 있음). 명명 규칙을 결합할 때는 알파벳 순서로 유지하세요. 아래는 유효한 이름의 예시입니다. 유효하거나 유효하지 않은 예시의 전체 목록은 [여기](https://github.com/ScopeLift/scopelint/blob/1857e3940bfe92ac5a136827374f4b27ff083971/src/check/validators/test_names.rs#L106-L143)에서 확인할 수 있습니다.
 
-    - `test_Description` for standard tests.
-    - `testFuzz_Description` for fuzz tests.
-    - `test_Revert[If|When]_Condition` for tests expecting a revert.
-    - `testFork_Description` for tests that fork from a network.
-    - `testForkFuzz_Revert[If|When]_Condition` for a fuzz test that forks and expects a revert.
+    - 표준 테스트의 경우 `test_Description`.
+    - 퍼즈 테스트의 경우 `testFuzz_Description`.
+    - 되돌리기가 예상되는 테스트의 경우 `test_Revert[If|When]_Condition`.
+    - 네트워크에서 포크하는 테스트의 경우 `testFork_Description`.
+    - 포크하고 되돌리기를 예상하는 퍼즈 테스트의 경우 `testForkFuzz_Revert[If|When]_Condition`.
 
-6.  Name your constants and immutables using `ALL_CAPS_WITH_UNDERSCORES`, to make it easier to distinguish them from variables and functions.
+6.  상수와 불변 변수의 이름은 `ALL_CAPS_WITH_UNDERSCORES`를 사용하여 변수 및 함수와 구별하기 쉽게 만드세요.
 
-7.  When using assertions like `assertEq`, consider leveraging the last string param to make it easier to identify failures. These can be kept brief, or even just be numbers&mdash;they basically serve as a replacement for showing line numbers of the revert, e.g. `assertEq(x, y, "1")` or `assertEq(x, y, "sum1")`. _(Note: [foundry-rs/foundry#2328](https://github.com/foundry-rs/foundry/issues/2328) tracks integrating this natively)._
+7.  `assertEq`와 같은 어설션을 사용할 때 마지막 문자열 매개변수를 활용하여 실패를 식별하기 쉽게 만드는 것을 고려하세요. 이들은 간결하게 유지하거나 단순히 숫자일 수도 있습니다. 기본적으로 되돌리기의 줄 번호를 표시하는 것을 대체하는 역할을 합니다. 예: `assertEq(x, y, "1")` 또는 `assertEq(x, y, "sum1")`. _(참고: [foundry-rs/foundry#2328](https://github.com/foundry-rs/foundry/issues/2328)에서 이를 기본적으로 통합하는 것을 추적 중입니다)._
 
-8.  When testing events, prefer setting all `expectEmit` arguments to `true`, i.e. `vm.expectEmit(true, true, true, true)` or `vm.expectEmit()`. Benefits:
+8.  이벤트를 테스트할 때 모든 `expectEmit` 인수를 `true`로 설정하는 것을 선호하세요. 즉, `vm.expectEmit(true, true, true, true)` 또는 `vm.expectEmit()`. 장점:
 
-    - This ensures you test everything in your event.
-    - If you add a topic (i.e. a new indexed parameter), it's now tested by default.
-    - Even if you only have 1 topic, the extra `true` arguments don't hurt.
+    - 이벤트의 모든 것을 테스트하도록 보장합니다.
+    - 토픽(즉, 새로운 인덱싱된 매개변수)을 추가하면 기본적으로 테스트됩니다.
+    - 토픽이 1개만 있더라도 추가적인 `true` 인수는 해가 되지 않습니다.
 
-9.  Remember to write invariant tests! For the assertion string, use a verbose english description of the invariant: `assertEq(x + y, z, "Invariant violated: the sum of x and y must always equal z")`.
+9.  불변성 테스트(invariant tests)를 작성하는 것을 잊지 마세요! 어설션 문자열에는 불변성에 대한 자세한 영어 설명을 사용하세요: `assertEq(x + y, z, "Invariant violated: the sum of x and y must always equal z")`.
 
-### Fork Tests
+### 포크 테스트 (Fork Tests)
 
-#### Use fork tests liberally
+#### 포크 테스트를 자유롭게 사용하세요
 
-Don't feel like you need to give forks tests special treatment, and use them liberally:
+포크 테스트를 특별하게 취급할 필요는 없으며 자유롭게 사용하세요:
 
-- Mocks are _required_ in closed-source web2 development—you have to mock API responses because the code for that API isn't open source so you cannot just run it locally. But for blockchains that's not true: any code you're interacting with that's already deployed can be locally executed and even modified for free. So why introduce the risk of a wrong mock if you don't need to?
-- A common reason to avoid fork tests and prefer mocks is that fork tests are slow. But this is not always true. By pinning to a block number, forge caches RPC responses so only the first run is slower, and subsequent runs are significantly faster. See [this benchmark](https://github.com/mds1/convex-shutdown-simulation/), where it took forge 7 minutes for the first run with a remote RPC, but only half a second once data was cached. [Alchemy](https://alchemy.com), [Infura](https://infura.io) and [Tenderly](https://tenderly.co) offer free archive data, so pinning to a block shouldn't be problematic.
-- Note that the [foundry-toolchain](https://github.com/foundry-rs/foundry-toolchain) GitHub Action will cache RPC responses in CI by default, and it will also update the cache when you update your fork tests.
+- 비공개 소스 web2 개발에서는 모의(Mock)가 _필수_ 입니다. API 코드가 오픈 소스가 아니어서 로컬에서 실행할 수 없으므로 API 응답을 모의해야 합니다. 하지만 블록체인에서는 그렇지 않습니다. 이미 배포된 상호 작용하는 모든 코드는 로컬에서 무료로 실행하고 수정할 수도 있습니다. 굳이 필요하지 않은데 잘못된 모의의 위험을 도입할 이유가 있을까요?
+- 포크 테스트를 피하고 모의를 선호하는 일반적인 이유는 포크 테스트가 느리다는 것입니다. 하지만 이것이 항상 사실은 아닙니다. 블록 번호를 고정(pinning)하면 forge가 RPC 응답을 캐시하므로 첫 번째 실행만 느리고 후속 실행은 훨씬 빠릅니다. [이 벤치마크](https://github.com/mds1/convex-shutdown-simulation/)를 보면, 원격 RPC를 사용한 첫 번째 실행에는 7분이 걸렸지만 데이터가 캐시된 후에는 0.5초밖에 걸리지 않았습니다. [Alchemy](https://alchemy.com), [Infura](https://infura.io) 및 [Tenderly](https://tenderly.co)는 무료 아카이브 데이터를 제공하므로 블록에 고정하는 것은 문제가 되지 않습니다.
+- [foundry-toolchain](https://github.com/foundry-rs/foundry-toolchain) GitHub Action은 CI에서 기본적으로 RPC 응답을 캐시하며, 포크 테스트를 업데이트할 때 캐시도 업데이트합니다.
 
-#### Minimize RPC requests
+#### RPC 요청 최소화
 
-Be careful with fuzz tests on a fork to avoid burning through RPC requests with non-deterministic fuzzing. If the input to your fork fuzz test is some parameter which is used in an RPC call to fetch data (e.g. querying the token balance of an address), each run of a fuzz test uses at least 1 RPC request, so you'll quickly hit rate limits or usage limits. Solutions to consider:
+비결정적 퍼징으로 RPC 요청을 낭비하지 않도록 포크에서의 퍼즈 테스트에 주의하세요. 포크 퍼즈 테스트의 입력이 데이터를 가져오기 위해 RPC 호출에 사용되는 매개변수(예: 주소의 토큰 잔액 조회)인 경우, 퍼즈 테스트를 실행할 때마다 최소 1개의 RPC 요청을 사용하므로 속도 제한이나 사용량 제한에 빠르게 도달할 수 있습니다. 고려할 솔루션:
 
-- Replace multiple RPC calls with a single [multicall](https://github.com/mds1/multicall).
-- Specify a fuzz/invariant [seed](/config/reference/testing#seed): this makes sure each `forge test` invocation uses the same fuzz inputs. RPC results are cached locally, so you'll only query the node the first time.
-- In CI, consider setting the fuzz seed using a [computed environment variable](https://github.com/sablier-labs/v2-core/blob/d1157b49ed4bceeff0c4e437c9f723e88c134d3a/.github/workflows/ci.yml#L252-L254) so it changes every day or every week. This gives flexibility on the tradeoff between increasing randomness to find more bugs vs. using a seed to reduce RPC requests.
-- Structure your tests so the data you are fuzzing over is computed locally by your contract, and not data that is used in an RPC call (may or may not be feasible based on what you're doing).
-- Lastly, you can of course always run a local node or bump your RPC plan.
+- 여러 RPC 호출을 단일 [multicall](https://github.com/mds1/multicall)로 대체하세요.
+- 퍼즈/불변성 [시드](/config/reference/testing#seed)를 지정하세요: 이는 각 `forge test` 호출이 동일한 퍼즈 입력을 사용하도록 보장합니다. RPC 결과는 로컬에 캐시되므로 처음 한 번만 노드를 쿼리하게 됩니다.
+- CI에서는 [계산된 환경 변수](https://github.com/sablier-labs/v2-core/blob/d1157b49ed4bceeff0c4e437c9f723e88c134d3a/.github/workflows/ci.yml#L252-L254)를 사용하여 퍼즈 시드를 설정하여 매일 또는 매주 변경되도록 하는 것을 고려하세요. 이는 더 많은 버그를 찾기 위한 무작위성 증가와 RPC 요청 감소를 위한 시드 사용 사이의 균형을 맞출 수 있는 유연성을 제공합니다.
+- 퍼징하는 데이터가 RPC 호출에 사용되는 데이터가 아니라 컨트랙트에 의해 로컬에서 계산되도록 테스트를 구조화하세요(수행하는 작업에 따라 가능할 수도 있고 불가능할 수도 있음).
+- 마지막으로, 물론 항상 로컬 노드를 실행하거나 RPC 요금제를 업그레이드할 수 있습니다.
 
-#### Configure fork urls in `foundry.toml` and use cheatcodes
+#### `foundry.toml`에서 포크 url 구성 및 치트코드 사용
 
-1. When writing fork tests, do not use the `--fork-url` flag. Instead, prefer the following approach for its improved flexibility:
+1. 포크 테스트를 작성할 때 `--fork-url` 플래그를 사용하지 마세요. 대신 향상된 유연성을 위해 다음 접근 방식을 선호하세요:
 
-   - Define `[rpc_endpoints]` in the `foundry.toml` config file and use the [forking cheatcodes](/forge/tests/fork-testing#forking-cheatcodes).
-   - Access the RPC URL endpoint in your test with forge-std's `stdChains.ChainName.rpcUrl`. See the list of supported chains and expected config file aliases [here](https://github.com/foundry-rs/forge-std/blob/ff4bf7db008d096ea5a657f2c20516182252a3ed/src/StdCheats.sol#L255-L271).
-   - Always pin to a block so tests are deterministic and RPC responses are cached.
-   - More info on this fork test approach can be found [here](https://twitter.com/msolomon44/status/1564742781129502722) (this predates `StdChains` so that aspect is a bit out of date).
+   - `foundry.toml` 구성 파일에 `[rpc_endpoints]`를 정의하고 [포킹 치트코드](/forge/tests/fork-testing#forking-cheatcodes)를 사용하세요.
+   - forge-std의 `stdChains.ChainName.rpcUrl`을 사용하여 테스트에서 RPC URL 엔드포인트에 액세스하세요. 지원되는 체인 목록과 예상되는 구성 파일 별칭은 [여기](https://github.com/foundry-rs/forge-std/blob/ff4bf7db008d096ea5a657f2c20516182252a3ed/src/StdCheats.sol#L255-L271)를 참조하세요.
+   - 테스트가 결정적이고 RPC 응답이 캐시되도록 항상 블록에 고정하세요.
+   - 이 포크 테스트 접근 방식에 대한 자세한 정보는 [여기](https://twitter.com/msolomon44/status/1564742781129502722)에서 확인할 수 있습니다 (`StdChains` 이전 내용이므로 해당 측면은 약간 구식입니다).
 
-### Test Harnesses
+### 테스트 하네스 (Test Harnesses)
 
-#### Internal Functions
+#### 내부 함수 (Internal Functions)
 
-To test `internal` functions, write a harness contract that inherits from the contract under test (CuT). Harness contracts that inherit from the CuT expose the `internal` functions as `external` ones.
+`internal` 함수를 테스트하려면 테스트 대상 컨트랙트(CuT)를 상속받는 하네스 컨트랙트를 작성하세요. CuT를 상속받는 하네스 컨트랙트는 `internal` 함수를 `external` 함수로 노출합니다.
 
-Each `internal` function that is tested should be exposed via an external one with a name that follows the pattern `exposed<FunctionName>`. For example:
+테스트되는 각 `internal` 함수는 `exposed<FunctionName>` 패턴을 따르는 이름의 외부 함수를 통해 노출되어야 합니다. 예를 들어:
 
 ```solidity
 // file: src/MyContract.sol
@@ -113,22 +113,22 @@ contract MyContract {
 import {MyContract} from "src/MyContract.sol";
 
 contract MyContractHarness is MyContract {
-  // Deploy this contract then call this method to test `myInternalMethod`.
+  // 이 컨트랙트를 배포한 다음 이 메서드를 호출하여 `myInternalMethod`를 테스트합니다.
   function exposedMyInternalMethod() external returns (uint) {
     return myInternalMethod();
   }
 }
 ```
 
-#### Private Functions
+#### 비공개 함수 (Private Functions)
 
-Unfortunately there is currently no good way to unit test `private` methods since they cannot be accessed by any other contracts. Options include:
+불행히도 `private` 메서드는 다른 컨트랙트에서 액세스할 수 없으므로 현재 단위 테스트할 수 있는 좋은 방법이 없습니다. 옵션은 다음과 같습니다:
 
-- Converting `private` functions to `internal`.
-- Copy/pasting the logic into your test contract and writing a script that runs in CI check to ensure both functions are identical.
+- `private` 함수를 `internal`로 변환합니다.
+- 로직을 테스트 컨트랙트에 복사/붙여넣기하고 CI 체크에서 실행되는 스크립트를 작성하여 두 함수가 동일한지 확인합니다.
 
-#### Workaround Functions
+#### 해결책 함수 (Workaround Functions)
 
-Harnesses can also be used to expose functionality or information otherwise unavailable in the original smart contract. The most straightforward example is when we want to test the length of a public array. The functions should follow the pattern: `workaround_<function_name>`, such as `workaround_queueLength()`.
+하네스는 원래 스마트 컨트랙트에서 사용할 수 없는 기능이나 정보를 노출하는 데에도 사용할 수 있습니다. 가장 간단한 예는 공개 배열의 길이를 테스트하려는 경우입니다. 함수는 `workaround_<function_name>` 패턴을 따라야 합니다(예: `workaround_queueLength()`).
 
-Another use case for this is tracking data that you would not track in production to help test invariants. For example, you might store a list of all token holders to simplify validation of the invariant "sum of all balances must equal total supply". These are often known as "ghost variables". You can learn more about this in [Rikard Hjort](https://twitter.com/rikardhjort)'s [Formal Methods for the Working DeFi Dev](https://youtu.be/ETlNhV9jYJw) talk.
+이에 대한 또 다른 사용 사례는 불변성 테스트를 돕기 위해 프로덕션에서는 추적하지 않을 데이터를 추적하는 것입니다. 예를 들어 "모든 잔액의 합계는 총 공급량과 같아야 한다"는 불변성 검증을 단순화하기 위해 모든 토큰 보유자 목록을 저장할 수 있습니다. 이는 종종 "고스트 변수(ghost variables)"로 알려져 있습니다. [Rikard Hjort](https://twitter.com/rikardhjort)의 [실무 DeFi 개발자를 위한 형식적 방법론](https://youtu.be/ETlNhV9jYJw) 강연에서 이에 대해 자세히 알아볼 수 있습니다.

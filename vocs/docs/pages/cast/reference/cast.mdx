@@ -1,7 +1,6 @@
 ## cast
 
-A Swiss Army knife for interacting with Ethereum applications from the command
-line
+커맨드 라인에서 이더리움 애플리케이션과 상호 작용하기 위한 스위스 아미 나이프
 
 ```bash
 $ cast --help
@@ -11,225 +10,219 @@ $ cast --help
 Usage: cast [OPTIONS] <COMMAND>
 
 Commands:
-  4byte                  Get the function signatures for the given selector from
-                         [https://openchain.xyz](https://openchain.xyz) [aliases: 4, 4b]
-  4byte-calldata         Decode ABI-encoded calldata using
-                         [https://openchain.xyz](https://openchain.xyz) [aliases: 4c, 4bc]
-  4byte-event            Get the event signature for a given topic 0 from
-                         [https://openchain.xyz](https://openchain.xyz) [aliases: 4e, 4be,
+  4byte                  [https://openchain.xyz](https://openchain.xyz)에서
+                         주어진 선택자의 함수 서명 가져오기 [aliases: 4, 4b]
+  4byte-calldata         [https://openchain.xyz](https://openchain.xyz)를 사용하여
+                         ABI 인코딩된 콜 데이터 디코딩 [aliases: 4c, 4bc]
+  4byte-event            [https://openchain.xyz](https://openchain.xyz)에서
+                         주어진 토픽 0에 대한 이벤트 서명 가져오기 [aliases: 4e, 4be,
                          topic0-event, t0e]
-  abi-encode             ABI encode the given function argument, excluding the
-                         selector [aliases: ae]
-  abi-encode-event       ABI encode an event and its arguments to generate
-                         topics and data [aliases: aee]
-  access-list            Create an access list for a transaction [aliases: ac,
+  abi-encode             주어진 함수 인수 ABI 인코딩 (선택자 제외) [aliases: ae]
+  abi-encode-event       이벤트와 그 인수를 ABI 인코딩하여 토픽과 데이터 생성
+                         [aliases: aee]
+  access-list            트랜잭션에 대한 액세스 목록 생성 [aliases: ac,
                          acl]
-  address-zero           Prints the zero address [aliases: --address-zero, az]
-  admin                  Fetch the EIP-1967 admin account [aliases: adm]
-  age                    Get the timestamp of a block [aliases: a]
-  artifact               Generate an artifact file, that can be used to deploy a
-                         contract locally [aliases: ar]
-  b2e-payload            Convert Beacon payload to execution payload [aliases:
+  address-zero           영(zero) 주소 출력 [aliases: --address-zero, az]
+  admin                  EIP-1967 관리자 계정 가져오기 [aliases: adm]
+  age                    블록의 타임스탬프 가져오기 [aliases: a]
+  artifact               로컬에서 컨트랙트를 배포하는 데 사용할 수 있는 아티팩트
+                         파일 생성 [aliases: ar]
+  b2e-payload            비콘 페이로드를 실행 페이로드로 변환 [aliases:
                          b2e]
-  balance                Get the balance of an account in wei [aliases: b]
-  base-fee               Get the basefee of a block [aliases: ba, fee, basefee]
-  bind                   Generate a rust binding from a given ABI [aliases: bi]
-  block                  Get information about a block [aliases: bl]
-  block-number           Get the latest block number [aliases: bn]
-  call                   Perform a call on an account without publishing a
-                         transaction [aliases: c]
-  calldata               ABI-encode a function with arguments [aliases: cd]
-  chain                  Get the symbolic name of the current chain
-  chain-id               Get the Ethereum chain ID [aliases: ci, cid]
-  client                 Get the current client version [aliases: cl]
-  code                   Get the runtime bytecode of a contract [aliases: co]
-  codehash               Get the codehash for an account
-  codesize               Get the runtime bytecode size of a contract [aliases:
+  balance                계정의 잔액을 wei 단위로 가져오기 [aliases: b]
+  base-fee               블록의 기본 수수료(basefee) 가져오기 [aliases: ba, fee, basefee]
+  bind                   주어진 ABI로부터 rust 바인딩 생성 [aliases: bi]
+  block                  블록에 대한 정보 가져오기 [aliases: bl]
+  block-number           최신 블록 번호 가져오기 [aliases: bn]
+  call                   트랜잭션을 게시하지 않고 계정에 대해 호출(call) 수행
+                         [aliases: c]
+  calldata               함수와 인수를 ABI 인코딩 [aliases: cd]
+  chain                  현재 체인의 심볼릭 이름 가져오기
+  chain-id               이더리움 체인 ID 가져오기 [aliases: ci, cid]
+  client                 현재 클라이언트 버전 가져오기 [aliases: cl]
+  code                   컨트랙트의 런타임 바이트코드 가져오기 [aliases: co]
+  codehash               계정의 코드해시 가져오기
+  codesize               컨트랙트의 런타임 바이트코드 크기 가져오기 [aliases:
                          cs]
-  completions            Generate shell completions script [aliases: com]
-  compute-address        Compute the contract address from a given nonce and
-                         deployer address [aliases: ca]
-  concat-hex             Concatenate hex strings [aliases: --concat-hex, ch]
-  constructor-args       Display constructor arguments used for the contract
-                         initialization [aliases: cra]
-  create2                Generate a deterministic contract address using CREATE2
+  completions            쉘 완성 스크립트 생성 [aliases: com]
+  compute-address        주어진 논스(nonce)와 배포자 주소로부터 컨트랙트 주소
+                         계산 [aliases: ca]
+  concat-hex             16진수 문자열 연결 [aliases: --concat-hex, ch]
+  constructor-args       컨트랙트 초기화에 사용된 생성자 인수 표시
+                         [aliases: cra]
+  create2                CREATE2를 사용하여 결정적 컨트랙트 주소 생성
                          [aliases: c2]
-  creation-code          Download a contract creation code from Etherscan and
-                         RPC [aliases: cc]
-  da-estimate            Estimates the data availability size of a given opstack
-                         block
-  decode-abi             Decode ABI-encoded input or output data [aliases:
+  creation-code          Etherscan 및 RPC에서 컨트랙트 생성 코드 다운로드
+                         [aliases: cc]
+  da-estimate            주어진 opstack 블록의 데이터 가용성 크기 추정
+  decode-abi             ABI 인코딩된 입력 또는 출력 데이터 디코딩 [aliases:
                          abi-decode, --abi-decode, ad]
-  decode-calldata        Decode ABI-encoded input data [aliases:
+  decode-calldata        ABI 인코딩된 입력 데이터 디코딩 [aliases:
                          calldata-decode, --calldata-decode, cdd]
-  decode-error           Decode custom error data [aliases: error-decode,
+  decode-error           사용자 정의 에러 데이터 디코딩 [aliases: error-decode,
                          --error-decode, erd]
-  decode-event           Decode event data [aliases: event-decode,
+  decode-event           이벤트 데이터 디코딩 [aliases: event-decode,
                          --event-decode, ed]
-  decode-string          Decode ABI-encoded string [aliases: string-decode,
+  decode-string          ABI 인코딩된 문자열 디코딩 [aliases: string-decode,
                          --string-decode, sd]
-  decode-transaction     Decodes a raw signed EIP 2718 typed transaction
+  decode-transaction     원시 서명된 EIP 2718 타입 트랜잭션 디코딩
                          [aliases: dt, decode-tx]
-  disassemble            Disassembles a hex-encoded bytecode into a
-                         human-readable representation [aliases: da]
-  erc20-token            ERC20 token operations [aliases: erc20]
-  estimate               Estimate the gas cost of a transaction [aliases: e]
-  find-block             Get the block number closest to the provided timestamp
+  disassemble            16진수 인코딩된 바이트코드를 사람이 읽을 수 있는
+                         표현으로 디스어셈블 [aliases: da]
+  erc20-token            ERC20 토큰 작업 [aliases: erc20]
+  estimate               트랜잭션의 가스 비용 추정 [aliases: e]
+  find-block             제공된 타임스탬프에 가장 가까운 블록 번호 가져오기
                          [aliases: f]
-  format-bytes32-string  Formats a string into bytes32 encoding [aliases:
+  format-bytes32-string  문자열을 bytes32 인코딩으로 포맷팅 [aliases:
                          --format-bytes32-string]
-  format-units           Format a number from smallest unit to decimal with
-                         arbitrary decimals [aliases: --format-units, fun]
-  from-bin               Convert binary data into hex data [aliases: --from-bin,
+  format-units           숫자를 가장 작은 단위에서 임의의 소수점을 가진 십진수로
+                         포맷팅 [aliases: --format-units, fun]
+  from-bin               이진 데이터를 16진수 데이터로 변환 [aliases: --from-bin,
                          from-binx, fb]
-  from-fixed-point       Convert a fixed point number into an integer [aliases:
+  from-fixed-point       고정 소수점 숫자를 정수로 변환 [aliases:
                          --from-fix, ff]
-  from-rlp               Decodes RLP hex-encoded data [aliases: --from-rlp]
-  from-utf8              Convert UTF8 text to hex [aliases: --from-ascii,
+  from-rlp               RLP 16진수 인코딩된 데이터 디코딩 [aliases: --from-rlp]
+  from-utf8              UTF8 텍스트를 16진수로 변환 [aliases: --from-ascii,
                          --from-utf8, from-ascii, fu, fa]
-  from-wei               Convert wei into an ETH amount [aliases: --from-wei,
+  from-wei               wei를 ETH 금액으로 변환 [aliases: --from-wei,
                          fw]
-  gas-price              Get the current gas price [aliases: g]
-  hash-message           Hash a message according to EIP-191 [aliases:
+  gas-price              현재 가스 가격 가져오기 [aliases: g]
+  hash-message           EIP-191에 따라 메시지 해시 [aliases:
                          --hash-message, hm]
-  hash-zero              Prints the zero hash [aliases: --hash-zero, hz]
-  help                   Print this message or the help of the given
-                         subcommand(s)
-  implementation         Fetch the EIP-1967 implementation for a contract Can
-                         read from the implementation slot or the beacon slot
+  hash-zero              영(zero) 해시 출력 [aliases: --hash-zero, hz]
+  help                   이 메시지 또는 주어진 하위 명령의 도움말을 인쇄
+  implementation         컨트랙트의 EIP-1967 구현체(implementation) 가져오기.
+                         구현 슬롯 또는 비콘 슬롯에서 읽을 수 있음
                          [aliases: impl]
-  index                  Compute the storage slot for an entry in a mapping
+  index                  매핑의 항목에 대한 스토리지 슬롯 계산
                          [aliases: in]
-  index-erc7201          Compute storage slots as specified by `ERC-7201:
-                         Namespaced Storage Layout` [aliases: index7201, in7201]
-  interface              Generate a Solidity interface from a given ABI
+  index-erc7201          `ERC-7201: Namespaced Storage Layout`에 지정된 대로 
+                         스토리지 슬롯 계산 [aliases: index7201, in7201]
+  interface              주어진 ABI로부터 Solidity 인터페이스 생성
                          [aliases: i]
-  keccak                 Hash arbitrary data using Keccak-256 [aliases: k,
+  keccak                 Keccak-256을 사용하여 임의의 데이터 해시 [aliases: k,
                          keccak256]
-  logs                   Get logs by signature or topic [aliases: l]
-  lookup-address         Perform an ENS reverse lookup [aliases: la]
-  max-int                Prints the maximum value of the given integer type
+  logs                   서명 또는 토픽으로 로그 가져오기 [aliases: l]
+  lookup-address         ENS 역방향 조회(reverse lookup) 수행 [aliases: la]
+  max-int                주어진 정수 타입의 최대값 출력
                          [aliases: --max-int, maxi]
-  max-uint               Prints the maximum value of the given integer type
+  max-uint               주어진 정수 타입의 최대값 출력
                          [aliases: --max-uint, maxu]
-  min-int                Prints the minimum value of the given integer type
+  min-int                주어진 정수 타입의 최소값 출력
                          [aliases: --min-int, mini]
-  mktx                   Build and sign a transaction [aliases: m]
-  namehash               Calculate the ENS namehash of a name [aliases: na, nh]
-  nonce                  Get the nonce for an account [aliases: n]
-  pad                    Pads hex data to a specified length [aliases: pd]
-  parse-bytes32-address  Parses a checksummed address from bytes32 encoding.
+  mktx                   트랜잭션 구축 및 서명 [aliases: m]
+  namehash               이름의 ENS namehash 계산 [aliases: na, nh]
+  nonce                  계정의 논스(nonce) 가져오기 [aliases: n]
+  pad                    16진수 데이터를 지정된 길이로 패딩 [aliases: pd]
+  parse-bytes32-address  bytes32 인코딩에서 체크섬된 주소 파싱.
                          [aliases: --parse-bytes32-address]
-  parse-bytes32-string   Parses a string from bytes32 encoding [aliases:
+  parse-bytes32-string   bytes32 인코딩에서 문자열 파싱 [aliases:
                          --parse-bytes32-string]
-  parse-units            Convert a number from decimal to smallest unit with
-                         arbitrary decimals [aliases: --parse-units, pun]
-  pretty-calldata        Pretty print calldata [aliases: pc]
-  proof                  Generate a storage proof for a given storage slot
+  parse-units            숫자를 십진수에서 임의의 소수점을 가진 가장 작은 
+                         단위로 변환 [aliases: --parse-units, pun]
+  pretty-calldata        콜 데이터를 예쁘게 출력 [aliases: pc]
+  proof                  주어진 스토리지 슬롯에 대한 스토리지 증명 생성
                          [aliases: pr]
-  publish                Publish a raw transaction to the network [aliases: p]
-  receipt                Get the transaction receipt for a transaction [aliases:
+  publish                원시 트랜잭션을 네트워크에 게시 [aliases: p]
+  receipt                트랜잭션에 대한 트랜잭션 영수증 가져오기 [aliases:
                          re]
-  recover-authority      Recovery an EIP-7702 authority from a Authorization
-                         JSON string [aliases: decode-auth]
-  resolve-name           Perform an ENS lookup [aliases: rn]
-  rpc                    Perform a raw JSON-RPC request [aliases: rp]
-  run                    Runs a published transaction in a local environment and
-                         prints the trace [aliases: r]
-  selectors              Extracts function selectors and arguments from bytecode
+  recover-authority      Authorization JSON 문자열에서 EIP-7702 권한(authority)
+                         복구 [aliases: decode-auth]
+  resolve-name           ENS 조회 수행 [aliases: rn]
+  rpc                    원시 JSON-RPC 요청 수행 [aliases: rp]
+  run                    게시된 트랜잭션을 로컬 환경에서 실행하고 트레이스 출력
+                         [aliases: r]
+  selectors              바이트코드에서 함수 서명 및 인수 추출
                          [aliases: sel]
-  send                   Sign and publish a transaction [aliases: s]
-  shl                    Perform a left shifting operation
-  shr                    Perform a right shifting operation
-  sig                    Get the selector for a function [aliases: si]
-  sig-event              Generate event signatures from event string [aliases:
+  send                   트랜잭션 서명 및 게시 [aliases: s]
+  shl                    왼쪽 시프트 연산 수행
+  shr                    오른쪽 시프트 연산 수행
+  sig                    함수의 선택자 가져오기 [aliases: si]
+  sig-event              이벤트 문자열로부터 이벤트 서명 생성 [aliases:
                          se]
-  source                 Get the source code of a contract from a block explorer
+  source                 블록 탐색기에서 컨트랙트의 소스 코드 가져오기
                          [aliases: et, src]
-  storage                Get the raw value of a contract's storage slot
+  storage                컨트랙트 스토리지 슬롯의 원시 값 가져오기
                          [aliases: st]
-  storage-root           Get the storage root for an account [aliases: sr]
-  to-ascii               Convert hex data to an ASCII string [aliases:
+  storage-root           계정의 스토리지 루트 가져오기 [aliases: sr]
+  to-ascii               16진수 데이터를 ASCII 문자열로 변환 [aliases:
                          --to-ascii, tas, 2as]
-  to-base                Converts a number of one base to another [aliases:
+  to-base                한 진수의 숫자를 다른 진수로 변환 [aliases:
                          --to-base, --to-radix, to-radix, tr, 2r]
-  to-bytes32             Right-pads hex data to 32 bytes [aliases: --to-bytes32,
+  to-bytes32             16진수 데이터를 32바이트로 오른쪽 패딩 [aliases: --to-bytes32,
                          tb, 2b]
-  to-check-sum-address   Convert an address to a checksummed format (EIP-55)
+  to-check-sum-address   주소를 체크섬된 형식(EIP-55)으로 변환
                          [aliases: --to-checksum-address, --to-checksum,
                          to-checksum, ta, 2a]
-  to-dec                 Converts a number of one base to decimal [aliases:
+  to-dec                 한 진수의 숫자를 십진수로 변환 [aliases:
                          --to-dec, td, 2d]
-  to-fixed-point         Convert an integer into a fixed point number [aliases:
+  to-fixed-point         정수를 고정 소수점 숫자로 변환 [aliases:
                          --to-fix, tf, 2f]
-  to-hex                 Converts a number of one base to another [aliases:
+  to-hex                 한 진수의 숫자를 다른 진수로 변환 [aliases:
                          --to-hex, th, 2h]
-  to-hexdata             Normalize the input to lowercase, 0x-prefixed hex
+  to-hexdata             입력을 소문자, 0x 접두사가 붙은 16진수로 정규화
                          [aliases: --to-hexdata, thd, 2hd]
-  to-int256              Convert a number to a hex-encoded int256 [aliases:
+  to-int256              숫자를 16진수 인코딩된 int256으로 변환 [aliases:
                          --to-int256, ti, 2i]
-  to-rlp                 RLP encodes hex data, or an array of hex data [aliases:
+  to-rlp                 16진수 데이터 또는 16진수 데이터 배열을 RLP 인코딩 [aliases:
                          --to-rlp]
-  to-uint256             Convert a number to a hex-encoded uint256 [aliases:
+  to-uint256             숫자를 16진수 인코딩된 uint256으로 변환 [aliases:
                          --to-uint256, tu, 2u]
-  to-unit                Convert an ETH amount into another unit (ether, gwei or
-                         wei) [aliases: --to-unit, tun, 2un]
-  to-utf8                Convert hex data to a utf-8 string [aliases: --to-utf8,
+  to-unit                ETH 금액을 다른 단위(ether, gwei 또는 wei)로 변환
+                         [aliases: --to-unit, tun, 2un]
+  to-utf8                16진수 데이터를 utf-8 문자열로 변환 [aliases: --to-utf8,
                          tu8, 2u8]
-  to-wei                 Convert an ETH amount to wei [aliases: --to-wei, tw,
+  to-wei                 ETH 금액을 wei로 변환 [aliases: --to-wei, tw,
                          2w]
-  tx                     Get information about a transaction [aliases: t]
-  tx-pool                Inspect the TxPool of a node [aliases: tp]
-  upload-signature       Upload the given signatures to [https://openchain.xyz](https://openchain.xyz)
+  tx                     트랜잭션에 대한 정보 가져오기 [aliases: t]
+  tx-pool                노드의 TxPool 검사 [aliases: tp]
+  upload-signature       주어진 서명을 [https://openchain.xyz](https://openchain.xyz)에 업로드
                          [aliases: ups]
-  wallet                 Wallet management utilities [aliases: w]
+  wallet                 지갑 관리 유틸리티 [aliases: w]
 
 Options:
   -h, --help
-          Print help (see a summary with '-h')
+          도움말 인쇄 ('-h'로 요약 보기)
 
   -j, --threads <THREADS>
-          Number of threads to use. Specifying 0 defaults to the number of
-          logical cores
+          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
           
           [aliases: --jobs]
 
   -V, --version
-          Print version
+          버전 인쇄
 
 Display options:
       --color <COLOR>
-          The color of the log messages
+          로그 메시지의 색상
 
-          Possible values:
-          - auto:   Intelligently guess whether to use color output (default)
-          - always: Force color output
-          - never:  Force disable color output
+          가능한 값:
+          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
+          - always: 색상 출력 강제
+          - never:  색상 출력 강제 비활성화
 
       --json
-          Format log messages as JSON
+          로그 메시지를 JSON으로 포맷팅
 
       --md
-          Format log messages as Markdown
+          로그 메시지를 Markdown으로 포맷팅
 
   -q, --quiet
-          Do not print log messages
+          로그 메시지를 인쇄하지 않음
 
   -v, --verbosity...
-          Verbosity level of the log messages.
+          로그 메시지의 상세 수준.
           
-          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
+          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
           
-          Depending on the context the verbosity levels have different meanings.
+          문맥에 따라 상세 수준은 다른 의미를 가짐.
           
-          For example, the verbosity levels of the EVM are:
-          - 2 (-vv): Print logs for all tests.
-          - 3 (-vvv): Print execution traces for failing tests.
-          - 4 (-vvvv): Print execution traces for all tests, and setup traces
-          for failing tests.
-          - 5 (-vvvvv): Print execution and setup traces for all tests,
-          including storage changes and
-            backtraces with line numbers.
+          예를 들어, EVM의 상세 수준은 다음과 같음:
+          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
+          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
+          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
+          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
+            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
 
 Find more information in the book: https://getfoundry.sh/cast/overview
 ```

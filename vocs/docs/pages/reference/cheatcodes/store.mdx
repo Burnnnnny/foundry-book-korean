@@ -1,16 +1,16 @@
 ## `store`
 
-### Signature
+### 시그니처
 
 ```solidity
 function store(address account, bytes32 slot, bytes32 value) external;
 ```
 
-### Description
+### 설명
 
-Stores the value `value` in storage slot `slot` on account `account`.
+`account` 계정의 스토리지 슬롯 `slot`에 값 `value`를 저장합니다.
 
-### Examples
+### 예제
 
 ```solidity
 /// contract LeetContract {
@@ -22,8 +22,8 @@ bytes32 leet = vm.load(address(leetContract), bytes32(uint256(0)));
 emit log_uint(uint256(leet)); // 31337
 ```
 
-### SEE ALSO
+### 같이 보기
 
-Forge Standard Library
+Forge 표준 라이브러리
 
 [Std Storage](/reference/forge-std/std-storage.mdx)

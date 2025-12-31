@@ -1,18 +1,18 @@
 ## `setNonce`
 
-### Signature
+### 시그니처
 
 ```solidity
 function setNonce(address account, uint64 nonce) external;
 ```
 
-### Description
+### 설명
 
-Sets the nonce of the given account.
+주어진 계정의 논스(nonce)를 설정합니다.
 
-The new nonce must be higher than the current nonce of the account.
+새 논스는 계정의 현재 논스보다 높아야 합니다.
 
-### Examples
+### 예제
 
 ```solidity
 vm.setNonce(address(100), 1234);

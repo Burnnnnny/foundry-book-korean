@@ -1,10 +1,10 @@
-## In-line test configuration
+## 인라인 테스트 구성 (In-line test configuration)
 
-Foundry users are enabled to specify overall test configurations, using a combination of ENV variables and config statements in the `foundry.toml`. Checkout the [`Testing reference`][Testing Reference] for a detailed description.
+Foundry 사용자는 `foundry.toml`의 환경 변수와 구성 문을 조합하여 전체 테스트 구성을 지정할 수 있습니다. 자세한 설명은 [`테스트 참조`][Testing Reference]를 확인하세요.
 
-Despite this may work in the general case, some tests may need finer control over their configuration. For such reason Forge provides a way to specify per-test configs for invariant and fuzz testing scenarios.
+일반적인 경우에는 이것이 작동할 수 있지만, 일부 테스트는 구성에 대한 더 세밀한 제어가 필요할 수 있습니다. 이러한 이유로 Forge는 불변성(invariant) 및 퍼즈(fuzz) 테스트 시나리오에 대해 테스트별 구성을 지정하는 방법을 제공합니다.
 
-Users can in-line test config statements directly in Solidity comments. This would affect the behavior of the `forge test` command for a specific test instance, as illustrated in the example below.
+사용자는 Solidity 주석에 테스트 구성 문을 직접 인라인으로 작성할 수 있습니다. 이는 아래 예제와 같이 특정 테스트 인스턴스에 대한 `forge test` 명령의 동작에 영향을 미칩니다.
 
 ```solidity
 contract MyTest is Test {
@@ -17,11 +17,11 @@ contract MyTest is Test {
 }
 ```
 
-What we are asking here is to run our fuzzer `100` and `500` times for the `default` and `ci` profiles respectively. The interesting fact is that this would override any fuzz `runs` setup existing at a global level. All other configs would be inherited from the global context, making this acting as a fallback for all possible configurations.
+여기서 우리는 `default` 및 `ci` 프로필에 대해 퍼저(fuzzer)를 각각 `100`번과 `500`번 실행하도록 요청하고 있습니다. 흥미로운 점은 이것이 전역 수준에 존재하는 모든 퍼즈 `runs` 설정을 재정의한다는 것입니다. 다른 모든 구성은 전역 컨텍스트에서 상속되므로, 이는 모든 가능한 구성에 대한 폴백 역할을 합니다.
 
-### Block comments
+### 블록 주석 (Block comments)
 
-In-line test configurations can also be expressed in block comments, as illustrated in the example.
+예제와 같이 블록 주석으로도 인라인 테스트 구성을 표현할 수 있습니다.
 
 ```solidity
 contract MyTest is Test {
@@ -36,17 +36,17 @@ contract MyTest is Test {
 }
 ```
 
-### In-line fuzz configs
+### 인라인 퍼즈 구성 (In-line fuzz configs)
 
-Users can specify the configs described in the table. Each statement must have a prefix of the form `forge-config: ${PROFILE}.fuzz.`
+사용자는 표에 설명된 구성을 지정할 수 있습니다. 각 문은 `forge-config: ${PROFILE}.fuzz.` 형식의 접두사를 가져야 합니다.
 
-| Parameter          | Type    | Description                                                                                                                          |
+| 매개변수 (Parameter) | 타입 (Type) | 설명 (Description) |
 | ------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `runs`             | integer | The amount of fuzz runs to perform for this specific test case. [`Reference`][testing].                                              |
-| `max-test-rejects` | integer | The maximum number of combined inputs that may be rejected before the test as a whole aborts. [`Reference`][Max test rejects].       |
-| `show-logs`        | boolean | The flag indicates whether to display console logs in fuzz tests or not. Works when `verbosity >= 2`. [`Reference`][Fuzz show logs]. |
+| `runs`             | integer | 이 특정 테스트 케이스에 대해 수행할 퍼즈 실행 횟수입니다. [`참조`][testing].                                              |
+| `max-test-rejects` | integer | 테스트 전체가 중단되기 전에 거부될 수 있는 결합된 입력의 최대 수입니다. [`참조`][Max test rejects].       |
+| `show-logs`        | boolean | 퍼즈 테스트에서 콘솔 로그를 표시할지 여부를 나타내는 플래그입니다. `verbosity >= 2`일 때 작동합니다. [`참조`][Fuzz show logs]. |
 
-Fuzz config example
+퍼즈 구성 예제
 
 ```solidity
 contract MyFuzzTest is Test {
@@ -59,18 +59,18 @@ contract MyFuzzTest is Test {
 }
 ```
 
-### In-line invariant configs
+### 인라인 불변성 구성 (In-line invariant configs)
 
-Users can specify the configs described in the table. Each statement must have a prefix of the form `forge-config: ${PROFILE}.invariant.`
+사용자는 표에 설명된 구성을 지정할 수 있습니다. 각 문은 `forge-config: ${PROFILE}.invariant.` 형식의 접두사를 가져야 합니다.
 
-| Parameter        | Type    | Description                                                                                            |
+| 매개변수 (Parameter) | 타입 (Type) | 설명 (Description) |
 | ---------------- | ------- | ------------------------------------------------------------------------------------------------------ |
-| `runs`           | integer | The amount of invariant runs to perform for this specific test case. [`Reference`][Invariant runs].    |
-| `depth`          | integer | The number of calls executed to attempt to break invariant in one run. [`Reference`][Invariant depth]. |
-| `fail-on-revert` | boolean | Fails the invariant fuzzing if a revert occurs. [`Reference`][Fail on revert].                         |
-| `call-override`  | boolean | Overrides unsafe external calls when running invariant test. [`Reference`][Invariant call override].   |
+| `runs`           | integer | 이 특정 테스트 케이스에 대해 수행할 불변성 실행 횟수입니다. [`참조`][Invariant runs].    |
+| `depth`          | integer | 한 번의 실행에서 불변성을 깨뜨리기 위해 시도되는 호출 횟수입니다. [`참조`][Invariant depth]. |
+| `fail-on-revert` | boolean | 리버트가 발생하면 불변성 퍼징을 실패 처리합니다. [`참조`][Fail on revert].                         |
+| `call-override`  | boolean | 불변성 테스트 실행 시 안전하지 않은 외부 호출을 재정의합니다. [`참조`][Invariant call override].   |
 
-Invariant config example
+불변성 구성 예제
 
 ```solidity
 contract MyInvariantTest is Test {

@@ -8,6 +8,6 @@ function assumePayable(address addr) public;
 
 ### Description
 
-Uses [`assume`](/reference/cheatcodes/assume.mdx) to filter addresses that reject Ether transfers.
+[`assume`](/reference/cheatcodes/assume.mdx)을 사용하여 이더 전송을 거부하는 주소를 필터링합니다.
 
-This makes an external call to the specified `addr` with a no calldata and checks `assume` against the success of the call.
+이는 지정된 `addr`로 calldata 없이 외부 호출(external call)을 수행하고 호출 성공 여부에 대해 `assume`을 확인합니다.

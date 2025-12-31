@@ -1,33 +1,31 @@
 ## `getDeployedCode`
 
-### Signature
+### 서명
 
 ```solidity
 function getDeployedCode(string calldata) external returns (bytes memory);
 ```
 
-### Description
+### 설명
 
-This cheatcode works similar to [`getCode`](/reference/cheatcodes/get-code.mdx) but only returns the **deployed** bytecode (aka runtime
-bytecode) for a contract in the project given the path to the contract.
+이 치트코드는 [`getCode`](/reference/cheatcodes/get-code.mdx)와 유사하게 작동하지만, 프로젝트 내 컨트랙트의 경로가 주어지면 해당 컨트랙트의 **배포된(deployed)** 바이트코드(일명 런타임 바이트코드)만 반환합니다.
 
-The main use case for this cheat code is as a shortcut to deploy stateless contracts to arbitrary addresses.
+이 치트 코드의 주요 사용 사례는 상태 비저장(stateless) 컨트랙트를 임의의 주소에 배포하기 위한 지름길입니다.
 
-The calldata parameter can either be in the form `ContractFile.sol` (if the filename and contract name are the same)
-, `ContractFile.sol:ContractName`, or the path to an artifact, relative to the root of your project.
+calldata 매개변수는 `ContractFile.sol` (파일 이름과 컨트랙트 이름이 같은 경우), `ContractFile.sol:ContractName` 또는 프로젝트 루트에 상대적인 아티팩트 경로 형식일 수 있습니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> `getDeployedCode` requires read permission for the output directory, see [file cheatcodes](/reference/cheatcodes/fs.mdx).
+> `getDeployedCode`는 출력 디렉토리에 대한 읽기 권한이 필요합니다. [파일 치트코드](/reference/cheatcodes/fs.mdx)를 참조하세요.
 >
-> To grant read access set `fs_permissions = [{ access = "read", path = "./out"}]` in your `foundry.toml`.
+> 읽기 권한을 부여하려면 `foundry.toml`에 `fs_permissions = [{ access = "read", path = "./out"}]`를 설정하세요.
 
-### Examples
+### 예제
 
-Deploy a stateless contract at an arbitrary address using `getDeployedCode` and [`etch`](/reference/cheatcodes/etch.mdx).
+`getDeployedCode`와 [`etch`](/reference/cheatcodes/etch.mdx)를 사용하여 임의의 주소에 상태 비저장 컨트랙트 배포.
 
 ```solidity
-// A stateless contract that we want deployed at a specific address
+// 특정 주소에 배포하려는 상태 비저장 컨트랙트
 contract Override {
     event Payload(address sender, address target, bytes data);
 
@@ -39,18 +37,18 @@ contract Override {
     }
 }
 
-// get the **deployedBytecode**
+// **deployedBytecode** 가져오기
 bytes memory code = vm.getDeployedCode("Override.sol:Override");
 
-// set the code of an arbitrary address
+// 임의의 주소의 코드 설정
 address overrideAddress = address(64);
 vm.etch(overrideAddress, code);
 assertEq(overrideAddress.code, code);
 ```
 
-### Supported formats
+### 지원되는 형식
 
-You can fetch artifacts by either contract path or contract name. Fetching artifacts for a specific version is also supported. If not provided, cheatcode will default to the version of a test being executed or the only version artifact was compiled with.
+컨트랙트 경로 또는 컨트랙트 이름으로 아티팩트를 가져올 수 있습니다. 특정 버전에 대한 아티팩트 가져오기도 지원됩니다. 제공되지 않은 경우 치트코드는 실행 중인 테스트의 버전 또는 아티팩트가 컴파일된 유일한 버전으로 기본 설정됩니다.
 
 ```solidity
 vm.getDeployedCode("MyContract.sol:MyContract");
@@ -59,9 +57,9 @@ vm.getDeployedCode("MyContract.sol:0.8.18");
 vm.getDeployedCode("MyContract:0.8.18");
 ```
 
-### SEE ALSO
+### 같이 보기
 
-Forge Standard Library
+Forge 표준 라이브러리
 
 [`getCode`](/reference/cheatcodes/get-code.mdx)
 [`etch`](/reference/cheatcodes/etch.mdx)

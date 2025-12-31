@@ -1,6 +1,6 @@
 ## `isContext`
 
-### Signature
+### 시그니처
 
 ```solidity
 enum ForgeContext {
@@ -27,24 +27,24 @@ enum ForgeContext {
 function isContext(ForgeContext context) external view returns (bool result);
 ```
 
-### Description
+### 설명
 
-Checks the current `forge` execution context.
+현재 `forge` 실행 컨텍스트를 확인합니다.
 
-### Examples
+### 예제
 
 ```solidity
 import {VmSafe} from "forge-std/Vm.sol";
 
 if (vm.isContext(VmSafe.ForgeContext.ScriptDryRun)) {
-    // execute specific script dry run logic
+    // 특정 스크립트 드라이 런 로직 실행
 }
 
 if (vm.isContext(VmSafe.ForgeContext.ScriptBroadcast)) {
-    // execute specific script broadcast logic
+    // 특정 스크립트 브로드캐스트 로직 실행
 }
 
 if (vm.isContext(VmSafe.ForgeContext.ScriptResume)) {
-    // execute specific script resume logic
+    // 특정 스크립트 재개 로직 실행
 }
 ```

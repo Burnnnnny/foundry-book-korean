@@ -1,6 +1,6 @@
 ## `mockCallRevert`
 
-### Signature
+### 시그니처
 
 ```solidity
 function mockCallRevert(address where, bytes calldata data, bytes calldata retdata) external;
@@ -15,28 +15,28 @@ function mockCallRevert(
 ) external;
 ```
 
-### Description
+### 설명
 
-Reverts all calls to an address `where` if the call data either strictly or loosely matches `data` and returns `retdata`.
+호출 데이터가 `data`와 엄격하게 또는 느슨하게 일치하고 `retdata`를 반환하면 `where` 주소에 대한 모든 호출을 되돌립니다(Revert).
 
-`retdata` can be a raw return message or a custom error.
+`retdata`는 원시 반환 메시지이거나 사용자 정의 오류일 수 있습니다.
 
-When a call is made to `where` the call data is first checked to see if it matches in its entirety with `data`.
-If not, the call data is checked to see if there is a partial match, with the match starting at the first byte of the call data.
+`where`에 대한 호출이 이루어지면 먼저 호출 데이터가 `data`와 전체적으로 일치하는지 확인합니다.
+그렇지 않은 경우 호출 데이터의 첫 번째 바이트부터 시작하여 부분 일치가 있는지 확인합니다.
 
-If a match is found, then the call is reverted and `retdata` is returned.
+일치하는 항목이 발견되면 호출이 되돌려지고 `retdata`가 반환됩니다.
 
-**Using the second signature** we can mock the calls with a specific `msg.value`. `Calldata` match takes precedence over `msg.value` in case of ambiguity.
+**두 번째 시그니처를 사용하면** 특정 `msg.value`로 호출을 모의할 수 있습니다. 모호한 경우 `Calldata` 일치가 `msg.value`보다 우선합니다.
 
-Reverted mock calls are in effect until [`clearMockedCalls`](/reference/cheatcodes/clear-mocked-calls.mdx) is called.
+되돌려진 모의 호출은 [`clearMockedCalls`](/reference/cheatcodes/clear-mocked-calls.mdx)가 호출될 때까지 유효합니다.
 
-> ℹ️ **Internal calls**
+> ℹ️ **내부 호출 (Internal calls)**
 >
-> This cheatcode does not currently work on internal calls. See issue [#432](https://github.com/foundry-rs/foundry/issues/432).
+> 이 치트코드는 현재 내부 호출에서 작동하지 않습니다. 문제 [#432](https://github.com/foundry-rs/foundry/issues/432)를 참조하세요.
 
-### Examples
+### 예제
 
-Reverting an exact call with a raw error message:
+원시 오류 메시지로 정확한 호출 되돌리기:
 
 ```solidity
 function testMockCallRevert() public {
@@ -50,7 +50,7 @@ function testMockCallRevert() public {
 }
 ```
 
-Reverting a call with a custom error:
+사용자 정의 오류로 호출 되돌리기:
 
 ```solidity
 function testMockCallRevertWithCustomError() public {
@@ -65,7 +65,7 @@ function testMockCallRevertWithCustomError() public {
 }
 ```
 
-Mocking a call with a given `msg.value`:
+주어진 `msg.value`로 호출 모의:
 
 ```solidity
 function testMockCallRevertWithValue() public {

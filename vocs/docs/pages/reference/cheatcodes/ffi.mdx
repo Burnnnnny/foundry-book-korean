@@ -1,29 +1,29 @@
 ## `ffi`
 
-### Signature
+### 서명
 
 ```solidity
 function ffi(string[] calldata) external returns (bytes memory);
 ```
 
-### Description
+### 설명
 
-Calls an arbitrary command if [`ffi`](/config/reference/testing#ffi) is enabled.
+[`ffi`](/config/reference/testing#ffi)가 활성화된 경우 임의의 명령을 호출합니다.
 
-It is generally advised to use this cheat code as a last resort, and to not enable it by default, as anyone who can change the tests of a project will be able to execute arbitrary commands on devices that run the tests.
+일반적으로 이 치트코드는 최후의 수단으로 사용하고 기본적으로 활성화하지 않는 것이 좋습니다. 프로젝트의 테스트를 변경할 수 있는 사람은 누구나 테스트를 실행하는 장치에서 임의의 명령을 실행할 수 있기 때문입니다.
 
-### Tips
+### 팁
 
-- By default the `ffi` cheatcode assumes the output of the command is a hex encoded value (e.g. a hex string of an ABI encoded value). If hex decoding fails, it will return the output as UTF8 bytes that you can cast to a string.
-- Make sure that the output does not include a `\n` newline character. (e.g in Rust use `print!` vs `println!`)
-- Remember that the script will be executed from the top-level directory of your project, not inside `test`
-- Make sure that the inputs array does not have empty elements. They will be handled as inputs by the script, instead of space
-- Use the cheatcode `toString` to easily convert arbitrary data to strings, so that you can pass them as command-line arguments
-- On Windows some commands like `npm` or `npx` fail to execute with `program not found` error message. To avoid such make sure the command contains file extension as well, like `npm.cmd` or `npx.cmd`. These commands can be configured and read as environment variables, so tests doesn't need to be changed when running on different operating systems.
+- 기본적으로 `ffi` 치트코드는 명령의 출력이 16진수로 인코딩된 값(예: ABI 인코딩된 값의 16진수 문자열)이라고 가정합니다. 16진수 디코딩이 실패하면 출력을 UTF8 바이트로 반환하며 이를 문자열로 캐스팅할 수 있습니다.
+- 출력에 `\n` 줄 바꿈 문자가 포함되지 않도록 하십시오. (예: Rust에서는 `println!` 대신 `print!` 사용)
+- 스크립트는 `test` 내부가 아니라 프로젝트의 최상위 디렉토리에서 실행된다는 점을 기억하십시오.
+- 입력 배열에 빈 요소가 없는지 확인하십시오. 빈 요소는 공백 대신 스크립트의 입력으로 처리됩니다.
+- 임의의 데이터를 문자열로 쉽게 변환하여 명령줄 인수로 전달하려면 `toString` 치트코드를 사용하십시오.
+- Windows에서는 `npm`이나 `npx`와 같은 일부 명령이 `program not found` 오류 메시지와 함께 실행되지 않을 수 있습니다. 이를 방지하려면 `npm.cmd` 또는 `npx.cmd`와 같이 파일 확장자를 포함하여 명령을 작성하십시오. 이러한 명령은 환경 변수로 구성하고 읽을 수 있으므로 다른 운영 체제에서 실행할 때 테스트를 변경할 필요가 없습니다.
 
-### Examples
+### 예제
 
-ABI encoded output
+ABI 인코딩된 출력
 
 ```solidity
 string[] memory inputs = new string[](3);
@@ -37,7 +37,7 @@ string memory output = abi.decode(res, (string));
 assertEq(output, "gm");
 ```
 
-UTF8 string output
+UTF8 문자열 출력
 
 ```solidity
 string[] memory inputs = new string[](3);

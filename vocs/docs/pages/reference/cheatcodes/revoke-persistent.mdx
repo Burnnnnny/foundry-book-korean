@@ -1,19 +1,19 @@
 ## `revokePersistent`
 
-### Signature
+### 시그니처
 
 ```solidity
 function revokePersistent(address) external;
 function revokePersistent(address[] calldata) external;
 ```
 
-### Description
+### 설명
 
-The counterpart of [`makePersistent`](/reference/cheatcodes/make-persistent.mdx), that makes the given contract not persistent across fork swaps
+[`makePersistent`](/reference/cheatcodes/make-persistent.mdx)의 반대 기능으로, 지정된 컨트랙트가 포크 스왑 간에 영구적이지 않도록 만듭니다.
 
-### Examples
+### 예제
 
-Revoke a persistent status of a contract
+컨트랙트의 영구 상태 취소
 
 ```solidity
 contract SimpleStorageContract {
@@ -25,30 +25,30 @@ contract SimpleStorageContract {
 }
 
 function testRevokePersistent() public {
-    // select a specific fork
+    // 특정 포크 선택
     cheats.selectFork(mainnetFork);
 
-    // create a new contract that's stored in the `mainnetFork` storage
+    // `mainnetFork` 스토리지에 저장된 새 컨트랙트 생성
     SimpleStorageContract simple = new SimpleStorageContract();
 
-    // `simple` is not marked as persistent
+    // `simple`은 영구적으로 표시되지 않음
     assert(!cheats.isPersistent(address(simple)));
 
-    // make it persistent
+    // 영구적으로 설정
     cheats.makePersistent(address(simple));
 
-    // ensure it is persistent
+    // 영구적인지 확인
     assert(cheats.isPersistent(address(simple)));
 
-    // revoke it
+    // 취소
     cheats.revokePersistent(address(simple));
 
-    // contract no longer persistent
+    // 컨트랙트가 더 이상 영구적이지 않음
     assert(!cheats.isPersistent(address(simple)));
 }
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [isPersistent](/reference/cheatcodes/is-persistent.mdx)
 - [revokePersistent](/reference/cheatcodes/revoke-persistent.mdx)

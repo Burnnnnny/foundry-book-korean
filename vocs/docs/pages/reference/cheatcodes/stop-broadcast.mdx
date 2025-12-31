@@ -1,23 +1,23 @@
 ## `stopBroadcast`
 
-### Signature
+### 시그니처
 ```solidity
 function stopBroadcast() external;
 ```
 
-### Description
+### 설명
 
-Stops collecting transactions for later on-chain broadcasting.
+나중에 온체인 브로드캐스팅을 위해 트랜잭션을 수집하는 것을 중지합니다.
 
-### Examples
+### 예제
 
 ```solidity
 function deployNoArgs() public {
-    // broadcast the next call
+    // 다음 호출을 브로드캐스트합니다
     cheats.broadcast();
     Test test1 = new Test();
 
-    // broadcast all calls between this line and `stopBroadcast`
+    // 이 줄과 `stopBroadcast` 사이의 모든 호출을 브로드캐스트합니다
     cheats.startBroadcast();
     Test test2 = new Test();
     cheats.stopBroadcast();

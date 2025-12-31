@@ -1,28 +1,28 @@
-## RPC related cheatcodes
+## RPC 관련 치트코드
 
-### Signature
+### 시그니처
 
 ```solidity
-// Returns the URL for a configured alias
+// 구성된 별칭에 대한 URL을 반환합니다.
 function rpcUrl(string calldata alias) external returns (string memory);
-// Returns all configured (alias, URL) pairs
+// 모든 구성된 (별칭, URL) 쌍을 반환합니다.
 function rpcUrls() external returns(string[2][] memory);
-/// Performs an Ethereum JSON-RPC request to the current fork URL.
+/// 현재 포크 URL에 이더리움 JSON-RPC 요청을 수행합니다.
 function rpc(string calldata method, string calldata params) external returns (bytes memory data);
 ```
 
-### Description
+### 설명
 
-Provides cheatcodes to access all RPC endpoints configured in the `rpc_endpoints` object of the `foundry.toml`, and the ability to make `rpc` calls using the configured fork URL.
+`foundry.toml`의 `rpc_endpoints` 객체에 구성된 모든 RPC 엔드포인트에 액세스하는 치트코드와 구성된 포크 URL을 사용하여 `rpc` 호출을 수행하는 기능을 제공합니다.
 
-### Examples
+### 예제
 
-The following `rpc_endpoints` in `foundry.toml` registers two RPC aliases:
+`foundry.toml`의 다음 `rpc_endpoints`는 두 개의 RPC 별칭을 등록합니다:
 
-- `optimism` references the URL directly
-- `mainnet` references the `RPC_MAINNET` environment value that is expected to contain the actual URL
+- `optimism`은 URL을 직접 참조합니다.
+- `mainnet`은 실제 URL을 포함할 것으로 예상되는 `RPC_MAINNET` 환경 값을 참조합니다.
 
-_Env variables need to be wrapped in `${}`_
+_환경 변수는 `${}`로 감싸야 합니다._
 
 ```toml
 # --snip--
@@ -36,14 +36,14 @@ string memory url = vm.rpcUrl("optimism");
 assertEq(url, "https://optimism.alchemyapi.io/v2/...");
 ```
 
-If a ENV var is missing, `rpcUrl()` will revert:
+환경 변수가 누락된 경우 `rpcUrl()`은 리버트됩니다:
 
 ```solidity
 vm.expectRevert("Failed to resolve env var `${RPC_MAINNET}` in `RPC_MAINNET`: environment variable not found");
 string memory url = vm.rpcUrl("mainnet");
 ```
 
-Retrieve all available alias -> URL pairs
+사용 가능한 모든 별칭 -> URL 쌍 검색
 
 ```solidity
 string[2][] memory allUrls = vm.rpcUrls();
@@ -56,7 +56,7 @@ string[2] memory env = allUrls[1];
 assertEq(env[0], "mainnet");
 ```
 
-Make an RPC call to `eth_getBalance`
+`eth_getBalance`에 대한 RPC 호출 수행
 
 ```solidity
 // balance at block <https://etherscan.io/block/18332681>
@@ -64,8 +64,8 @@ bytes memory result = vm.rpc("eth_getBalance", "[\"0x8D97689C9818892B700e27F316c
 assertEq(hex"10b7c11bcb51e6", result);
 ```
 
-### SEE ALSO
+### 같이 보기
 
-Forge Config
+Forge 설정
 
-[Config Reference](/config/reference/testing#rpc_endpoints)
+[설정 참조](/config/reference/testing#rpc_endpoints)

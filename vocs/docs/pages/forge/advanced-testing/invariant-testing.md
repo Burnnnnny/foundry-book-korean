@@ -1,26 +1,26 @@
 ---
-description: Test protocol invariants with randomized function call sequences to find edge cases and logic errors.
+description: 엣지 케이스와 논리 오류를 찾기 위해 무작위 함수 호출 시퀀스로 프로토콜 불변성을 테스트합니다.
 ---
 
-# Invariant Testing
+# 불변성 테스트 (Invariant Testing)
 
-## Overview
+## 개요
 
-Invariant testing allows for a set of invariant expressions to be tested against randomized sequences of pre-defined function calls from pre-defined contracts. After each function call is performed, all defined invariants are asserted.
+불변성(invariant) 테스트를 사용하면 미리 정의된 컨트랙트의 미리 정의된 함수 호출에 대한 무작위 시퀀스에 대해 일련의 불변성 표현식을 테스트할 수 있습니다. 각 함수 호출이 수행된 후 정의된 모든 불변성이 어설션(asserted)됩니다.
 
-Invariant testing is a powerful tool to expose incorrect logic in protocols. Due to the fact that function call sequences are randomized and have fuzzed inputs, invariant testing can expose false assumptions and incorrect logic in edge cases and highly complex protocol states.
+불변성 테스트는 프로토콜의 부정확한 로직을 노출시키는 강력한 도구입니다. 함수 호출 시퀀스가 무작위로 생성되고 퍼징된 입력이 사용되기 때문에, 불변성 테스트는 엣지 케이스와 매우 복잡한 프로토콜 상태에서 잘못된 가정과 부정확한 로직을 드러낼 수 있습니다.
 
-**Regular invariant testing campaigns** have two dimensions, `runs` and `depth`:
+**일반 불변성 테스트 캠페인**에는 `runs`와 `depth`라는 두 가지 차원이 있습니다:
 
-- `runs`: Number of times that a sequence of function calls is generated and run.
-- `depth`: Number of function calls made in a given `run`. Invariants are asserted after each function call is made. If a function call reverts, the `depth` counter still increments.
+- `runs`: 함수 호출 시퀀스가 생성되고 실행되는 횟수입니다.
+- `depth`: 주어진 `run`에서 수행되는 함수 호출의 횟수입니다. 불변성은 각 함수 호출 후에 어설션됩니다. 함수 호출이 리버트(revert)되더라도 `depth` 카운터는 여전히 증가합니다.
 
-**Invariant time based campaigns** can be defined by specifying `timeout` configuration (in seconds) which ensure test ends after specified time elapsed, regardless the number of runs.
+**시간 기반 불변성 캠페인**은 `timeout` 구성(초 단위)을 지정하여 정의할 수 있으며, 실행 횟수(`runs`)에 관계없이 지정된 시간이 경과한 후 테스트가 종료되도록 보장합니다.
 
 :::note
-When implementing invariant tests is important to be aware that for each `invariant_*` function a different EVM executor is created, therefore invariants are not asserted against the same EVM state. This means that if `invariant_A()` and `invariant_B()` functions are defined then `invariant_B()` won't be asserted against EVM state of `invariant_A()` (and the other way around).
+불변성 테스트를 구현할 때 각 `invariant_*` 함수마다 다른 EVM 실행기(executor)가 생성되므로 동일한 EVM 상태에 대해 불변성이 어설션되지 않는다는 점을 인식하는 것이 중요합니다. 즉, `invariant_A()`와 `invariant_B()` 함수가 정의된 경우 `invariant_B()`는 `invariant_A()`의 EVM 상태에 대해 어설션되지 않으며(그 반대의 경우도 마찬가지) 독립적입니다.
 
-If you want to assert all invariants at the same time then they can be grouped and run on multiple jobs. For example, assert all invariants using two jobs can be implemented as:
+모든 불변성을 동시에 어설션하려면 그룹화하여 여러 작업(job)에서 실행할 수 있습니다. 예를 들어, 두 개의 작업을 사용하여 모든 불변성을 어설션하는 것은 다음과 같이 구현할 수 있습니다:
 
 ```Solidity
 function invariant_job1() public {
@@ -39,32 +39,32 @@ function assertInvariants() internal {
 
 :::
 
-These and other invariant configuration aspects are explained [`here`](#configuring-invariant-test-execution).
+이러한 내용과 다른 불변성 구성 측면은 [`여기`](#configuring-invariant-test-execution)에 설명되어 있습니다.
 
-Similar to how standard tests are run in Foundry by prefixing a function name with `test`, invariant tests are denoted by prefixing the function name with `invariant` (e.g., `function invariant_A()`).
+Foundry에서 표준 테스트가 함수 이름 앞에 `test`를 붙여 실행되는 것과 유사하게, 불변성 테스트는 함수 이름 앞에 `invariant`를 붙여 표시합니다(예: `function invariant_A()`).
 
-`afterInvariant()` function is called at the end of each invariant run (if declared), allowing post campaign processing. This function can be used for logging campaign metrics (e.g. how many times a selector was called) and post fuzz campaign testing (e.g. close out all positions and assert all funds are able to exit the system).
+`afterInvariant()` 함수는 각 불변성 실행(run)이 끝날 때 호출되며(선언된 경우), 캠페인 후 처리를 허용합니다. 이 함수는 캠페인 지표 로깅(예: 선택자가 호출된 횟수) 및 퍼즈 캠페인 후 테스트(예: 모든 포지션을 닫고 모든 자금이 시스템에서 빠져나갈 수 있는지 확인)에 사용할 수 있습니다.
 
-### Storage Aware Fuzz Inputs
+### 스토리지 인식 퍼즈 입력 (Storage Aware Fuzz Inputs)
 
-Foundry now supports sampling typed storage values during invariant testing to generate more intelligent test inputs. This feature leverages contract storage layouts to understand the types of storage variables and sample appropriate values based on those types.
+Foundry는 이제 불변성 테스트 중에 형식화된 스토리지 값을 샘플링하여 더 지능적인 테스트 입력을 생성하는 기능을 지원합니다. 이 기능은 컨트랙트 스토리지 레이아웃을 활용하여 스토리지 변수의 타입을 이해하고 해당 타입을 기반으로 적절한 값을 샘플링합니다.
 
 :::tip
-This feature requires enabling storage layout output. You can do this in two ways:
+이 기능을 사용하려면 스토리지 레이아웃 출력을 활성화해야 합니다. 두 가지 방법으로 수행할 수 있습니다:
 
-- In your `foundry.toml` file: `extra_output = ["storageLayout"]`
-- Using the CLI flag: `--extra-output storageLayout`
+- `foundry.toml` 파일에서: `extra_output = ["storageLayout"]`
+- CLI 플래그 사용: `--extra-output storageLayout`
 
 :::
 
-This feature improves invariant testing by:
+이 기능은 다음과 같은 방식으로 불변성 테스트를 개선합니다:
 
-- **Type-aware value generation**: Instead of using raw random values, the fuzzer can generate values that match the expected types of storage variables, leading to more meaningful test scenarios
-- **Better coverage of storage-dependent code paths**: Particularly useful for testing functions that modify storage but don't return values or emit events, as the fuzzer can better understand the effects of these functions
+- **타입 인식 값 생성**: 원시 무작위 값을 사용하는 대신 퍼저(fuzzer)가 스토리지 변수의 예상 타입과 일치하는 값을 생성하여 더 의미 있는 테스트 시나리오를 이끕니다.
+- **스토리지 종속 코드 경로의 더 나은 커버리지**: 스토리지를 수정하지만 값을 반환하거나 이벤트를 발생시키지 않는 함수를 테스트할 때 특히 유용합니다. 퍼저가 이러한 함수의 효과를 더 잘 이해할 수 있기 때문입니다.
 
-### Coverage-Guided Fuzzing
+### 커버리지 기반 퍼징 (Coverage-Guided Fuzzing)
 
-Starting with Foundry v1.3.0, invariant tests come with coverage-guided fuzzing support, that stores and mutates previously tested call sequences. This mode can be enabled by setting the `corpus_dir` config, which is the path on disk used to persist the corpus that generates new coverage. Each corpus is identified by a unique ID and is persisted in JSON format with entries for each call (sender address, target address and the calldata):
+Foundry v1.3.0부터 불변성 테스트는 이전에 테스트된 호출 시퀀스를 저장하고 변형하는 커버리지 기반 퍼징 지원과 함께 제공됩니다. 이 모드는 `corpus_dir` 구성을 설정하여 활성화할 수 있으며, 이는 새로운 커버리지를 생성하는 코퍼스(corpus)를 지속시키기 위해 사용되는 디스크 경로입니다. 각 코퍼스는 고유 ID로 식별되며 각 호출에 대한 항목(발신자 주소, 대상 주소 및 호출 데이터)과 함께 JSON 형식으로 지속됩니다:
 
 ```json
 [
@@ -85,19 +85,19 @@ Starting with Foundry v1.3.0, invariant tests come with coverage-guided fuzzing 
 ]
 ```
 
-On subsequent runs of invariant test, the saved corpus is loaded from disk and replayed.
-The coverage-guided fuzzing mode targets a minimum corpus size by mutating entries a number of times (default: 5) and favoring those likely to uncover new execution paths.
-There are five different strategies used to mutate call sequences:
+불변성 테스트의 후속 실행에서 저장된 코퍼스는 디스크에서 로드되어 다시 재생됩니다.
+커버리지 기반 퍼징 모드는 항목을 일정 횟수(기본값: 5회) 변형하고 새로운 실행 경로를 발견할 가능성이 높은 항목을 선호하여 최소 코퍼스 크기를 목표로 합니다.
+호출 시퀀스를 변형하는 데 사용되는 5가지 전략이 있습니다:
 
-- `splice`: Combines two sequences
-- `interleave`: Weaves two sequences together
-- `prefix`: Overwrites the beginning of a sequence
-- `suffix`: Overwrites the end of a sequence
-- `mutate args`: Randomizes some call arguments
+- `splice`: 두 시퀀스를 결합합니다.
+- `interleave`: 두 시퀀스를 서로 엮습니다.
+- `prefix`: 시퀀스의 시작 부분을 덮어씁니다.
+- `suffix`: 시퀀스의 끝 부분을 덮어씁니다.
+- `mutate args`: 일부 호출 인수를 무작위화합니다.
 
-Call sequences that do not produce new coverage (after being mutated for the configured number of times) are evicted from memory. When such eviction occurs, a metadata file (in JSON format) with corpus information (unique ID, mutation count, and coverage improvements) is written to disk.
+(구성된 횟수만큼 변형된 후에도) 새로운 커버리지를 생성하지 않는 호출 시퀀스는 메모리에서 방출(evicted)됩니다. 이러한 방출이 발생하면 코퍼스 정보(고유 ID, 변형 횟수 및 커버리지 개선 사항)가 포함된 메타데이터 파일(JSON 형식)이 디스크에 기록됩니다.
 
-The metadata file name contains the unique corpus ID, the time of eviction and the `-metadata.json` suffix - for example `e58a7c45-475d-4c70-ad32-9a4ef09b1d8f-1753084102-metadata.json` with contents
+메타데이터 파일 이름에는 고유 코퍼스 ID, 방출 시간 및 `-metadata.json` 접미사가 포함됩니다. 예를 들어 `e58a7c45-475d-4c70-ad32-9a4ef09b1d8f-1753084102-metadata.json`이며 내용은 다음과 같습니다:
 
 ```json
 {
@@ -108,7 +108,7 @@ The metadata file name contains the unique corpus ID, the time of eviction and t
 }
 ```
 
-In coverage-guided fuzzing mode, the fuzzing progress bar displays metrics for cumulative edges and features, corpus count and number of favored entries.
+커버리지 기반 퍼징 모드에서 퍼징 진행률 표시줄에는 누적 엣지(cumulative edges) 및 기능, 코퍼스 수, 선호(favored) 항목 수에 대한 지표가 표시됩니다.
 
 ```bash
 test/forge/invariant/StaticInvariantTest.sol:StaticInvariantTest
@@ -119,7 +119,7 @@ test/forge/invariant/StaticInvariantTest.sol:StaticInvariantTest
   - favored items: 14
 ```
 
-If performing tests without progress, then metrics are printed every 5 seconds, in json format, as follows:
+진행 상황 없이 테스트를 수행하는 경우, 지표는 다음과 같이 json 형식으로 5초마다 출력됩니다:
 
 ```bash
 {
@@ -134,31 +134,30 @@ If performing tests without progress, then metrics are printed every 5 seconds, 
 }
 ```
 
-Please refer to [invariant configuration](/config/reference/testing#invariant) for more details about corpus settings.
+코퍼스 설정에 대한 자세한 내용은 [불변성 구성](/config/reference/testing#invariant)을 참조하세요.
 
-### Configuring invariant test execution
+### 불변성 테스트 실행 구성
 
-Invariant tests execution is governed by parameters that can be controlled by users via Forge configuration primitives. Configs can be applied globally or on a per-test basis. For details on this topic please refer to
-📚 [`Global config`](/config/reference/overview) and 📚 [`In-line config`](/config/reference/inline-test-config).
+불변성 테스트 실행은 사용자가 Forge 구성 프리미티브를 통해 제어할 수 있는 매개변수에 의해 관리됩니다. 구성은 전역적으로 또는 테스트별로 적용할 수 있습니다. 이 주제에 대한 자세한 내용은 📚 [`전역 구성`](/config/reference/overview) 및 📚 [`인라인 구성`](/config/reference/inline-test-config)을 참조하세요.
 
-## Defining Invariants
+## 불변성 정의
 
-Invariants are conditions or expressions that should always hold true over the course of a fuzzing campaign. A good invariant testing suite should have as many invariants as possible, and can have different testing suites for different protocol states.
+불변성은 퍼징 캠페인 과정에서 항상 참이어야 하는 조건 또는 표현식입니다. 좋은 불변성 테스트 스위트에는 가능한 한 많은 불변성이 있어야 하며, 다양한 프로토콜 상태에 대해 서로 다른 테스트 스위트를 가질 수 있습니다.
 
-Examples of invariants are:
+불변성 예시는 다음과 같습니다:
 
-- _"The xy=k formula always holds"_ for Uniswap
-- _"The sum of all user balances is equal to the total supply"_ for an ERC-20 token.
+- Uniswap의 경우 _"xy=k 공식은 항상 유지된다"_
+- ERC-20 토큰의 경우 _"모든 사용자 잔액의 합은 총 공급량과 같다"_
 
-There are different ways to assert invariants, as outlined in the table below:
+아래 표에 설명된 대로 불변성을 어설션하는 다양한 방법이 있습니다:
 
 <table>
-<tr><th>Type</th><th>Explanation</th><th>Example</th></tr>
+<tr><th>유형</th><th>설명</th><th>예시</th></tr>
 
 <tr>
 
-<td>Direct assertions</td>
-<td>Query a protocol smart contract and assert values are as expected.</td>
+<td>직접 어설션 (Direct assertions)</td>
+<td>프로토콜 스마트 컨트랙트를 조회하고 값이 예상과 같은지 확인합니다.</td>
 <td>
 
 ```solidity
@@ -174,8 +173,8 @@ assertGe(
 
 <tr>
 
-<td>Ghost variable assertions</td>
-<td>Query a protocol smart contract and compare it against a value that has been persisted in the test environment (ghost variable).</td>
+<td>고스트 변수 어설션 (Ghost variable assertions)</td>
+<td>프로토콜 스마트 컨트랙트를 조회하고 테스트 환경에 지속된 값(고스트 변수)과 비교합니다.</td>
 <td>
 
 ```solidity
@@ -191,8 +190,8 @@ assertEq(
 
 <tr>
 
-<td>Deoptimizing (Naive implementation assertions)</td>
-<td>Query a protocol smart contract and compare it against a naive and typically highly gas-inefficient implementation of the same desired logic.</td>
+<td>비최적화 (순진한 구현 어설션) (Deoptimizing)</td>
+<td>프로토콜 스마트 컨트랙트를 조회하고 동일한 원하는 로직의 순진하고 일반적으로 가스 효율성이 매우 낮은 구현과 비교합니다.</td>
 <td>
 
 ```solidity
@@ -207,11 +206,11 @@ assertEq(
 </tr>
 </table>
 
-### Conditional Invariants
+### 조건부 불변성
 
-Invariants must hold over the course of a given fuzzing campaign, but that doesn't mean they must hold true in every situation. There is the possibility for certain invariants to be introduced/removed in a given scenario (e.g., during a liquidation).
+불변성은 주어진 퍼징 캠페인 과정에서 유지되어야 하지만, 모든 상황에서 참이어야 한다는 의미는 아닙니다. 특정 시나리오(예: 청산 중)에서 특정 불변성이 도입/제거될 수 있습니다.
 
-It is not recommended to introduce conditional logic into invariant assertions because they have the possibility of introducing false positives because of an incorrect code path. For example:
+불변성 어설션에 조건부 로직을 도입하는 것은 권장되지 않습니다. 잘못된 코드 경로로 인해 오탐(false positive)이 발생할 가능성이 있기 때문입니다. 예를 들어:
 
 ```solidity
 function invariant_example() external {
@@ -221,7 +220,7 @@ function invariant_example() external {
 }
 ```
 
-In this situation, if `protocolCondition == true`, the invariant is not asserted at all. Sometimes this can be desired behavior, but it can cause issues if the `protocolCondition` is true for the whole fuzzing campaign unexpectedly, or there is a logic error in the condition itself. For this reason its better to try and define an alternative invariant for that condition as well, for example:
+이 상황에서 `protocolCondition == true`이면 불변성은 전혀 어설션되지 않습니다. 때로는 이것이 원하는 동작일 수 있지만, `protocolCondition`이 예상치 못하게 전체 퍼징 캠페인 동안 참이거나 조건 자체에 논리 오류가 있는 경우 문제가 발생할 수 있습니다. 이러한 이유로 해당 조건에 대해서도 대체 불변성을 정의하려고 시도하는 것이 좋습니다. 예를 들어:
 
 ```solidity
 function invariant_example() external {
@@ -234,31 +233,31 @@ function invariant_example() external {
 }
 ```
 
-Another approach to handle different invariants across protocol states is to utilize dedicated invariant testing contracts for different scenarios. These scenarios can be bootstrapped using the `setUp` function, but it is more powerful to leverage _invariant targets_ to govern the fuzzer to behave in a way that will only yield certain results (e.g., avoid liquidations).
+프로토콜 상태 전반에 걸쳐 다양한 불변성을 처리하는 또 다른 접근 방식은 다양한 시나리오에 대해 전용 불변성 테스트 컨트랙트를 활용하는 것입니다. 이러한 시나리오는 `setUp` 함수를 사용하여 부트스트랩할 수 있지만, 퍼저가 특정 결과(예: 청산 방지)만 산출하도록 동작하게 제어하기 위해 _불변성 타겟(invariant targets)_을 활용하는 것이 더 강력합니다.
 
-## Invariant Targets
+## 불변성 타겟 (Invariant Targets)
 
-**Target Contracts**: The set of contracts that will be called over the course of a given invariant test fuzzing campaign. This set of contracts defaults to all contracts that were deployed in the `setUp` function, but can be customized to allow for more advanced invariant testing.
+**타겟 컨트랙트 (Target Contracts)**: 주어진 불변성 테스트 퍼징 캠페인 과정에서 호출될 컨트랙트 집합입니다. 이 컨트랙트 집합은 기본적으로 `setUp` 함수에 배포된 모든 컨트랙트로 설정되지만, 더 고급 불변성 테스트를 허용하도록 사용자 정의할 수 있습니다.
 
-**Target Senders**: The invariant test fuzzer picks values for `msg.sender` at random when performing fuzz campaigns to simulate multiple actors in a system by default. If desired, the set of senders can be customized in the `setUp` function.
+**타겟 발신자 (Target Senders)**: 불변성 테스트 퍼저는 기본적으로 시스템의 여러 행위자를 시뮬레이션하기 위해 퍼즈 캠페인을 수행할 때 `msg.sender` 값을 무작위로 선택합니다. 원하는 경우 `setUp` 함수에서 발신자 집합을 사용자 정의할 수 있습니다.
 
-**Target Interfaces**: The set of addresses and their project identifiers that are not deployed during `setUp` but fuzzed in a forked environment (E.g. `[(0x1, ["IERC20"]), (0x2, ("IOwnable"))]`). This enables targeting of delegate proxies and contracts deployed with `create` or `create2`.
+**타겟 인터페이스 (Target Interfaces)**: `setUp` 중에 배포되지 않았지만 포크된 환경에서 퍼징된 주소 및 해당 프로젝트 식별자 집합입니다 (예: `[(0x1, ["IERC20"]), (0x2, ("IOwnable"))]`). 이를 통해 위임 프록시(delegate proxies) 및 `create` 또는 `create2`로 배포된 컨트랙트를 타겟팅할 수 있습니다.
 
-**Target Selectors**: The set of function selectors that are used by the fuzzer for invariant testing. These can be used to use a subset of functions within a given target contract.
+**타겟 선택자 (Target Selectors)**: 불변성 테스트를 위해 퍼저가 사용하는 함수 선택자 집합입니다. 이를 사용하여 주어진 타겟 컨트랙트 내의 함수 하위 집합을 사용할 수 있습니다.
 
-**Target Artifacts**: The desired ABI to be used for a given contract. These can be used for proxy contract configurations.
+**타겟 아티팩트 (Target Artifacts)**: 주어진 컨트랙트에 사용할 원하는 ABI입니다. 프록시 컨트랙트 구성에 사용할 수 있습니다.
 
-**Target Artifact Selectors**: The desired subset of function selectors to be used within a given ABI to be used for a given contract. These can be used for proxy contract configurations.
+**타겟 아티팩트 선택자 (Target Artifact Selectors)**: 주어진 컨트랙트에 사용할 주어진 ABI 내에서 사용할 원하는 함수 선택자 하위 집합입니다. 프록시 컨트랙트 구성에 사용할 수 있습니다.
 
-Priorities for the invariant fuzzer in the cases of target clashes are:
+타겟 충돌 시 불변성 퍼저의 우선순위는 다음과 같습니다:
 
 `targetInterfaces | targetSelectors > excludeSelectors | targetArtifactSelectors > excludeContracts | excludeArtifacts > targetContracts | targetArtifacts`
 
-### Function Call Probability Distribution
+### 함수 호출 확률 분포
 
-Functions from these contracts will be called at random (with a uniformly distributed probability) with fuzzed inputs.
+이러한 컨트랙트의 함수는 퍼징된 입력과 함께 무작위로(균등하게 분포된 확률로) 호출됩니다.
 
-For example:
+예를 들어:
 
 ```text
 targetContract1:
@@ -271,36 +270,36 @@ targetContract2:
 └─ function3: 20%
 ```
 
-This is something to be mindful of when designing target contracts, as target contracts with less functions will have each function called more often due to this probability distribution.
+타겟 컨트랙트를 설계할 때 이 점을 염두에 두어야 합니다. 함수가 적은 타겟 컨트랙트는 이 확률 분포로 인해 각 함수가 더 자주 호출되기 때문입니다.
 
-### Invariant Test Helper Functions
+### 불변성 테스트 도우미 함수
 
-Invariant test helper functions are included in [`forge-std`](https://github.com/foundry-rs/forge-std/blob/master/src/StdInvariant.sol) to allow for configurable invariant test setup. The helper functions are outlined below:
+불변성 테스트 도우미 함수는 구성 가능한 불변성 테스트 설정을 허용하기 위해 [`forge-std`](https://github.com/foundry-rs/forge-std/blob/master/src/StdInvariant.sol)에 포함되어 있습니다. 도우미 함수는 아래에 설명되어 있습니다:
 
-| Function                                                                           | Description                                                                                                                                                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `excludeContract(address newExcludedContract_)`                                    | Adds a given address to the `_excludedContracts` array. This set of contracts is explicitly excluded from the target contracts.                                                                                                                                                                                                                              |
-| `excludeSelector(FuzzSelector memory newExcludedSelector_)`                        | Adds a given `FuzzSelector` to the `_excludedSelectors` array. This set of `FuzzSelector`s is explicitly excluded from the target contract selectors.                                                                                                                                                                                                        |
-| `excludeSender(address newExcludedSender_)`                                        | Adds a given address to the `_excludedSenders` array. This set of addresses is explicitly excluded from the target senders.                                                                                                                                                                                                                                  |
-| `excludeArtifact(string memory newExcludedArtifact_)`                              | Adds a given string to the `_excludedArtifacts` array. This set of strings is explicitly excluded from the target artifacts.                                                                                                                                                                                                                                 |
-| `targetArtifact(string memory newTargetedArtifact_)`                               | Adds a given string to the `_targetedArtifacts` array. This set of strings is used for the target artifacts.                                                                                                                                                                                                                                                 |
-| `targetArtifactSelector(FuzzArtifactSelector memory newTargetedArtifactSelector_)` | Adds a given `FuzzArtifactSelector` to the `_targetedArtifactSelectors` array. This set of `FuzzArtifactSelector`s is used for the target artifact selectors.                                                                                                                                                                                                |
-| `targetContract(address newTargetedContract_)`                                     | Adds a given address to the `_targetedContracts` array. This set of addresses is used for the target contracts. This array overwrites the set of contracts that was deployed during the `setUp`.                                                                                                                                                             |
-| `targetSelector(FuzzSelector memory newTargetedSelector_)`                         | Adds a given `FuzzSelector` to the `_targetedSelectors` array. This set of `FuzzSelector`s is used for the target contract selectors.                                                                                                                                                                                                                        |
-| `targetSender(address newTargetedSender_)`                                         | Adds a given address to the `_targetedSenders` array. This set of addresses is used for the target senders.                                                                                                                                                                                                                                                  |
-| `targetInterface(FuzzInterface memory newTargetedInterface_)`                      | Adds a given `FuzzInterface` to the `_targetedInterfaces` array. This set of `FuzzInterface` extends the contracts and selectors to fuzz and enables targeting of addresses that are not deployed during `setUp` such as when fuzzing in a forked environment. Also enables targeting of delegate proxies and contracts deployed with `create` or `create2`. |
+| 함수                                                                               | 설명                                                                                                                                                                                                                                                                                                                      |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `excludeContract(address newExcludedContract_)`                                    | 주어진 주소를 `_excludedContracts` 배열에 추가합니다. 이 컨트랙트 집합은 타겟 컨트랙트에서 명시적으로 제외됩니다.                                                                                                                                                                                                         |
+| `excludeSelector(FuzzSelector memory newExcludedSelector_)`                        | 주어진 `FuzzSelector`를 `_excludedSelectors` 배열에 추가합니다. 이 `FuzzSelector` 집합은 타겟 컨트랙트 선택자에서 명시적으로 제외됩니다.                                                                                                                                                                                  |
+| `excludeSender(address newExcludedSender_)`                                        | 주어진 주소를 `_excludedSenders` 배열에 추가합니다. 이 주소 집합은 타겟 발신자에서 명시적으로 제외됩니다.                                                                                                                                                                                                                 |
+| `excludeArtifact(string memory newExcludedArtifact_)`                              | 주어진 문자열을 `_excludedArtifacts` 배열에 추가합니다. 이 문자열 집합은 타겟 아티팩트에서 명시적으로 제외됩니다.                                                                                                                                                                                                         |
+| `targetArtifact(string memory newTargetedArtifact_)`                               | 주어진 문자열을 `_targetedArtifacts` 배열에 추가합니다. 이 문자열 집합은 타겟 아티팩트에 사용됩니다.                                                                                                                                                                                                                      |
+| `targetArtifactSelector(FuzzArtifactSelector memory newTargetedArtifactSelector_)` | 주어진 `FuzzArtifactSelector`를 `_targetedArtifactSelectors` 배열에 추가합니다. 이 `FuzzArtifactSelector` 집합은 타겟 아티팩트 선택자에 사용됩니다.                                                                                                                                                                       |
+| `targetContract(address newTargetedContract_)`                                     | 주어진 주소를 `_targetedContracts` 배열에 추가합니다. 이 주소 집합은 타겟 컨트랙트에 사용됩니다. 이 배열은 `setUp` 중에 배포된 컨트랙트 집합을 덮어씁니다.                                                                                                                                                                |
+| `targetSelector(FuzzSelector memory newTargetedSelector_)`                         | 주어진 `FuzzSelector`를 `_targetedSelectors` 배열에 추가합니다. 이 `FuzzSelector` 집합은 타겟 컨트랙트 선택자에 사용됩니다.                                                                                                                                                                                               |
+| `targetSender(address newTargetedSender_)`                                         | 주어진 주소를 `_targetedSenders` 배열에 추가합니다. 이 주소 집합은 타겟 발신자에 사용됩니다.                                                                                                                                                                                                                              |
+| `targetInterface(FuzzInterface memory newTargetedInterface_)`                      | 주어진 `FuzzInterface`를 `_targetedInterfaces` 배열에 추가합니다. 이 `FuzzInterface` 집합은 퍼징할 컨트랙트 및 선택자를 확장하고, 포크된 환경에서 퍼징할 때와 같이 `setUp` 중에 배포되지 않은 주소를 타겟팅할 수 있게 합니다. 또한 위임 프록시 및 `create` 또는 `create2`로 배포된 컨트랙트를 타겟팅할 수 있게 합니다. |
 
-### Target Contract Setup
+### 타겟 컨트랙트 설정
 
-Target contracts can be set up using the following three methods:
+타겟 컨트랙트는 다음 세 가지 방법을 사용하여 설정할 수 있습니다:
 
-1. Contracts that are manually added to the `targetContracts` array are added to the set of target contracts.
-2. Contracts that are deployed in the `setUp` function are automatically added to the set of target contracts (only works if no contracts have been manually added using option 1).
-3. Contracts that are deployed in the `setUp` can be **removed** from the target contracts if they are added to the `excludeContracts` array.
+1. `targetContracts` 배열에 수동으로 추가된 컨트랙트는 타겟 컨트랙트 집합에 추가됩니다.
+2. `setUp` 함수에 배포된 컨트랙트는 자동으로 타겟 컨트랙트 집합에 추가됩니다 (옵션 1을 사용하여 수동으로 추가된 컨트랙트가 없는 경우에만 작동).
+3. `setUp`에 배포된 컨트랙트가 `excludeContracts` 배열에 추가되면 타겟 컨트랙트에서 **제거**될 수 있습니다.
 
-## Open Testing
+## 오픈 테스트 (Open Testing)
 
-The default configuration for target contracts is set to all contracts that are deployed during the setup. For smaller modules and more arithmetic contracts, this works well. For example:
+타겟 컨트랙트의 기본 구성은 설정(setup) 중에 배포된 모든 컨트랙트로 설정됩니다. 더 작은 모듈과 더 많은 산술 컨트랙트의 경우 이것이 잘 작동합니다. 예를 들어:
 
 ```solidity
 contract ExampleContract1 {
@@ -322,7 +321,7 @@ contract ExampleContract1 {
 }
 ```
 
-This contract could be deployed and tested using the default target contract pattern:
+이 컨트랙트는 기본 타겟 컨트랙트 패턴을 사용하여 배포하고 테스트할 수 있습니다:
 
 ```solidity
 contract InvariantExample1 is Test {
@@ -344,16 +343,16 @@ contract InvariantExample1 is Test {
 }
 ```
 
-This setup will call `foo.addToA()` and `foo.addToB()` with a 50%-50% probability distribution with fuzzed inputs. Inevitably, the inputs will start to cause overflows and the function calls will start reverting. Since the default configuration in invariant testing is `fail_on_revert = false`, this will not cause the tests to fail. The invariants will hold throughout the rest of the fuzzing campaign and the result is that the test will pass. The output will look something like this:
+이 설정은 퍼징된 입력과 함께 50%-50% 확률 분포로 `foo.addToA()` 및 `foo.addToB()`를 호출합니다. 필연적으로 입력이 오버플로를 일으키기 시작하고 함수 호출이 리버트되기 시작할 것입니다. 불변성 테스트의 기본 구성은 `fail_on_revert = false`이므로 테스트가 실패하지 않습니다. 불변성은 퍼징 캠페인의 나머지 부분 동안 유지되며 결과적으로 테스트가 통과합니다. 출력은 다음과 같습니다:
 
 ```text
 [PASS] invariant_A() (runs: 50, calls: 10000, reverts: 5533)
 [PASS] invariant_B() (runs: 50, calls: 10000, reverts: 5533)
 ```
 
-## Handler-Based Testing
+## 핸들러 기반 테스트 (Handler-Based Testing)
 
-For more complex and integrated protocols, more sophisticated target contract usage is required to achieve the desired results. To illustrate how Handlers can be leveraged, the following contract will be used (an ERC-4626 based contract that accepts deposits of another ERC-20 token):
+더 복잡하고 통합된 프로토콜의 경우 원하는 결과를 얻으려면 더 정교한 타겟 컨트랙트 사용이 필요합니다. 핸들러를 활용하는 방법을 설명하기 위해 다음 컨트랙트를 사용합니다 (다른 ERC-20 토큰의 예금을 허용하는 ERC-4626 기반 컨트랙트):
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -449,9 +448,9 @@ contract Basic4626Deposit {
 
 ```
 
-### Handler Functions
+### 핸들러 함수
 
-This contract's `deposit` function requires that the caller has a non-zero balance of the ERC-20 `asset`. In the Open invariant testing approach, `deposit()` and `transfer()` would be called with a 50-50% distribution, but they would revert on every call. This would cause the invariant tests to "pass", but in reality no state was manipulated in the desired contract at all. This is where target contracts can be leveraged. When a contract requires some additional logic in order to function properly, it can be added in a dedicated contract called a `Handler`.
+이 컨트랙트의 `deposit` 함수는 호출자가 0이 아닌 ERC-20 `asset` 잔액을 보유하고 있어야 합니다. 오픈 불변성 테스트 접근 방식에서 `deposit()`과 `transfer()`는 50-50% 분포로 호출되지만 모든 호출에서 리버트됩니다. 이로 인해 불변성 테스트가 "통과"되지만 실제로 원하는 컨트랙트에서 상태 조작이 전혀 이루어지지 않았습니다. 여기서 타겟 컨트랙트를 활용할 수 있습니다. 컨트랙트가 제대로 작동하기 위해 추가 로직이 필요한 경우 `Handler`(핸들러)라고 하는 전용 컨트랙트에 추가할 수 있습니다.
 
 ```solidity
 function deposit(uint256 assets) public virtual {
@@ -463,21 +462,21 @@ function deposit(uint256 assets) public virtual {
 }
 ```
 
-This contract will provide the necessary setup before a function call is made in order to ensure it is successful.
+이 컨트랙트는 함수 호출이 수행되기 전에 성공을 보장하기 위해 필요한 설정을 제공합니다.
 
-Building on this concept, Handlers can be used to develop more sophisticated invariant tests. With Open invariant testing, the tests run as shown in the diagram below, with random sequences of function calls being made to the protocol contracts directly with fuzzed parameters. This will cause reverts for more complex systems as outlined above.
+이 개념을 바탕으로 핸들러를 사용하여 더 정교한 불변성 테스트를 개발할 수 있습니다. 오픈 불변성 테스트의 경우 테스트는 아래 다이어그램과 같이 실행되며, 무작위 함수 호출 시퀀스가 퍼징된 매개변수와 함께 프로토콜 컨트랙트에 직접 수행됩니다. 이는 위에서 설명한 것처럼 더 복잡한 시스템의 경우 리버트를 유발합니다.
 
-![Blank diagram](https://user-images.githubusercontent.com/44272939/214752968-5f0e7653-d52e-43e6-b453-cac935f5d97d.svg)
+![빈 다이어그램](https://user-images.githubusercontent.com/44272939/214752968-5f0e7653-d52e-43e6-b453-cac935f5d97d.svg)
 
-By manually adding all Handler contracts to the `targetContracts` array, all function calls made to protocol contracts can be made in a way that is governed by the Handler to ensure successful calls. This is outlined in the diagram below.
+모든 핸들러 컨트랙트를 `targetContracts` 배열에 수동으로 추가하면, 프로토콜 컨트랙트에 대한 모든 함수 호출이 성공적인 호출을 보장하도록 핸들러에 의해 관리되는 방식으로 이루어질 수 있습니다. 이는 아래 다이어그램에 설명되어 있습니다.
 
-![Invariant Diagrams - Page 2](https://user-images.githubusercontent.com/44272939/216420091-8a5c2bcc-d586-458f-be1e-a9ea0ef5961f.svg)
+![불변성 다이어그램 - 2페이지](https://user-images.githubusercontent.com/44272939/216420091-8a5c2bcc-d586-458f-be1e-a9ea0ef5961f.svg)
 
-With this layer between the fuzzer and the protocol, more powerful testing can be achieved.
+퍼저와 프로토콜 사이에 이 계층을 두면 더 강력한 테스트를 달성할 수 있습니다.
 
-### Handler Ghost Variables
+### 핸들러 고스트 변수
 
-Within Handlers, "ghost variables" can be tracked across multiple function calls to add additional information for invariant tests. A good example of this is summing all of the `shares` that each LP owns after depositing into the ERC-4626 token as shown above, and using that in the invariant (`totalSupply == sumBalanceOf`).
+핸들러 내에서 "고스트 변수(ghost variables)"를 여러 함수 호출에 걸쳐 추적하여 불변성 테스트에 추가 정보를 더할 수 있습니다. 이에 대한 좋은 예는 위에서 본 것처럼 ERC-4626 토큰에 예금한 후 각 LP가 소유한 모든 `shares`를 합산하여 불변성(`totalSupply == sumBalanceOf`)에 사용하는 것입니다.
 
 ```solidity
 function deposit(uint256 assets) public virtual {
@@ -491,9 +490,9 @@ function deposit(uint256 assets) public virtual {
 }
 ```
 
-### Function-Level Assertions
+### 함수 수준 어설션
 
-Another benefit is the ability to perform assertions on function calls as they are happening. An example is asserting the ERC-20 balance of the LP has decremented by `assets` during the `deposit` function call, as well as their LP token balance incrementing by `shares`. In this way, handler functions are similar to fuzz tests because they can take in fuzzed inputs, perform state changes, and assert before/after state.
+또 다른 이점은 함수 호출이 일어나는 동안 어설션을 수행할 수 있다는 것입니다. 예를 들어 `deposit` 함수 호출 중에 LP의 ERC-20 잔액이 `assets`만큼 감소하고 LP 토큰 잔액이 `shares`만큼 증가했는지 어설션하는 것입니다. 이런 방식으로 핸들러 함수는 퍼징된 입력을 받아 상태 변경을 수행하고 전/후 상태를 어설션할 수 있기 때문에 퍼즈 테스트와 유사합니다.
 
 ```solidity
 function deposit(uint256 assets) public virtual {
@@ -511,9 +510,9 @@ function deposit(uint256 assets) public virtual {
 }
 ```
 
-### Bounded/Unbounded Functions
+### 제한된/제한되지 않은 함수 (Bounded/Unbounded Functions)
 
-In addition, with Handlers, input parameters can be bounded to reasonable expected values such that `fail_on_revert` in `foundry.toml` can be set to `true`. This can be accomplished using the `bound()` helper function from `forge-std`. This ensures that every function call that is being made by the fuzzer must be successful against the protocol in order to get tests to pass. This is very useful for visibility and confidence that the protocol is being tested in the desired way.
+또한 핸들러를 사용하면 입력 매개변수를 합리적인 예상 값으로 제한(bound)하여 `foundry.toml`의 `fail_on_revert`를 `true`로 설정할 수 있습니다. 이는 `forge-std`의 `bound()` 도우미 함수를 사용하여 수행할 수 있습니다. 이렇게 하면 테스트가 통과하려면 퍼저가 수행하는 모든 함수 호출이 프로토콜에 대해 성공해야 합니다. 이는 가시성과 프로토콜이 원하는 방식으로 테스트되고 있다는 확신을 갖는 데 매우 유용합니다.
 
 ```solidity
 function deposit(uint256 assets) external {
@@ -533,7 +532,7 @@ function deposit(uint256 assets) external {
 }
 ```
 
-This can also be accomplished by inheriting non-bounded functions from dedicated "unbounded" Handler contracts that can be used for `fail_on_revert = false` testing. This type of testing is also useful since it can expose issues in assumptions made with `bound` function usage.
+이는 `fail_on_revert = false` 테스트에 사용할 수 있는 전용 "제한되지 않은(unbounded)" 핸들러 컨트랙트에서 제한되지 않은 함수를 상속하여 수행할 수도 있습니다. 이러한 유형의 테스트는 `bound` 함수 사용 시 발생한 가정의 문제를 노출시킬 수 있으므로 유용합니다.
 
 ```solidity
 // Unbounded
@@ -561,9 +560,9 @@ function deposit(uint256 assets) external {
 }
 ```
 
-### Actor Management
+### 행위자 관리 (Actor Management)
 
-In the function calls above, it can be seen that `address(this)` is the sole depositor in the ERC-4626 contract, which is not a realistic representation of its intended use. By leveraging the `prank` cheatcodes in `forge-std`, each Handler can manage a set of actors and use them to perform the same function call from different `msg.sender` addresses. This can be accomplished using the following modifier:
+위의 함수 호출에서 `address(this)`가 ERC-4626 컨트랙트의 유일한 예금자임을 알 수 있는데, 이는 의도된 사용의 현실적인 표현이 아닙니다. `forge-std`의 `prank` 치트코드를 활용하면 각 핸들러는 행위자 집합을 관리하고 이를 사용하여 다른 `msg.sender` 주소에서 동일한 함수 호출을 수행할 수 있습니다. 이는 다음 수정자(modifier)를 사용하여 수행할 수 있습니다:
 
 ```solidity
 address[] public actors;
@@ -578,7 +577,7 @@ modifier useActor(uint256 actorIndexSeed) {
 }
 ```
 
-Using multiple actors allows for more granular ghost variable usage as well. This is demonstrated in the functions below:
+여러 행위자를 사용하면 고스트 변수를 더 세분화하여 사용할 수도 있습니다. 이는 아래 함수에서 입증됩니다:
 
 ```solidity
 // Unbounded

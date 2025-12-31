@@ -1,16 +1,16 @@
 ## `getBlockNumber`
 
-### Signature
+### 서명
 
 ```solidity
 function getBlockNumber() external view returns (uint256 height);
 ```
 
-### Description
+### 설명
 
-Gets the current `block.number`. This is useful in cases where `vm.roll` along with `--via-ir` compilation is used, as `block.number` is assumed to be a constant during a transaction. This means that on every forge test, multiple calls to `block.number` would get optimized to just returning a constant value, instead of actually accessing the current `block.number`. `vm.getBlockNumber()` avoids this optimization and returns the current `block.number`.
+현재 `block.number`를 가져옵니다. 이것은 `vm.roll`과 함께 `--via-ir` 컴파일을 사용하는 경우에 유용합니다. `block.number`가 트랜잭션 중에 상수라고 가정되기 때문입니다. 즉, 모든 forge 테스트에서 `block.number`에 대한 여러 번의 호출은 실제로 현재 `block.number`에 액세스하는 대신 상수 값을 반환하도록 최적화됩니다. `vm.getBlockNumber()`는 이 최적화를 피하고 현재 `block.number`를 반환합니다.
 
-### Examples
+### 예제
 
 ```solidity
 uint256 height = vm.getBlockNumber();

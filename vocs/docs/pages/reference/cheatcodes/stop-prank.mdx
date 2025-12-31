@@ -1,11 +1,11 @@
 ## `stopPrank`
 
-### Signature
+### 시그니처
 
 ```solidity
 function stopPrank() external;
 ```
 
-### Description
+### 설명
 
-Stops an active prank started by [`startPrank`](/reference/cheatcodes/start-prank.mdx), resetting `msg.sender` and `tx.origin` to the values before `startPrank` was called.
+[`startPrank`](/reference/cheatcodes/start-prank.mdx)에 의해 시작된 활성 프랭크(prank)를 중지하고, `msg.sender`와 `tx.origin`을 `startPrank`가 호출되기 전의 값으로 재설정합니다.

@@ -1,55 +1,55 @@
 ---
-description: Deploy contracts declaratively using Solidity scripts with simulation, broadcasting, and verification capabilities.
+description: 시뮬레이션, 브로드캐스팅 및 검증 기능을 갖춘 Solidity 스크립트를 사용하여 선언적으로 컨트랙트를 배포합니다.
 ---
 
-## Scripting with Solidity
+## Solidity로 스크립팅하기
 
-Solidity scripting is a way to declaratively deploy contracts using Solidity, instead of using the more limiting and less user friendly [`forge create`](/forge/reference/create).
+Solidity 스크립팅은 제한적이고 덜 사용자 친화적인 [`forge create`](/forge/reference/create)를 사용하는 대신, Solidity를 사용하여 선언적으로 컨트랙트를 배포하는 방법입니다.
 
-Solidity scripts are like the scripts you write when working with tools like Hardhat; what makes Solidity scripting different is that they are written in Solidity instead of JavaScript, and they are run on the fast Foundry EVM backend, which provides advanced simulation with dry-run capabilities.
+Solidity 스크립트는 Hardhat과 같은 도구로 작업할 때 작성하는 스크립트와 유사합니다. 차이점은 JavaScript 대신 Solidity로 작성된다는 것과, 드라이 런(dry-run) 기능이 포함된 고급 시뮬레이션을 제공하는 빠른 Foundry EVM 백엔드에서 실행된다는 점입니다.
 
-## How `forge script` works?
+## `forge script`는 어떻게 작동하나요?
 
-`forge script` does not work in an asynchronous manner. First, it collects all transactions from the script, and only then does it broadcast them all. It can essentially be split into 4 phases:
+`forge script`는 비동기 방식으로 작동하지 않습니다. 먼저 스크립트의 모든 트랜잭션을 수집한 다음, 그 후에 모두 브로드캐스트합니다. 기본적으로 4단계로 나눌 수 있습니다:
 
-1. Local Simulation - The contract script is run in a local evm. If a rpc/fork url has been provided, it will execute the script in that context. Any **external call** (not static, not internal) from a `vm.broadcast` and/or `vm.startBroadcast` will be appended to a list.
-2. Onchain Simulation - Optional. If a rpc/fork url has been provided, then it will sequentially execute all the collected transactions from the previous phase here.
-3. Broadcasting - Optional. If the `--broadcast` flag is provided and the previous phases have succeeded, it will broadcast the transactions collected at step `1`. and simulated at step `2`.
-4. Verification - Optional. If the `--verify` flag is provided, there's an API key, and the previous phases have succeeded it will attempt to verify the contract. (eg. etherscan).
+1. 로컬 시뮬레이션 - 컨트랙트 스크립트가 로컬 evm에서 실행됩니다. rpc/fork url이 제공되면 해당 컨텍스트에서 스크립트를 실행합니다. `vm.broadcast` 및/또는 `vm.startBroadcast`에서 발생하는 모든 **외부 호출**(static이 아니고 internal이 아닌)은 리스트에 추가됩니다.
+2. 온체인 시뮬레이션 - 선택 사항입니다. rpc/fork url이 제공되면, 이전 단계에서 수집된 모든 트랜잭션을 순차적으로 실행합니다.
+3. 브로드캐스팅 - 선택 사항입니다. `--broadcast` 플래그가 제공되고 이전 단계가 성공하면, `1` 단계에서 수집되고 `2` 단계에서 시뮬레이션된 트랜잭션을 브로드캐스트합니다.
+4. 검증 - 선택 사항입니다. `--verify` 플래그가 제공되고 API 키가 있으며 이전 단계가 성공하면, 컨트랙트 검증을 시도합니다 (예: etherscan).
 
 :::tip
-Transactions that previously failed or timed-out can be submitted again by providing `--resume` flag.
+이전에 실패하거나 시간 초과된 트랜잭션은 `--resume` 플래그를 제공하여 다시 제출할 수 있습니다.
 :::
 
-Given this flow, it's important to be aware that transactions whose behaviour can be influenced by external state/actors might have a different result than what was simulated on step `2`, e.g. front running.
+이러한 흐름을 고려할 때, 외부 상태/행위자의 영향을 받을 수 있는 트랜잭션은 `2` 단계에서 시뮬레이션된 것과 다른 결과를 초래할 수 있다는 점(예: 프런트 러닝)을 인지하는 것이 중요합니다.
 
-## Setup `Counter` Project
+## `Counter` 프로젝트 설정
 
-Let's try to deploy the basic `Counter` contract Foundry provides:
+Foundry가 제공하는 기본 `Counter` 컨트랙트를 배포해 보겠습니다:
 
 ```sh
 forge init Counter
 ```
 
-Next compile our contracts to make sure everything is in order.
+다음으로 모든 것이 올바른지 확인하기 위해 컨트랙트를 컴파일합니다.
 
 ```sh
 forge build
 ```
 
-## Deploying the `Counter` contract
+## `Counter` 컨트랙트 배포
 
 ::::steps
 
-### Get RPC and Etherscan API Keys
+### RPC 및 Etherscan API 키 가져오기
 
-We are going to deploy the `Counter` contract to the Sepolia testnet but in order to do so we will need to complete a few prerequisites:
+`Counter` 컨트랙트를 Sepolia 테스트넷에 배포할 예정이지만, 이를 위해서는 몇 가지 필수 조건이 필요합니다:
 
-1. Get a Sepolia RPC URL.
+1. Sepolia RPC URL 가져오기.
 
-You can either grab an RPC URL from [Chainlist](https://chainlist.org/chain/11155111) or use an RPC provider like [Alchemy](https://www.alchemy.com/) or [Infura](https://www.infura.io/).
+[Chainlist](https://chainlist.org/chain/11155111)에서 RPC URL을 가져오거나 [Alchemy](https://www.alchemy.com/) 또는 [Infura](https://www.infura.io/)와 같은 RPC 공급자를 사용할 수 있습니다.
 
-2. Get a one-time use private key for deploying.
+2. 배포를 위한 일회용 개인 키 가져오기.
 
 ```sh
 `cast wallet new`
@@ -61,35 +61,35 @@ Address:     <PUBLIC KEY>
 Private key: <PRIVATE_KEY>
 ```
 
-3. Fund the private key.
+3. 개인 키에 자금 입금하기.
 
-Grab some Sepolia testnet ETH, available in different faucets:
+다양한 수도꼭지(faucet)에서 Sepolia 테스트넷 ETH를 받으세요:
 
-- [Proof of work faucet](https://sepolia-faucet.pk910.de/)
+- [작업 증명 수도꼭지](https://sepolia-faucet.pk910.de/)
 - [Alchemy](https://sepoliafaucet.com/)
 - [Quicknode](https://faucet.quicknode.com/ethereum/sepolia)
 - [Chainstack](https://faucet.chainstack.com/)
 
-Some faucets require you to have a balance on Ethereum mainnet.
+일부 수도꼭지는 이더리움 메인넷 잔액을 요구할 수 있습니다.
 
-If so, claim the testnet ETH on a wallet you control and transfer the testnet ETH to your newly created deployer keypair.
+그런 경우, 제어하고 있는 지갑으로 테스트넷 ETH를 청구한 다음 새로 생성한 배포자 키쌍으로 테스트넷 ETH를 전송하세요.
 
-4. Get a Sepolia Etherscan API key [here](https://docs.etherscan.io/getting-started/viewing-api-usage-statistics).
+4. [여기](https://docs.etherscan.io/getting-started/viewing-api-usage-statistics)에서 Sepolia Etherscan API 키를 받으세요.
 
-### Configuring `foundry.toml`
+### `foundry.toml` 구성하기
 
-Once you have all that create a `.env` file and add the variables. Foundry automatically loads in a `.env` file present in your project directory.
+모든 준비가 되면 `.env` 파일을 생성하고 변수를 추가하세요. Foundry는 프로젝트 디렉토리에 있는 `.env` 파일을 자동으로 로드합니다.
 
-The .env file should follow this format:
+.env 파일은 다음 형식을 따라야 합니다:
 
 ```sh
 SEPOLIA_RPC_URL=
 ETHERSCAN_API_KEY=
 ```
 
-We now need to edit the `foundry.toml` file. There should already be one in the root of the project.
+이제 `foundry.toml` 파일을 편집해야 합니다. 프로젝트 루트에 이미 파일이 하나 있을 것입니다.
 
-Add the following lines to the end of the file:
+파일 끝에 다음 줄을 추가하세요:
 
 ```toml
 [rpc_endpoints]
@@ -99,19 +99,19 @@ sepolia = "${SEPOLIA_RPC_URL}"
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
 ```
 
-This creates a [RPC alias](/reference/cheatcodes/rpc) for Sepolia and loads the Etherscan API key.
+이렇게 하면 Sepolia에 대한 [RPC 별칭](/reference/cheatcodes/rpc)이 생성되고 Etherscan API 키가 로드됩니다.
 
-However this does not affect the `getChain` method.
+하지만 이는 `getChain` 메서드에는 영향을 미치지 않습니다.
 
-### Writing the script
+### 스크립트 작성
 
-Next, navigate to the `script` folder and locate the `CounterScript`.
+다음으로 `script` 폴더로 이동하여 `CounterScript`를 찾으세요.
 
 :::tip
-For complex deployments, especially multi-chain scenarios, consider using the [Config contract for orchestrating scripts](/guides/scripting-with-config). It provides centralized configuration management through TOML files, making your scripts more maintainable and reusable, as well as built-in support for instantiating and tracking forks.
+복잡한 배포, 특히 멀티 체인 시나리오의 경우 [스크립트 조정을 위한 구성 컨트랙트](/guides/scripting-with-config) 사용을 고려하세요. TOML 파일을 통한 중앙 집중식 구성 관리를 제공하여 스크립트의 유지 보수성과 재사용성을 높이고, 포크 인스턴스화 및 추적을 위한 기본 지원을 제공합니다.
 :::
 
-Modify the contents so it looks like this:
+내용을 다음과 같이 수정하세요:
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -135,79 +135,79 @@ contract CounterScript is Script {
 }
 ```
 
-Now let's read through the code and figure out what it actually means and does.
+이제 코드를 읽어보며 실제 의미와 동작을 파악해 봅시다.
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 ```
 
-Remember even if it's a script it still works like a smart contract, but is never deployed, so just like any other smart contract written in Solidity the `pragma version` has to be specified.
+스크립트라도 스마트 컨트랙트처럼 작동하지만 배포되지는 않는다는 점을 기억하세요. 따라서 Solidity로 작성된 다른 스마트 컨트랙트와 마찬가지로 `pragma version`을 지정해야 합니다.
 
 ```solidity
 import {Script, console} from "forge-std/Script.sol";
 import {Counter} from "../src/Counter.sol";
 ```
 
-Just like we may import Forge Std to get testing utilities when writing tests, it also provides some scripting utilities.
+테스트를 작성할 때 테스트 유틸리티를 얻기 위해 Forge Std를 임포트하는 것처럼, 스크립팅 유틸리티도 제공합니다.
 
-The next line just imports the `Counter` contract.
+다음 줄은 단순히 `Counter` 컨트랙트를 임포트합니다.
 
 ```solidity
 contract CounterScript is Script {
 ```
 
-We have created a contract called `CounterScript` and it inherits `Script` from Forge Std.
+`CounterScript`라는 컨트랙트를 생성하고 Forge Std의 `Script`를 상속받았습니다.
 
 ```solidity
 function run() external {
 ```
 
-By default, scripts are executed by calling the function named `run`, our entrypoint.
+기본적으로 스크립트는 엔트리포인트인 `run`이라는 함수를 호출하여 실행됩니다.
 
-This loads in the private key from our `.env` file. **Note:** you must be careful when exposing private keys in a `.env` file and loading them into programs. This is only recommended for use with non-privileged deployers or for local / test setups. For production setups please review the various [wallet options](/forge/reference/script#wallet-options---raw) that Foundry supports.
+이는 `.env` 파일에서 개인 키를 로드합니다. **참고:** `.env` 파일에 개인 키를 노출하고 프로그램에 로드할 때는 주의해야 합니다. 이는 권한이 없는 배포자나 로컬/테스트 설정에만 사용하는 것이 좋습니다. 프로덕션 설정의 경우 Foundry가 지원하는 다양한 [지갑 옵션](/forge/reference/script#wallet-options---raw)을 검토하세요.
 
 ```solidity
 vm.startBroadcast();
 ```
 
-This is a special cheatcode that records calls and contract creations made by our main script contract. The private key of the sender we will pass in will instruct it to use that key for signing the transactions. Later, we will broadcast these transactions to deploy our `Counter` contract.
+이것은 메인 스크립트 컨트랙트에서 수행된 호출 및 컨트랙트 생성을 기록하는 특별한 치트코드입니다. 전달할 전송자의 개인 키는 트랜잭션 서명에 사용되도록 지시합니다. 나중에 이 트랜잭션들을 브로드캐스트하여 `Counter` 컨트랙트를 배포할 것입니다.
 
 ```solidity
 Counter counter = new Counter();
 ```
 
-Here we have just created our `Counter` contract. Because we called `vm.startBroadcast()` before this line, the contract creation will be recorded by Forge, and as mentioned previously, we can broadcast the transaction to deploy the contract on-chain. The broadcast transaction logs will be stored in the `broadcast` directory by default. You can change the logs location by setting [`broadcast`](/config/reference/project#broadcast) in your `foundry.toml` file.
+여기서 `Counter` 컨트랙트를 생성했습니다. 이 줄 이전에 `vm.startBroadcast()`를 호출했기 때문에 컨트랙트 생성은 Forge에 의해 기록되며, 앞서 언급했듯이 트랜잭션을 브로드캐스트하여 온체인에 컨트랙트를 배포할 수 있습니다. 브로드캐스트 트랜잭션 로그는 기본적으로 `broadcast` 디렉토리에 저장됩니다. `foundry.toml` 파일에서 [`broadcast`](/config/reference/project#broadcast)를 설정하여 로그 위치를 변경할 수 있습니다.
 
-The broadcasting sender is determined by checking the following in order:
+브로드캐스팅 전송자(sender)는 다음 순서대로 확인하여 결정됩니다:
 
-1. If `--sender` argument was provided, that address is used.
-2. If exactly one signer (e.g. private key, hardware wallet, keystore) is set, that signer is used.
-3. Otherwise, the default Foundry sender (`0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38`) is attempted to be used.
+1. `--sender` 인수가 제공된 경우 해당 주소가 사용됩니다.
+2. 서명자(예: 개인 키, 하드웨어 지갑, 키스토어)가 정확히 하나만 설정된 경우 해당 서명자가 사용됩니다.
+3. 그렇지 않으면 기본 Foundry 전송자(`0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38`) 사용을 시도합니다.
 
-Now that you're up to speed about what the script smart contract does, let's run it.
+이제 스크립트 스마트 컨트랙트가 무엇을 하는지 알게 되었으니 실행해 봅시다.
 
-### Deploying to a testnet
+### 테스트넷에 배포하기
 
-You should have added the variables we mentioned earlier to the `.env` for this next part to work.
+다음 부분을 진행하려면 앞서 언급한 변수들을 `.env`에 추가했어야 합니다.
 
-At the root of the project run:
+프로젝트 루트에서 다음을 실행하세요:
 
 ```sh
-# To load the variables in the .env file
+# .env 파일의 변수 로드
 source .env
 
-# To deploy and verify our contract
+# 컨트랙트 배포 및 검증
 forge script --chain sepolia script/Counter.s.sol:CounterScript --rpc-url $SEPOLIA_RPC_URL --broadcast --verify -vvvv --interactives 1
 ```
 
-Note the `--interactives 1`, this will open an interactive prompt to enter your private key. For anything beyond a simple testnet deployment in a development setting you are **STRONGLY** [recommended to use a hardware wallet or a password protected keystore](/guides/best-practices/key-management).
+`--interactives 1`에 주목하세요. 이는 개인 키를 입력할 수 있는 대화형 프롬프트를 엽니다. 개발 환경에서의 단순한 테스트넷 배포가 아닌 경우, **강력하게** [하드웨어 지갑이나 암호로 보호된 키스토어를 사용](/guides/best-practices/key-management)할 것을 권장합니다.
 
 ```
 Enter private key: <PRIVATE_KEY>
 ```
 
-Forge is going to run our script and broadcast the transactions for us - this can take a little while, since Forge will also wait for the transaction receipts. You should see something like this after a minute or so:
+Forge가 스크립트를 실행하고 트랜잭션을 브로드캐스트합니다. Forge가 트랜잭션 영수증도 기다리므로 시간이 조금 걸릴 수 있습니다. 1분 정도 후에 다음과 같은 내용을 볼 수 있습니다:
 
 ```
 [⠊] Compiling...
@@ -283,19 +283,19 @@ Transactions saved to: /home/user/counter/broadcast/Counter.s.sol/11155111/run-l
 Sensitive values saved to: /home/user/counter/cache/Counter.s.sol/11155111/run-latest.json
 ```
 
-This confirms that you have successfully deployed the `Counter` contract to the Sepolia testnet and have also verified it on Etherscan, all with one command.
+이것으로 `Counter` 컨트랙트가 Sepolia 테스트넷에 성공적으로 배포되었으며 Etherscan에서 검증까지 완료되었음을 단 하나의 명령어로 확인했습니다.
 
-### Deploying to a local Anvil instance
+### 로컬 Anvil 인스턴스에 배포하기
 
-You can deploy to Anvil, the local testnet, by configuring the `--fork-url`.
+`--fork-url`을 구성하여 로컬 테스트넷인 Anvil에 배포할 수 있습니다.
 
-Let's start Anvil in one terminal window:
+터미널 창 하나에서 Anvil을 시작해 봅시다:
 
 ```sh
 anvil
 ```
 
-This will show you are list of default accounts.
+그러면 기본 계정 목록이 표시됩니다.
 
 ```
 Available Accounts
@@ -311,13 +311,13 @@ Private Keys
 ...
 ```
 
-Then run the following script in a different terminal window:
+그런 다음 다른 터미널 창에서 다음 스크립트를 실행하세요:
 
 ```sh
 forge script script/Counter.s.sol:CounterScript --fork-url http://localhost:8545 --broadcast --interactives 1
 ```
 
-Next enter the private key, pick one from the list.
+다음으로 개인 키를 입력하세요. 목록에서 하나를 고르세요.
 
 ```
 Enter private key: <PRIVATE_KEY>

@@ -1,6 +1,6 @@
 ## `envInt`
 
-### Signature
+### 서명
 
 ```solidity
 function envInt(string calldata key) external returns (int256 value);
@@ -10,20 +10,19 @@ function envInt(string calldata key) external returns (int256 value);
 function envInt(string calldata key, string calldata delimiter) external returns (int256[] memory values);
 ```
 
-### Description
+### 설명
 
-Read an environment variable as `int256` or `int256[]`.
+환경 변수를 `int256` 또는 `int256[]`로 읽습니다.
 
-### Tips
+### 팁
 
-- If the value starts with `0x`, `-0x` or `+0x`, it will be interpreted as a hex value, otherwise,
-it will be treated as a decimal number.
-- For arrays, you can specify the delimiter used to separate the values with the `delimiter` parameter.
+- 값이 `0x`, `-0x` 또는 `+0x`로 시작하면 16진수 값으로 해석되고, 그렇지 않으면 10진수로 처리됩니다.
+- 배열의 경우, `delimiter` 매개변수로 값을 구분하는 데 사용되는 구분 기호를 지정할 수 있습니다.
 
-### Examples
+### 예제
 
-#### Single Value
-With environment variable `INT_VALUE=-57896044618658097711785492504343953926634992332820282019728792003956564819968`,
+#### 단일 값
+환경 변수 `INT_VALUE=-57896044618658097711785492504343953926634992332820282019728792003956564819968`가 있을 때,
 ```solidity
 string memory key = "INT_VALUE";
 int256 expected = type(int256).min;
@@ -31,8 +30,8 @@ int256 output = cheats.envInt(key);
 assert(output == expected);
 ```
 
-#### Array
-With environment variable `INT_VALUES=-0x8000000000000000000000000000000000000000000000000000000000000000,+0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF`,
+#### 배열
+환경 변수 `INT_VALUES=-0x8000000000000000000000000000000000000000000000000000000000000000,+0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF`가 있을 때,
 ```solidity
 string memory key = "INT_VALUES";
 string memory delimiter = ",";

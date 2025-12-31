@@ -1,6 +1,6 @@
 ## `envString`
 
-### Signature
+### 서명
 
 ```solidity
 function envString(string calldata key) external returns (string value);
@@ -10,23 +10,22 @@ function envString(string calldata key) external returns (string value);
 function envString(string calldata key, string calldata delimiter) external returns (string[] memory values);
 ```
 
-### Description
+### 설명
 
-Read an environment variable as `string` or `string[]`. In case the environment variable is not defined, Forge will fail
-with the following error message:
+환경 변수를 `string` 또는 `string[]`으로 읽습니다. 환경 변수가 정의되지 않은 경우 Forge는 다음 오류 메시지와 함께 실패합니다:
 
 > [FAIL. Reason: Failed to get environment variable `FOO` as type `string`: environment variable not found]
 
-### Tips
+### 팁
 
-- You can put your environment variables in a `.env` file. Forge will automatically load them when running `forge test`.
-- For arrays, you can specify the delimiter used to separate the values with the `delimiter` parameter.
-- Choose a delimiter that doesn't appear in the string values, so that they can be correctly separated.
+- 환경 변수를 `.env` 파일에 넣을 수 있습니다. Forge는 `forge test`를 실행할 때 자동으로 로드합니다.
+- 배열의 경우, `delimiter` 매개변수로 값을 구분하는 데 사용되는 구분 기호를 지정할 수 있습니다.
+- 문자열 값에 나타나지 않는 구분 기호를 선택하여 올바르게 분리될 수 있도록 하세요.
 
-### Examples
+### 예제
 
-#### Single Value
-With environment variable `STRING_VALUE=hello, world!`,
+#### 단일 값
+환경 변수 `STRING_VALUE=hello, world!`가 있을 때,
 
 ```solidity
 string memory key = "STRING_VALUE";
@@ -35,8 +34,8 @@ string memory output = vm.envString(key);
 assertEq(output, expected);
 ```
 
-#### Array
-With environment variable `STRING_VALUES=hello, world!|0x7109709ECfa91a80626fF3989D68f67F5b1DD12D`;
+#### 배열
+환경 변수 `STRING_VALUES=hello, world!|0x7109709ECfa91a80626fF3989D68f67F5b1DD12D`가 있을 때;
 
 ```solidity
 string memory key = "STRING_VALUES";

@@ -1,27 +1,27 @@
 ## `mockFunction`
 
-### Signature
+### 시그니처
 
 ```solidity
 function mockFunction(address callee, address target, bytes calldata data) external;
 ```
 
-### Description
+### 설명
 
-Executes calls to an address `callee` with bytecode of address `target` if the call data either strictly or loosely matches `data`.
+호출 데이터가 `data`와 엄격하게 또는 느슨하게 일치하는 경우 `target` 주소의 바이트코드를 사용하여 `callee` 주소에 대한 호출을 실행합니다.
 
-When a call is made to `callee` the call data is first checked to see if it matches in its entirety with `data`.
-If not, the call data is checked to see if there is a partial match on function selector.
+`callee`에 대한 호출이 이루어지면 먼저 호출 데이터가 `data`와 전체적으로 일치하는지 확인합니다.
+그렇지 않은 경우 호출 데이터의 함수 선택자(function selector)에서 부분 일치가 있는지 확인합니다.
 
-If a match is found, then call is executed using the bytecode of `target` address.
+일치하는 항목이 발견되면 `target` 주소의 바이트코드를 사용하여 호출이 실행됩니다.
 
-> ℹ️ **Isolated tests**
+> ℹ️ **격리된 테스트 (Isolated tests)**
 >
-> This cheatcode does not currently work if using isolated test mode.
+> 이 치트코드는 현재 격리된 테스트 모드를 사용하는 경우 작동하지 않습니다.
 
-### Examples
+### 예제
 
-For two contracts (with same storage layout):
+두 컨트랙트(동일한 스토리지 레이아웃을 가짐)의 경우:
 ```solidity
 contract Counter {
     uint256 public a;
@@ -39,7 +39,7 @@ contract ModelCounter {
     }
 }
 ```
-Mocking an exact call to `count` function:
+`count` 함수에 대한 정확한 호출 모의:
 
 ```solidity
 function testMockFunction() public {
@@ -55,7 +55,7 @@ function testMockFunction() public {
 }
 ```
 
-Mocking all calls to `count` function:
+`count` 함수에 대한 모든 호출 모의:
 
 ```solidity
 function testMockCall() public {
@@ -70,4 +70,3 @@ function testMockCall() public {
     assertEq(counter.a(), 123 + 789);
 }
 ```
-

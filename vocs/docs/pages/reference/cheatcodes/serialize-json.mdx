@@ -1,6 +1,6 @@
 ## `serializeJson`
 
-### Signature
+### 시그니처
 
 ```solidity
 function serializeJson(string calldata objectKey, string calldata value)
@@ -64,32 +64,32 @@ function serializeBytes(string calldata objectKey, string calldata valueKey, byt
     returns (string memory json);
 ```
 
-### Description
+### 설명
 
-Serializes values as a stringified JSON object.
+값을 문자열화된 JSON 객체로 직렬화합니다.
 
-### How it works
+### 작동 방식
 
-The idea is that the user serializes the values of the JSON file and finally writes that object to a file. The user needs to pass:
+사용자가 JSON 파일의 값을 직렬화하고 마지막으로 해당 객체를 파일에 쓰는 방식입니다. 사용자는 다음을 전달해야 합니다:
 
-- A key for the _object_ to which the value should be serialized to. This enables the user to serialize multiple objects in parallel
-- A key for the _value_ which will be its key in the JSON file
-- The value to be serialized
+- 값이 직렬화되어야 하는 _객체_에 대한 키입니다. 이를 통해 사용자는 여러 객체를 병렬로 직렬화할 수 있습니다.
+- JSON 파일에서 키가 될 _값_에 대한 키입니다.
+- 직렬화할 값입니다.
 
-An exception to this is the `serializeJson` function, which only receives an `objectKey` and a json string `value`. This allows the user to serialize an existing json object and directly assign it to the provided `objectKey`. If the `objectKey` is already in use, the whole serialized json is overwritten.
+이에 대한 예외는 `serializeJson` 함수로, `objectKey`와 json 문자열 `value`만 받습니다. 이를 통해 사용자는 기존 json 객체를 직렬화하고 제공된 `objectKey`에 직접 할당할 수 있습니다. `objectKey`가 이미 사용 중인 경우 전체 직렬화된 json을 덮어씁니다.
 
-The keys do not need to be of some specific form. They are of type `string` to enable for intuitive human interpretation. Semantically, they are not important other than to be used as keys.
+키는 특정 형식이 필요하지 않습니다. 직관적인 인간 해석을 가능하게 하기 위해 `string` 타입입니다. 의미적으로는 키로 사용되는 것 외에는 중요하지 않습니다.
 
-The cheatcodes return the JSON object that is being serialized **up to that point**. That way the user can serialize inner JSON objects and then serialize them in bigger JSON objects, enabling the user to create arbitrary JSON objects.
+치트코드는 **해당 시점까지** 직렬화된 JSON 객체를 반환합니다. 이렇게 하면 사용자는 내부 JSON 객체를 직렬화한 다음 더 큰 JSON 객체로 직렬화하여 임의의 JSON 객체를 만들 수 있습니다.
 
-Finally, the user writes the JSON object to a JSON file by using [writeJson](/reference/cheatcodes/write-json.mdx).
-Alternatively, the user can write the JSON object to TOML file by using [writeToml](/reference/cheatcodes/write-toml.mdx).
+마지막으로 사용자는 [writeJson](/reference/cheatcodes/write-json.mdx)을 사용하여 JSON 객체를 JSON 파일에 씁니다.
+또는 [writeToml](/reference/cheatcodes/write-toml.mdx)을 사용하여 JSON 객체를 TOML 파일에 쓸 수 있습니다.
 
-**Remember:** The file path needs to be in the allowed paths. Read more in [File cheatcodes](/reference/cheatcodes/fs.mdx).
+**기억하세요:** 파일 경로는 허용된 경로에 있어야 합니다. 자세한 내용은 [파일 치트코드](/reference/cheatcodes/fs.mdx)를 읽어보세요.
 
-### Example
+### 예제
 
-Let's assume we want to write the following JSON to a file:
+다음 JSON을 파일에 쓰고 싶다고 가정해 봅시다:
 
 `{ "boolean": true, "number": 342, "object": { "title": "finally json serialization" } }`
 
@@ -101,16 +101,15 @@ vm.serializeUint(obj1, "number", uint256(342));
 string memory obj2 = "some other key";
 string memory output = vm.serializeString(obj2, "title", "finally json serialization");
 
-// IMPORTANT: This works because `serializeString` first tries to interpret `output` as
-//   a stringified JSON object. If the parsing fails, then it treats it as a normal
-//   string instead.
-//   For instance, an `output` equal to '{ "ok": "asd" }' will produce an object, but
-//   an output equal to '"ok": "asd" }' will just produce a normal string.
+// 중요: 이것은 `serializeString`이 먼저 `output`을 문자열화된 JSON 객체로 해석하려고 시도하기 때문에 작동합니다.
+//   구문 분석이 실패하면 대신 일반 문자열로 처리합니다.
+//   예를 들어, '{ "ok": "asd" }'와 같은 `output`은 객체를 생성하지만,
+//   '"ok": "asd" }'와 같은 `output`은 일반 문자열을 생성합니다.
 string memory finalJson = vm.serializeString(obj1, "object", output);
 
 vm.writeJson(finalJson, "./output/example.json");
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [writeJson](/reference/cheatcodes/write-json.mdx)

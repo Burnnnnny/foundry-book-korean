@@ -1,18 +1,18 @@
 ## `activeFork`
 
-### Signature
+### 서명
 
 ```solidity
 function activeFork() external returns (uint256);
 ```
 
-### Description
+### 설명
 
-Returns the identifier for the currently active fork. Reverts if no fork is currently active.
+현재 활성 포크의 식별자를 반환합니다. 활성 포크가 없으면 리버트(revert)됩니다.
 
-### Examples
+### 예제
 
-Get the currently active fork id:
+현재 활성 포크 ID 가져오기:
 
 ```solidity
 uint256 mainnetForkId = vm.createFork(MAINNET_RPC_URL);
@@ -27,7 +27,7 @@ vm.selectFork(optimismForkId);
 assertEq(vm.activeFork(), optimismForkId);
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [createFork](/reference/cheatcodes/create-fork.mdx)
 - [selectFork](/reference/cheatcodes/select-fork.mdx)

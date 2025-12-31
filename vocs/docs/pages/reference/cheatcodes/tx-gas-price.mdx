@@ -1,6 +1,6 @@
 ## `txGasPrice`
 
-### Signature
+### 시그니처
 
 ```solidity
 function txGasPrice(uint256) external;
@@ -10,13 +10,13 @@ function txGasPrice(uint256) external;
 function txGasPrice(uint256 newGasPrice) external;
 ```
 
-### Description
+### 설명
 
-Sets `tx.gasprice` **for the rest of the transaction**. 
+**트랜잭션의 나머지 부분에 대해** `tx.gasprice`를 설정합니다.
 
-### Examples
+### 예제
 
-We can use this to get accurate gas usage for a transaction.
+이를 사용하여 트랜잭션의 정확한 가스 사용량을 얻을 수 있습니다.
 
 ```solidity
 function testCalculateGas() public {
@@ -24,6 +24,6 @@ function testCalculateGas() public {
     uint256 gasStart = gasleft();
     myContract.doStuff();
     uint256 gasEnd = gasleft();
-    uint256 gasUsed = (gasStart - gasEnd) * tx.gasprice; // tx.gasprice is now 2
+    uint256 gasUsed = (gasStart - gasEnd) * tx.gasprice; // tx.gasprice는 이제 2입니다.
 }
 ```

@@ -1,12 +1,12 @@
 ## Testing
 
-Configuration related to the behavior of `forge test`.
+`forge test`의 동작과 관련된 구성입니다.
 
-**Sections**
+**섹션 (Sections)**
 
-- [General](#general)
-- [Fuzz](#fuzz)
-- [Invariant](#invariant)
+- [일반 (General)](#general)
+- [퍼즈 (Fuzz)](#fuzz)
+- [불변성 (Invariant)](#invariant)
 
 ### General
 
@@ -14,248 +14,248 @@ Configuration related to the behavior of `forge test`.
 
 - Type: integer
 - Default: 0
-- Environment: `FOUNDRY_VERBOSITY` or `DAPP_VERBOSITY`
+- Environment: `FOUNDRY_VERBOSITY` 또는 `DAPP_VERBOSITY`
 
-The verbosity level to use during tests.
+테스트 중에 사용할 상세 수준(verbosity level)입니다.
 
-- **Level 2 (`-vv`)**: Logs emitted during tests are also displayed.
-- **Level 3 (`-vvv`)**: Stack traces for failing tests are also displayed.
-- **Level 4 (`-vvvv`)**: Stack traces for all tests are displayed, and setup traces for failing tests are displayed.
-- **Level 5 (`-vvvvv`)**: Stack traces and setup traces are always displayed.
+- **Level 2 (`-vv`)**: 테스트 중에 발생한 로그도 표시됩니다.
+- **Level 3 (`-vvv`)**: 실패한 테스트에 대한 스택 트레이스도 표시됩니다.
+- **Level 4 (`-vvvv`)**: 모든 테스트에 대한 스택 트레이스와 실패한 테스트에 대한 설정(setup) 트레이스가 표시됩니다.
+- **Level 5 (`-vvvvv`)**: 스택 트레이스와 설정 트레이스가 항상 표시됩니다.
 
 ##### `ffi`
 
 - Type: boolean
 - Default: false
-- Environment: `FOUNDRY_FFI` or `DAPP_FFI`
+- Environment: `FOUNDRY_FFI` 또는 `DAPP_FFI`
 
-Whether or not to enable the `ffi` cheatcode.
+`ffi` 치트코드 활성화 여부입니다.
 
-**Warning:** Enabling this cheatcode has security implications for your project, as it allows tests to execute arbitrary programs on your computer.
+**경고:** 이 치트코드를 활성화하면 테스트가 컴퓨터에서 임의의 프로그램을 실행할 수 있으므로 프로젝트에 보안상의 영향을 미칩니다.
 
 ##### `sender`
 
 - Type: string (address)
 - Default: 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38
-- Environment: `FOUNDRY_SENDER` or `DAPP_SENDER`
+- Environment: `FOUNDRY_SENDER` 또는 `DAPP_SENDER`
 
-The value of `msg.sender` in tests.
+테스트에서의 `msg.sender` 값입니다.
 
 ##### `tx_origin`
 
 - Type: string (address)
 - Default: 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38
-- Environment: `FOUNDRY_TX_ORIGIN` or `DAPP_TX_ORIGIN`
+- Environment: `FOUNDRY_TX_ORIGIN` 또는 `DAPP_TX_ORIGIN`
 
-The value of `tx.origin` in tests.
+테스트에서의 `tx.origin` 값입니다.
 
 ##### `initial_balance`
 
 - Type: string (hexadecimal)
 - Default: 0xffffffffffffffffffffffff
-- Environment: `FOUNDRY_INITIAL_BALANCE` or `DAPP_INITIAL_BALANCE`
+- Environment: `FOUNDRY_INITIAL_BALANCE` 또는 `DAPP_INITIAL_BALANCE`
 
-The initial balance of the test contracts in wei, written in hexadecimal.
+테스트 컨트랙트의 초기 잔액(wei 단위, 16진수)입니다.
 
 ##### `block_number`
 
 - Type: integer
 - Default: 1
-- Environment: `FOUNDRY_BLOCK_NUMBER` or `DAPP_BLOCK_NUMBER`
+- Environment: `FOUNDRY_BLOCK_NUMBER` 또는 `DAPP_BLOCK_NUMBER`
 
-The value of `block.number` in tests.
+테스트에서의 `block.number` 값입니다.
 
 ##### `chain_id`
 
 - Type: integer
 - Default: 31337
-- Environment: `FOUNDRY_CHAIN_ID` or `DAPP_CHAIN_ID`
+- Environment: `FOUNDRY_CHAIN_ID` 또는 `DAPP_CHAIN_ID`
 
-The value of the `chainid` opcode in tests.
+테스트에서의 `chainid` 오퍼코드 값입니다.
 
 ##### `gas_limit`
 
-- Type: integer or string
+- Type: integer 또는 string
 - Default: 1073741824
-- Environment: `FOUNDRY_GAS_LIMIT` or `DAPP_GAS_LIMIT`
+- Environment: `FOUNDRY_GAS_LIMIT` 또는 `DAPP_GAS_LIMIT`
 
-The gas limit for each test case.
+각 테스트 케이스의 가스 제한입니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> Due to a limitation in a dependency of Forge, you **cannot raise the gas limit** beyond the default without changing the value to a string.
+> Forge 종속성의 제한으로 인해, 값을 문자열로 변경하지 않고는 기본값 이상으로 **가스 제한을 늘릴 수 없습니다**.
 >
-> In order to use higher gas limits use a string:
+> 더 높은 가스 제한을 사용하려면 문자열을 사용하세요:
 
 ```toml
-gas_limit = "9223372036854775807" # limited to 64-bit integers
+gas_limit = "9223372036854775807" # 64비트 정수로 제한됨
 ```
 
 ##### `gas_price`
 
 - Type: integer
 - Default: 0
-- Environment: `FOUNDRY_GAS_PRICE` or `DAPP_GAS_PRICE`
+- Environment: `FOUNDRY_GAS_PRICE` 또는 `DAPP_GAS_PRICE`
 
-The price of gas (in wei) in tests.
+테스트에서의 가스 가격(wei 단위)입니다.
 
 ##### `block_base_fee_per_gas`
 
 - Type: integer
 - Default: 0
-- Environment: `FOUNDRY_BLOCK_BASE_FEE_PER_GAS` or `DAPP_BLOCK_BASE_FEE_PER_GAS`
+- Environment: `FOUNDRY_BLOCK_BASE_FEE_PER_GAS` 또는 `DAPP_BLOCK_BASE_FEE_PER_GAS`
 
-The base fee per gas (in wei) in tests.
+테스트에서의 가스당 기본 수수료(wei 단위)입니다.
 
 ##### `block_coinbase`
 
 - Type: string (address)
 - Default: 0x0000000000000000000000000000000000000000
-- Environment: `FOUNDRY_BLOCK_COINBASE` or `DAPP_BLOCK_COINBASE`
+- Environment: `FOUNDRY_BLOCK_COINBASE` 또는 `DAPP_BLOCK_COINBASE`
 
-The value of `block.coinbase` in tests.
+테스트에서의 `block.coinbase` 값입니다.
 
 ##### `block_timestamp`
 
 - Type: integer
 - Default: 1
-- Environment: `FOUNDRY_BLOCK_TIMESTAMP` or `DAPP_BLOCK_TIMESTAMP`
+- Environment: `FOUNDRY_BLOCK_TIMESTAMP` 또는 `DAPP_BLOCK_TIMESTAMP`
 
-The value of `block.timestamp` in tests.
+테스트에서의 `block.timestamp` 값입니다.
 
 ##### `block_difficulty`
 
 - Type: integer
 - Default: 0
-- Environment: `FOUNDRY_BLOCK_DIFFICULTY` or `DAPP_BLOCK_DIFFICULTY`
+- Environment: `FOUNDRY_BLOCK_DIFFICULTY` 또는 `DAPP_BLOCK_DIFFICULTY`
 
-The value of `block.difficulty` in tests.
+테스트에서의 `block.difficulty` 값입니다.
 
 ##### `gas_reports`
 
 - Type: array of strings (contract names)
 - Default: ["*"]
-- Environment: `FOUNDRY_GAS_REPORTS` or `DAPP_GAS_REPORTS`
+- Environment: `FOUNDRY_GAS_REPORTS` 또는 `DAPP_GAS_REPORTS`
 
-The contracts to print gas reports for.
+가스 보고서를 출력할 컨트랙트 목록입니다.
 
 ##### `no_storage_caching`
 
 - Type: boolean
 - Default: false
-- Environment: `FOUNDRY_NO_STORAGE_CACHING` or `DAPP_NO_STORAGE_CACHING`
+- Environment: `FOUNDRY_NO_STORAGE_CACHING` 또는 `DAPP_NO_STORAGE_CACHING`
 
-If set to `true`, then block data from RPC endpoints in tests will not be cached. Otherwise, the data is cached to `$HOME/.foundry/cache/<chain id>/<block number>`.
+`true`로 설정하면 테스트의 RPC 엔드포인트에서 가져온 블록 데이터가 캐시되지 않습니다. 그렇지 않으면 데이터는 `$HOME/.foundry/cache/<chain id>/<block number>`에 캐시됩니다.
 
 ##### `[rpc_storage_caching]`
 
-The `[rpc_storage_caching]` block determines what RPC endpoints are cached.
+`[rpc_storage_caching]` 블록은 캐시되는 RPC 엔드포인트를 결정합니다.
 
 ###### `rpc_storage_caching.chains`
 
-- Type: string or array of strings (chain names)
+- Type: string 또는 array of strings (chain names)
 - Default: all
 - Environment: N/A
 
-Determines what chains are cached. By default, all chains are cached.
+캐시되는 체인을 결정합니다. 기본적으로 모든 체인이 캐시됩니다.
 
-Valid values are:
+유효한 값은 다음과 같습니다:
 
 - "all"
-- A list of chain names, e.g. `["optimism", "mainnet"]`
+- 체인 이름 목록, 예: `["optimism", "mainnet"]`
 
 ###### `rpc_storage_caching.endpoints`
 
-- Type: string or array of regex patterns (to match URLs)
+- Type: string 또는 array of regex patterns (URL 매칭용)
 - Default: remote
 - Environment: N/A
 
-Determines what RPC endpoints are cached. By default, only remote endpoints are cached.
+캐시되는 RPC 엔드포인트를 결정합니다. 기본적으로 원격 엔드포인트만 캐시됩니다.
 
-Valid values are:
+유효한 값은 다음과 같습니다:
 
 - all
-- remote (default)
-- A list of regex patterns, e.g. `["localhost"]`
+- remote (기본값)
+- 정규식 패턴 목록, 예: `["localhost"]`
 
 ##### `eth_rpc_url`
 
 - Type: string
-- Default: none
-- Environment: `FOUNDRY_ETH_RPC_URL` or `DAPP_ETH_RPC_URL`
+- Default: 없음
+- Environment: `FOUNDRY_ETH_RPC_URL` 또는 `DAPP_ETH_RPC_URL`
 
-The url of the rpc server that should be used for any rpc calls.
+모든 RPC 호출에 사용해야 하는 RPC 서버의 URL입니다.
 
 ##### `etherscan_api_key`
 
 - Type: string
-- Default: none
-- Environment: `FOUNDRY_ETHERSCAN_API_KEY` or `DAPP_ETHERSCAN_API_KEY`
+- Default: 없음
+- Environment: `FOUNDRY_ETHERSCAN_API_KEY` 또는 `DAPP_ETHERSCAN_API_KEY`
 
-The etherscan API key for RPC calls.
+RPC 호출을 위한 Etherscan API 키입니다.
 
 ##### `match-test`
 
 - Type: regex
-- Default: none
-- Environment: `FOUNDRY_MATCH_TEST` or `DAPP_MATCH_TEST`
+- Default: 없음
+- Environment: `FOUNDRY_MATCH_TEST` 또는 `DAPP_MATCH_TEST`
 
-Only run test methods matching regex.
-Equivalent to `forge test --match-test <TEST_PATTERN>`
+정규식과 일치하는 테스트 메서드만 실행합니다.
+`forge test --match-test <TEST_PATTERN>`과 동일합니다.
 
 ##### `no-match-test`
 
 - Type: regex
-- Default: none
-- Environment: `FOUNDRY_NO_MATCH_TEST` or `DAPP_NO_MATCH_TEST`
+- Default: 없음
+- Environment: `FOUNDRY_NO_MATCH_TEST` 또는 `DAPP_NO_MATCH_TEST`
 
-Only run test methods not matching regex.
-Equivalent to `forge test --no-match-test <TEST_PATTERN_INVERSE>`
+정규식과 일치하지 않는 테스트 메서드만 실행합니다.
+`forge test --no-match-test <TEST_PATTERN_INVERSE>`와 동일합니다.
 
 ##### `match-contract`
 
 - Type: regex
-- Default: none
-- Environment: `FOUNDRY_MATCH_CONTRACT` or `DAPP_MATCH_CONTRACT`
+- Default: 없음
+- Environment: `FOUNDRY_MATCH_CONTRACT` 또는 `DAPP_MATCH_CONTRACT`
 
-Only run test methods in contracts matching regex.
-Equivalent to `forge test --match-contract <CONTRACT_PATTERN>`
+정규식과 일치하는 컨트랙트의 테스트 메서드만 실행합니다.
+`forge test --match-contract <CONTRACT_PATTERN>`과 동일합니다.
 
 ##### `no-match-contract`
 
 - Type: regex
-- Default: none
-- Environment: `FOUNDRY_NO_MATCH_CONTRACT` or `DAPP_NO_MATCH_CONTRACT`
+- Default: 없음
+- Environment: `FOUNDRY_NO_MATCH_CONTRACT` 또는 `DAPP_NO_MATCH_CONTRACT`
 
-Only run test methods in contracts not matching regex.
-Equivalent to `forge test --no-match-contract <CONTRACT_PATTERN_INVERSE>`
+정규식과 일치하지 않는 컨트랙트의 테스트 메서드만 실행합니다.
+`forge test --no-match-contract <CONTRACT_PATTERN_INVERSE>`와 동일합니다.
 
 ##### `match-path`
 
 - Type: regex
-- Default: none
-- Environment: `FOUNDRY_MATCH_PATH` or `DAPP_MATCH_PATH`
+- Default: 없음
+- Environment: `FOUNDRY_MATCH_PATH` 또는 `DAPP_MATCH_PATH`
 
-Only runs test methods on files matching the path.
-Equivalent to `forge test --match-path <PATH_PATTERN>`
+경로와 일치하는 파일의 테스트 메서드만 실행합니다.
+`forge test --match-path <PATH_PATTERN>`과 동일합니다.
 
 ##### `no-match-path`
 
 - Type: regex
-- Default: none
-- Environment: `FOUNDRY_NO_MATCH_PATH` or `DAPP_NO_MATCH_PATH`
+- Default: 없음
+- Environment: `FOUNDRY_NO_MATCH_PATH` 또는 `DAPP_NO_MATCH_PATH`
 
-Only runs test methods on files not matching the path.
-Equivalent to `forge test --no-match-path <PATH_PATTERN_INVERSE>`
+경로와 일치하지 않는 파일의 테스트 메서드만 실행합니다.
+`forge test --no-match-path <PATH_PATTERN_INVERSE>`와 동일합니다.
 
 ##### `threads`
 
 - Type: integer
-- Default: none
+- Default: 없음
 - Environment: `FOUNDRY_THREADS`
 
-Number of threads to use.
-Not set or zero specifies the number of logical cores.
+사용할 스레드 수입니다.
+설정하지 않거나 0이면 논리 코어 수를 지정합니다.
 
 ##### `show_progress`
 
@@ -263,53 +263,53 @@ Not set or zero specifies the number of logical cores.
 - Default: false
 - Environment: `FOUNDRY_SHOW_PROGRESS`
 
-Whether to show test execution progress.
+테스트 실행 진행 상황을 표시할지 여부입니다.
 
 ##### `block_gas_limit`
 
 - Type: integer
-- Default: none
-- Environment: `FOUNDRY_BLOCK_GAS_LIMIT` or `DAPP_BLOCK_GAS_LIMIT`
+- Default: 없음
+- Environment: `FOUNDRY_BLOCK_GAS_LIMIT` 또는 `DAPP_BLOCK_GAS_LIMIT`
 
-The block.gaslimit value during EVM execution.
+EVM 실행 중의 `block.gaslimit` 값입니다.
 
 ##### `memory_limit`
 
 - Type: integer
 - Default: 33554432
-- Environment: `FOUNDRY_MEMORY_LIMIT` or `DAPP_MEMORY_LIMIT`
+- Environment: `FOUNDRY_MEMORY_LIMIT` 또는 `DAPP_MEMORY_LIMIT`
 
-The memory limit of the EVM in bytes.
+바이트 단위의 EVM 메모리 제한입니다.
 
 ##### `names`
 
 - Type: boolean
 - Default: false
-- Environment: `FOUNDRY_NAMES` or `DAPP_NAMES`
+- Environment: `FOUNDRY_NAMES` 또는 `DAPP_NAMES`
 
-Print compiled contract names.
+컴파일된 컨트랙트 이름을 출력합니다.
 
 ##### `sizes`
 
 - Type: boolean
 - Default: false
-- Environment: `FOUNDRY_SIZES` or `DAPP_SIZES`
+- Environment: `FOUNDRY_SIZES` 또는 `DAPP_SIZES`
 
-Print compiled contract sizes.
+컴파일된 컨트랙트 크기를 출력합니다.
 
 ##### `rpc_endpoints`
 
-- Type: table of RPC endpoints
-- Default: none
-- Environment: none
+- Type: RPC 엔드포인트 테이블
+- Default: 없음
+- Environment: 없음
 
-This section lives outside of profiles and defines a table of RPC endpoints, where the key specifies the RPC endpoints's name and the value is the RPC endpoint itself.
+이 섹션은 프로필 외부에 존재하며 RPC 엔드포인트 테이블을 정의합니다. 여기서 키는 RPC 엔드포인트의 이름을 지정하고 값은 RPC 엔드포인트 자체입니다.
 
-The value can either be a valid RPC endpoint or a reference to an environment variable (wrapped with in `${}`).
+값은 유효한 RPC 엔드포인트이거나 환경 변수에 대한 참조(`${}`로 감싸짐)일 수 있습니다.
 
-These RPC endpoints can be used in tests and Solidity scripts (see [`vm.rpc`](/reference/cheatcodes/rpc)).
+이러한 RPC 엔드포인트는 테스트 및 Solidity 스크립트에서 사용할 수 있습니다([`vm.rpc`](/reference/cheatcodes/rpc) 참조).
 
-The following example defines an endpoint named `optimism` and an endpoint named `mainnet` that references an environment variable `RPC_MAINNET`:
+다음 예제는 `optimism`이라는 엔드포인트와 환경 변수 `RPC_MAINNET`을 참조하는 `mainnet`이라는 엔드포인트를 정의합니다:
 
 ```toml
 [rpc_endpoints]
@@ -323,27 +323,27 @@ mainnet = "${RPC_MAINNET}"
 - Default: 120
 - Environment: `FOUNDRY_PROMPT_TIMEOUT`
 
-The number of seconds to wait before `vm.prompt` reverts with a timeout.
+`vm.prompt`가 타임아웃으로 되돌려지기(revert) 전까지 대기하는 시간(초)입니다.
 
 ### Fuzz
 
-Configuration values for `[fuzz]` section.
+`[fuzz]` 섹션에 대한 구성 값입니다.
 
 ##### `runs`
 
 - Type: integer
 - Default: 256
-- Environment: `FOUNDRY_FUZZ_RUNS` or `DAPP_FUZZ_RUNS`
+- Environment: `FOUNDRY_FUZZ_RUNS` 또는 `DAPP_FUZZ_RUNS`
 
-The amount of fuzz runs to perform for each fuzz test case. Higher values gives more confidence in results at the cost of testing speed.
+각 퍼즈 테스트 케이스에 대해 수행할 퍼즈 실행 횟수입니다. 값이 높을수록 결과에 대한 신뢰도가 높아지지만 테스트 속도는 느려집니다.
 
 ##### `timeout`
 
 - Type: integer
-- Default: None
+- Default: 없음
 - Environment: `FOUNDRY_FUZZ_TIMEOUT`
 
-Optional timeout (in seconds) for fuzz test.
+퍼즈 테스트에 대한 선택적 타임아웃(초)입니다.
 
 ##### `fail_on_revert`
 
@@ -351,7 +351,7 @@ Optional timeout (in seconds) for fuzz test.
 - Default: true
 - Environment: `FOUNDRY_FUZZ_FAIL_ON_REVERT`
 
-Fails the fuzzed test if a revert occurs in a call to a contract other than the test contract.
+테스트 컨트랙트가 아닌 다른 컨트랙트에 대한 호출에서 리버트(revert)가 발생하면 퍼즈 테스트를 실패 처리합니다.
 
 ##### `max_test_rejects`
 
@@ -359,24 +359,24 @@ Fails the fuzzed test if a revert occurs in a call to a contract other than the 
 - Default: 65536
 - Environment: `FOUNDRY_FUZZ_MAX_TEST_REJECTS`
 
-The maximum number of combined inputs that may be rejected before the test as a whole aborts.
-"Global" filters apply to the whole test case. If the test case is rejected, the whole thing is regenerated.
+테스트 전체가 중단되기 전에 거부될 수 있는 결합된 입력의 최대 수입니다.
+"전역" 필터는 전체 테스트 케이스에 적용됩니다. 테스트 케이스가 거부되면 전체가 재생성됩니다.
 
 ##### `seed`
 
 - Type: string (hexadecimal)
-- Default: none
+- Default: 없음
 - Environment: `FOUNDRY_FUZZ_SEED`
 
-Optional seed for the fuzzing RNG algorithm.
+퍼징 RNG 알고리즘을 위한 선택적 시드입니다.
 
 ##### `dictionary_weight`
 
-- Type: integer (between 0 and 100)
+- Type: integer (0에서 100 사이)
 - Default: 40
 - Environment: `FOUNDRY_FUZZ_DICTIONARY_WEIGHT`
 
-The weight of the dictionary. A higher dictionary weight will bias the fuzz inputs towards "interesting" values, e.g. boundary values like `type(uint256).max` or contract addresses from your environment.
+사전(dictionary)의 가중치입니다. 사전 가중치가 높을수록 퍼즈 입력이 `type(uint256).max`와 같은 경계 값이나 환경의 컨트랙트 주소와 같은 "흥미로운" 값으로 편향됩니다.
 
 ##### `include_storage`
 
@@ -384,7 +384,7 @@ The weight of the dictionary. A higher dictionary weight will bias the fuzz inpu
 - Default: true
 - Environment: `FOUNDRY_FUZZ_INCLUDE_STORAGE`
 
-The flag indicating whether to include values from storage.
+스토리지의 값을 포함할지 여부를 나타내는 플래그입니다.
 
 ##### `include_push_bytes`
 
@@ -392,7 +392,7 @@ The flag indicating whether to include values from storage.
 - Default: true
 - Environment: `FOUNDRY_FUZZ_INCLUDE_PUSH_BYTES`
 
-The flag indicating whether to include push bytes values.
+푸시 바이트 값을 포함할지 여부를 나타내는 플래그입니다.
 
 ##### `gas_report_samples`
 
@@ -400,7 +400,7 @@ The flag indicating whether to include push bytes values.
 - Default: 256
 - Environment: `FOUNDRY_FUZZ_GAS_REPORT_SAMPLES`
 
-Number of runs to use for generating gas report.
+가스 보고서를 생성하는 데 사용할 실행 횟수입니다.
 
 ##### `failure_persist_dir`
 
@@ -408,7 +408,7 @@ Number of runs to use for generating gas report.
 - Default: `./cache/fuzz`
 - Environment: `FOUNDRY_FUZZ_FAILURE_PERSIST_DIR`
 
-Path where fuzz failures are recorded and replayed.
+퍼즈 실패가 기록되고 재생되는 경로입니다.
 
 ##### `failure_persist_file`
 
@@ -416,7 +416,7 @@ Path where fuzz failures are recorded and replayed.
 - Default: `failures`
 - Environment: `FOUNDRY_FUZZ_FAILURE_PERSIST_FILE`
 
-Name of the file to record fuzz failures.
+퍼즈 실패를 기록할 파일의 이름입니다.
 
 ##### `show_logs`
 
@@ -424,30 +424,22 @@ Name of the file to record fuzz failures.
 - Default: false
 - Environment: `FOUNDRY_FUZZ_SHOW_LOGS`
 
-The flag indicates whether to display console logs in fuzz tests or not. Note that in order to enable displaying console logs, you'll need to set `show_logs = true` and then use `forge test -vv` or set `verbosity >= 2`.
+퍼즈 테스트에서 콘솔 로그를 표시할지 여부를 나타내는 플래그입니다. 콘솔 로그 표시를 활성화하려면 `show_logs = true`로 설정하고 `forge test -vv`를 사용하거나 `verbosity >= 2`로 설정해야 합니다.
 
 ### Invariant
 
-Configuration values for `[invariant]` section.
+`[invariant]` 섹션에 대한 구성 값입니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> Configuration for `[invariant]` section has the fallback logic
-> for common config entries (`runs`, `seed`, `dictionary_weight` etc).
+> `[invariant]` 섹션에 대한 구성은 일반적인 구성 항목(`runs`, `seed`, `dictionary_weight` 등)에 대한 폴백 로직을 가집니다.
 >
-> - If the entries are not set in either section, then the defaults will be used.
-> - If the entries are set in the `[fuzz]` section, but are not set in the `[invariant]`
->   section, these values will automatically be set to the values specified in
->   the `[fuzz]` section.
-> - For any profile other than `default`:
->   - If at least one entry is set in the `[invariant]` (same as
->     `[profile.default.invariant]`) section, then the values from
->     `[invariant]` section will be used, including defaults.
->   - If no entry is set in the `[invariant]` section, but there are
->     entries in the `[fuzz]` (same as `[profile.default.fuzz]`) section,
->     then the values from the `[fuzz]` section will be used.
->   - If it's none of the cases described above, then the defaults
->     will be used.
+> - 항목이 어느 섹션에도 설정되지 않은 경우 기본값이 사용됩니다.
+> - 항목이 `[fuzz]` 섹션에는 설정되어 있지만 `[invariant]` 섹션에는 설정되지 않은 경우, 이 값들은 자동으로 `[fuzz]` 섹션에 지정된 값으로 설정됩니다.
+> - `default` 이외의 프로필의 경우:
+>   - `[invariant]`(즉, `[profile.default.invariant]`) 섹션에 하나 이상의 항목이 설정된 경우, 기본값을 포함하여 `[invariant]` 섹션의 값이 사용됩니다.
+>   - `[invariant]` 섹션에 항목이 설정되지 않았지만 `[fuzz]`(즉, `[profile.default.fuzz]`) 섹션에 항목이 있는 경우, `[fuzz]` 섹션의 값이 사용됩니다.
+>   - 위의 경우 중 어느 것도 해당하지 않으면 기본값이 사용됩니다.
 
 ##### `runs`
 
@@ -455,7 +447,7 @@ Configuration values for `[invariant]` section.
 - Default: 256
 - Environment: `FOUNDRY_INVARIANT_RUNS`
 
-The number of runs that must execute for each invariant test group. See also [fuzz.runs](#runs)
+각 불변성 테스트 그룹에 대해 실행해야 하는 실행 횟수입니다. [fuzz.runs](#runs)도 참조하세요.
 
 ##### `depth`
 
@@ -463,15 +455,15 @@ The number of runs that must execute for each invariant test group. See also [fu
 - Default: 500
 - Environment: `FOUNDRY_INVARIANT_DEPTH`
 
-The number of calls executed to attempt to break invariants in one run.
+한 번의 실행에서 불변성을 깨뜨리기 위해 시도되는 함수 호출의 횟수입니다.
 
 ##### `timeout`
 
 - Type: integer
-- Default: None
+- Default: 없음
 - Environment: `FOUNDRY_INVARIANT_TIMEOUT`
 
-Optional timeout (in seconds) for invariant time based campaigns.
+불변성 시간 기반 캠페인에 대한 선택적 타임아웃(초)입니다.
 
 ##### `fail_on_revert`
 
@@ -479,7 +471,7 @@ Optional timeout (in seconds) for invariant time based campaigns.
 - Default: false
 - Environment: `FOUNDRY_INVARIANT_FAIL_ON_REVERT`
 
-Fails the invariant fuzzing if a revert occurs.
+리버트가 발생하면 불변성 퍼징을 실패 처리합니다.
 
 ##### `call_override`
 
@@ -487,15 +479,15 @@ Fails the invariant fuzzing if a revert occurs.
 - Default: false
 - Environment: `FOUNDRY_INVARIANT_CALL_OVERRIDE`
 
-Overrides unsafe external calls when running invariant tests, useful for e.g. performing reentrancy checks.
+불변성 테스트 실행 시 안전하지 않은 외부 호출을 재정의합니다. 예를 들어 재진입 확인을 수행할 때 유용합니다.
 
 ##### `dictionary_weight`
 
-- Type: integer (between 0 and 100)
+- Type: integer (0에서 100 사이)
 - Default: 80
 - Environment: `FOUNDRY_INVARIANT_DICTIONARY_WEIGHT`
 
-The weight of the dictionary. See also [fuzz.dictionary_weight](#dictionary_weight)
+사전의 가중치입니다. [fuzz.dictionary_weight](#dictionary_weight)도 참조하세요.
 
 ##### `include_storage`
 
@@ -503,7 +495,7 @@ The weight of the dictionary. See also [fuzz.dictionary_weight](#dictionary_weig
 - Default: true
 - Environment: `FOUNDRY_FUZZ_INCLUDE_STORAGE`
 
-The flag indicating whether to include values from storage. See also [fuzz.include_storage](#include_storage)
+스토리지의 값을 포함할지 여부를 나타내는 플래그입니다. [fuzz.include_storage](#include_storage)도 참조하세요.
 
 ##### `include_push_bytes`
 
@@ -511,7 +503,7 @@ The flag indicating whether to include values from storage. See also [fuzz.inclu
 - Default: true
 - Environment: `FOUNDRY_FUZZ_INCLUDE_PUSH_BYTES`
 
-The flag indicating whether to include push bytes values. See also [fuzz.include_push_bytes](#include_push_bytes)
+푸시 바이트 값을 포함할지 여부를 나타내는 플래그입니다. [fuzz.include_push_bytes](#include_push_bytes)도 참조하세요.
 
 ##### `shrink_run_limit`
 
@@ -519,7 +511,7 @@ The flag indicating whether to include push bytes values. See also [fuzz.include
 - Default: 5000
 - Environment: `FOUNDRY_INVARIANT_SHRINK_RUN_LIMIT`
 
-The maximum number of attempts to shrink a failed the sequence. Shrink process is disabled if set to 0.
+실패한 시퀀스를 축소(shrink)하려고 시도하는 최대 횟수입니다. 0으로 설정하면 축소 프로세스가 비활성화됩니다.
 
 ##### `max_assume_rejects`
 
@@ -527,7 +519,7 @@ The maximum number of attempts to shrink a failed the sequence. Shrink process i
 - Default: 65536
 - Environment: `FOUNDRY_INVARIANT_MAX_ASSUME_REJECTS`
 
-The maximum number of rejects via `vm.assume` which can be encountered during a single invariant run.
+단일 불변성 실행 중에 `vm.assume`을 통해 발생할 수 있는 최대 거부(rejects) 횟수입니다.
 
 ##### `gas_report_samples`
 
@@ -535,7 +527,7 @@ The maximum number of rejects via `vm.assume` which can be encountered during a 
 - Default: 256
 - Environment: `FOUNDRY_INVARIANT_GAS_REPORT_SAMPLES`
 
-Number of runs to use for generating gas report.
+가스 보고서를 생성하는 데 사용할 실행 횟수입니다.
 
 ##### `failure_persist_dir`
 
@@ -543,15 +535,15 @@ Number of runs to use for generating gas report.
 - Default: `./cache/invariant`
 - Environment: `FOUNDRY_INVARIANT_FAILURE_PERSIST_DIR`
 
-Path where invariant failures are recorded and replayed.
+불변성 실패가 기록되고 재생되는 경로입니다.
 
 ##### `corpus_dir`
 
 - Type: string (path)
-- Default: None
+- Default: 없음
 - Environment: `FOUNDRY_INVARIANT_CORPUS_DIR`
 
-Optional path where invariant corpus is stored. Enables coverage guided fuzzing and edge coverage metrics.
+불변성 코퍼스(corpus)가 저장되는 선택적 경로입니다. 커버리지 기반 퍼징 및 엣지 커버리지 지표를 활성화합니다.
 
 ##### `corpus_gzip`
 
@@ -559,7 +551,7 @@ Optional path where invariant corpus is stored. Enables coverage guided fuzzing 
 - Default: true
 - Environment: `FOUNDRY_INVARIANT_CORPUS_GZIP`
 
-Flag indicating whether corpus should use gzip file compression and decompression (relevant only if `corpus_dir` is configured). If set to `false`, then corpus is persisted as regular json file.
+코퍼스가 gzip 파일 압축 및 압축 해제를 사용해야 하는지 여부를 나타내는 플래그입니다(`corpus_dir`이 구성된 경우에만 관련됨). `false`로 설정하면 코퍼스는 일반 json 파일로 유지됩니다.
 
 ##### `corpus_min_mutations`
 
@@ -567,7 +559,7 @@ Flag indicating whether corpus should use gzip file compression and decompressio
 - Default: 5
 - Environment: `FOUNDRY_INVARIANT_CORPUS_MIN_MUTATIONS`
 
-Number of corpus mutations until marked as eligible to be flushed from memory (relevant only if `corpus_dir` is configured).
+메모리에서 플러시될 자격이 있는 것으로 표시되기까지의 코퍼스 변형(mutations) 횟수입니다(`corpus_dir`이 구성된 경우에만 관련됨).
 
 ##### `corpus_min_size`
 
@@ -575,7 +567,7 @@ Number of corpus mutations until marked as eligible to be flushed from memory (r
 - Default: 0
 - Environment: `FOUNDRY_INVARIANT_CORPUS_MIN_SIZE`
 
-Minimum corpus size to mutate and won't be evicted from memory (relevant only if `corpus_dir` is configured).
+변형되고 메모리에서 방출되지 않는 최소 코퍼스 크기입니다(`corpus_dir`이 구성된 경우에만 관련됨).
 
 ##### `show_edge_coverage`
 
@@ -583,7 +575,7 @@ Minimum corpus size to mutate and won't be evicted from memory (relevant only if
 - Default: false
 - Environment: `FOUNDRY_INVARIANT_SHOW_EDGE_COVERAGE`
 
-Flag indicating whether to collect and display edge coverage metrics (automatically enabled if `corpus_dir` is configured).
+엣지 커버리지 지표를 수집하고 표시할지 여부를 나타내는 플래그입니다(`corpus_dir`이 구성된 경우 자동으로 활성화됨).
 
 ##### `show_metrics`
 
@@ -591,7 +583,7 @@ Flag indicating whether to collect and display edge coverage metrics (automatica
 - Default: false
 - Environment: `FOUNDRY_INVARIANT_SHOW_METRICS`
 
-The flag indicating whether to collect and display fuzzed selectors metrics in test report.
+테스트 보고서에 퍼징된 선택자(selectors) 지표를 수집하고 표시할지 여부를 나타내는 플래그입니다.
 
 ##### `show_solidity`
 
@@ -599,4 +591,4 @@ The flag indicating whether to collect and display fuzzed selectors metrics in t
 - Default: false
 - Environment: `FOUNDRY_INVARIANT_SHOW_SOLIDITY`
 
-Flag indicating whether to display counterexamples as solidity calls.
+반례(counterexamples)를 solidity 호출로 표시할지 여부를 나타내는 플래그입니다.

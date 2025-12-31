@@ -1,50 +1,50 @@
 ---
-description: Learn to write Solidity tests using Forge Standard Library with test functions, setup patterns, and shared contracts.
+description: 테스트 함수, 설정 패턴 및 공유 컨트랙트가 있는 Forge 표준 라이브러리를 사용하여 Solidity 테스트를 작성하는 방법을 배웁니다.
 ---
 
-## Writing Tests
+## 테스트 작성
 
-Tests are written in Solidity. If the test function reverts, the test fails, otherwise it passes.
+테스트는 Solidity로 작성됩니다. 테스트 함수가 되돌려지면(revert) 테스트가 실패하고, 그렇지 않으면 통과합니다.
 
-Let's go over the most common way of writing tests, using the [Forge Standard Library](https://github.com/foundry-rs/forge-std)'s `Test` contract, which is the preferred way of writing tests with Forge.
+Forge로 테스트를 작성하는 가장 권장되는 방법인 [Forge 표준 라이브러리(Forge Standard Library)](https://github.com/foundry-rs/forge-std)의 `Test` 컨트랙트를 사용하여 테스트를 작성하는 가장 일반적인 방법을 살펴보겠습니다.
 
-In this section, we'll go over the basics using the functions from the Forge Std's `Test` contract, which is itself a superset of [DSTest](https://github.com/dapphub/ds-test). You will learn how to use more advanced stuff from the Forge Standard Library [soon](/forge/tests/forge-std).
+이 섹션에서는 [DSTest](https://github.com/dapphub/ds-test)의 상위 집합(superset)인 Forge Std의 `Test` 컨트랙트에 있는 함수를 사용하여 기본 사항을 다룹니다. Forge 표준 라이브러리의 더 고급 기능은 [곧](/forge/tests/forge-std) 배우게 될 것입니다.
 
-DSTest provides basic logging and assertion functionality. To get access to the functions, import `forge-std/Test.sol` and inherit from `Test` in your test contract:
+DSTest는 기본적인 로깅 및 어설션(assertion) 기능을 제공합니다. 함수에 접근하려면 `forge-std/Test.sol`을 가져오고 테스트 컨트랙트에서 `Test`를 상속하세요:
 
 ```solidity
 // [!include ~/snippets/projects/writing_tests/test/Basic.t.sol:import]
 ```
 
-Let's examine a basic test:
+기본적인 테스트를 살펴보겠습니다:
 
 ```solidity
 // [!include ~/snippets/projects/writing_tests/test/Basic.t.sol:all]
 ```
 
-Forge uses the following keywords in tests:
+Forge는 테스트에서 다음 키워드를 사용합니다:
 
-- `setUp`: An optional function invoked before each test case is run.
+- `setUp`: 각 테스트 케이스가 실행되기 전에 호출되는 선택적 함수입니다.
 
 ```solidity
 // [!include ~/snippets/projects/writing_tests/test/Basic.t.sol:setUp]
 ```
 
-- `test`: Functions prefixed with `test` are run as a test case.
+- `test`: `test`로 시작하는 함수는 테스트 케이스로 실행됩니다.
 
 ```solidity
 // [!include ~/snippets/projects/writing_tests/test/Basic.t.sol:testNumberIs42]
 ```
 
-A good practice is to use the pattern `test_Revert[If|When]_Condition` in combination with the [`expectRevert`](/reference/cheatcodes/expect-revert) cheatcode (cheatcodes are explained in greater detail in the following [section](/forge/tests/cheatcodes)). Also, other testing practices can be found in the [Guides section](/guides/best-practices/writing-tests).
+좋은 관행은 [`expectRevert`](/reference/cheatcodes/expect-revert) 치트코드(치트코드는 다음 [섹션](/forge/tests/cheatcodes)에서 자세히 설명)와 함께 `test_Revert[If|When]_Condition` 패턴을 사용하는 것입니다. 또한 다른 테스트 관행은 [가이드 섹션](/guides/best-practices/writing-tests)에서 찾을 수 있습니다.
 
-> **Note**: To use `stdError` constants (like `arithmeticError` in the example below), make sure to import `StdError.sol`:
+> **참고**: `stdError` 상수(아래 예제의 `arithmeticError` 같은)를 사용하려면 `StdError.sol`을 가져와야 합니다:
 >
 > ```solidity
 > import {stdError} from "forge-std/StdError.sol";
 > ```
 
-In this way you know exactly what reverted and with which error:
+이런 방식으로 무엇이 되돌려졌고 어떤 오류가 발생했는지 정확히 알 수 있습니다:
 
 ```solidity
 // [!include ~/snippets/projects/writing_tests/test/Basic2.t.sol:testCannotSubtract43]
@@ -52,21 +52,18 @@ In this way you know exactly what reverted and with which error:
 
 <br></br>
 
-Tests are deployed to `0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84`. If you deploy a contract within your test, then
-`0xb4c...7e84` will be its deployer. If the contract deployed within a test gives special permissions to its deployer,
-such as `Ownable.sol`'s `onlyOwner` modifier, then the test contract `0xb4c...7e84` will have those permissions.
+테스트는 `0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84`에 배포됩니다. 테스트 내에서 컨트랙트를 배포하면 `0xb4c...7e84`가 배포자가 됩니다. 테스트 내에서 배포된 컨트랙트가 `Ownable.sol`의 `onlyOwner` 수정자와 같이 배포자에게 특별한 권한을 부여하는 경우, 테스트 컨트랙트 `0xb4c...7e84`는 해당 권한을 갖게 됩니다.
 
-> ⚠️ **Note**
+> ⚠️ **참고**
 >
-> Test functions must have either `external` or `public` visibility. Functions declared as `internal` or
-> `private` won't be picked up by Forge, even if they are prefixed with `test`.
+> 테스트 함수는 `external` 또는 `public` 가시성을 가져야 합니다. `internal` 또는 `private`으로 선언된 함수는 `test`로 시작하더라도 Forge에서 인식되지 않습니다.
 
-### Before test setups
+### 테스트 설정 전 단계 (Before test setups)
 
-Unit and fuzz tests are stateless and are executed as single transactions, meaning that the state modified by a test won't be available for a different one (instead, they'll use the same state created by `setUp` call).
-It is possible to simulate multiple transactions in a single test, with a dependency tree, by implementing the `beforeTestSetup` function.
+단위 및 퍼즈 테스트는 상태가 없으며(stateless) 단일 트랜잭션으로 실행됩니다. 즉, 한 테스트에서 수정된 상태는 다른 테스트에서 사용할 수 없습니다(대신 `setUp` 호출에 의해 생성된 동일한 상태를 사용합니다).
+`beforeTestSetup` 함수를 구현하여 의존성 트리가 있는 단일 테스트에서 여러 트랜잭션을 시뮬레이션할 수 있습니다.
 
-- `beforeTestSetup`: Optional function that configures a set of transactions to be executed before test.
+- `beforeTestSetup`: 테스트 전에 실행할 일련의 트랜잭션을 구성하는 선택적 함수입니다.
 
 ```solidity
 function beforeTestSetup(
@@ -74,17 +71,17 @@ function beforeTestSetup(
 ) public returns (bytes[] memory beforeTestCalldata)
 ```
 
-where
+여기서
 
-- `bytes4 testSelector` is the selector of the test for which transactions are applied
-- `bytes[] memory beforeTestCalldata` is an array of arbitrary calldata applied before test execution
+- `bytes4 testSelector`는 트랜잭션이 적용되는 테스트의 선택자입니다.
+- `bytes[] memory beforeTestCalldata`는 테스트 실행 전에 적용되는 임의의 호출 데이터 배열입니다.
 
-> 💡 **Tip**
+> 💡 **팁**
 >
-> This setup can be used for chaining tests or for scenarios when a test needs certain transactions committed before test run (e.g. when using `selfdestruct`).
-> The test fails if any of the configured transaction reverts.
+> 이 설정은 테스트를 체이닝하거나 테스트 실행 전에 특정 트랜잭션이 커밋되어야 하는 시나리오(예: `selfdestruct` 사용 시)에 사용할 수 있습니다.
+> 구성된 트랜잭션 중 하나라도 되돌려지면 테스트는 실패합니다.
 
-For example, in contract below, `testC` is configured to use state modified by `testA` and `setB(uint256)` functions:
+예를 들어, 아래 컨트랙트에서 `testC`는 `testA` 및 `setB(uint256)` 함수에 의해 수정된 상태를 사용하도록 구성되어 있습니다:
 
 ```solidity
 contract ContractTest is Test {
@@ -117,9 +114,9 @@ contract ContractTest is Test {
 }
 ```
 
-### Shared setups
+### 공유 설정 (Shared setups)
 
-It is possible to use shared setups by creating helper abstract contracts and inheriting them in your test contracts:
+도우미 추상 컨트랙트를 만들고 테스트 컨트랙트에서 상속하여 공유 설정을 사용할 수 있습니다:
 
 ```solidity
 abstract contract HelperContract {
@@ -146,5 +143,5 @@ contract MyOtherContractTest is Test, HelperContract {
 <br></br>
 
 :::tip
-Use the [`getCode`](/reference/cheatcodes/get-code) cheatcode to deploy contracts with incompatible Solidity versions.
+호환되지 않는 Solidity 버전을 가진 컨트랙트를 배포하려면 [`getCode`](/reference/cheatcodes/get-code) 치트코드를 사용하세요.
 :::

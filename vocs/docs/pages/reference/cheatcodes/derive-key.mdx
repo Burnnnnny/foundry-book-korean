@@ -1,6 +1,6 @@
 ## `deriveKey`
 
-### Signature
+### 서명
 
 ```solidity
 function deriveKey(
@@ -17,33 +17,33 @@ function deriveKey(
 ) external returns (uint256);
 ```
 
-### Description
+### 설명
 
-Derive a private key from a given mnemonic or mnemonic file path.
+주어진 니모닉(mnemonic) 또는 니모닉 파일 경로에서 개인 키를 파생합니다.
 
-The first signature derives at the derivation path `m/44'/60'/0'/0/{index}`.
-The second signature allows you to specify the derivation path as the second parameter.
+첫 번째 서명은 파생 경로 `m/44'/60'/0'/0/{index}`를 사용합니다.
+두 번째 서명을 사용하면 두 번째 매개변수로 파생 경로를 지정할 수 있습니다.
 
-### Examples
+### 예제
 
-Derive the private key from the test mnemonic at path `m/44'/60'/0'/0/0`:
+테스트 니모닉의 `m/44'/60'/0'/0/0` 경로에서 개인 키 파생:
 
 ```solidity
 string memory mnemonic = "test test test test test test test test test test test junk";
 uint256 privateKey = vm.deriveKey(mnemonic, 0);
 ```
 
-Derive the private key from the test mnemonic at path `m/44'/60'/0'/1/0`:
+테스트 니모닉의 `m/44'/60'/0'/1/0` 경로에서 개인 키 파생:
 
 ```solidity
 string memory mnemonic = "test test test test test test test test test test test junk";
 uint256 privateKey = vm.deriveKey(mnemonic, "m/44'/60'/0'/1/", 0);
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [rememberKey](/reference/cheatcodes/remember-key.mdx)
 
-Forge Standard Library:
+Forge 표준 라이브러리:
 
 - [deriveRememberKey](/reference/forge-std/derive-remember-key.mdx)

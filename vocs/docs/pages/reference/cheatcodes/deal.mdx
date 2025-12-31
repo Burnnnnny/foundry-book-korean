@@ -1,18 +1,18 @@
 ## `deal`
 
-### Signature
+### 서명
 
 ```solidity
 function deal(address who, uint256 newBalance) external;
 ```
 
-### Description
+### 설명
 
-Sets the balance of an address `who` to `newBalance`.
+`who` 주소의 잔액을 `newBalance`로 설정합니다.
 
-If the alternative signature of `deal` is used (defined in `StdCheats.sol`), then we can additionally specify ERC20 token address, as well as an option to update `totalSupply`.
+`deal`의 대체 서명이 사용되는 경우(`StdCheats.sol`에 정의됨), ERC20 토큰 주소뿐만 아니라 `totalSupply`를 업데이트하는 옵션도 추가로 지정할 수 있습니다.
 
-### Examples
+### 예제
 
 ```solidity
 address alice = makeAddr("alice");
@@ -24,12 +24,12 @@ log_uint256(alice.balance); // 1000000000000000000
 ```solidity
 address alice = makeAddr("alice");
 emit log_address(alice);
-deal(address(DAI), alice, 1 ether); // import StdUtils.sol first
+deal(address(DAI), alice, 1 ether); // 먼저 StdUtils.sol을 가져와야 합니다
 log_uint256(address(DAI).balanceOf(alice)); // 1000000000000000000
 ```
 
-### SEE ALSO
+### 같이 보기
 
-Forge Standard Library
+Forge 표준 라이브러리
 
 [`deal`](/reference/forge-std/deal.mdx), [`hoax`](/reference/forge-std/hoax.mdx), [`startHoax`](/reference/forge-std/startHoax.mdx)

@@ -1,6 +1,6 @@
 ## `assertApproxEqRelDecimal`
 
-### Signature
+### 시그니처
 
 ```solidity
 function assertApproxEqRelDecimal(uint256 left, uint256 right, uint256 maxPercentDelta, uint256 decimals) internal;
@@ -18,14 +18,14 @@ function assertApproxEqRelDecimal(int256 left, int256 right, uint256 maxPercentD
 function assertApproxEqRelDecimal(int256 left, int256 right, uint256 maxPercentDelta, uint256 decimals, string memory err) internal;
 ```
 
-### Description
+### 설명
 
-Asserts `left` is approximately equal to `right` with delta in percentage, where `1e18` is 100%.
+`left`가 `right`와 대략적으로 같은지(백분율 차이 `maxPercentDelta` 이내) 주장(assert)합니다. 여기서 `1e18`은 100%입니다.
 
-`left` and `right` are formatted with decimals in the revert string.
+리버트(revert) 문자열에서 `left`와 `right`는 소수점(`decimals`) 형식으로 지정됩니다.
 
-Optionally includes an error message in the revert string.
+선택적으로 리버트 문자열에 오류 메시지를 포함할 수 있습니다.
 
-### SEE ALSO
+### 같이 보기
 
 - [`assertApproxEqRel`](/reference/forge-std/assertApproxEqRel.mdx)

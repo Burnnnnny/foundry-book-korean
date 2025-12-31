@@ -1,20 +1,20 @@
 ## StdConfig
 
-`StdConfig` is a powerful contract that provides bidirectional (read/write) configuration management for Solidity tests and scripts. It parses TOML configuration files, automatically resolves environment variables, and provides type-safe access to configuration values.
+`StdConfig`는 Solidity 테스트 및 스크립트를 위한 양방향(읽기/쓰기) 구성 관리를 제공하는 강력한 컨트랙트입니다. TOML 구성 파일을 파싱하고, 환경 변수를 자동으로 해결하며, 구성 값에 대한 타입 안전(type-safe) 액세스를 제공합니다.
 
-### Import
+### 임포트 (Import)
 
 ```solidity
 import {StdConfig} from "forge-std/StdConfig.sol";
 import {Variable, LibVariable} from "forge-std/LibVariable.sol";
 
-// Enable global usage of LibVariable
+// LibVariable 전역 사용 활성화
 using LibVariable for Variable global;
 ```
 
-### Direct Usage
+### 직접 사용 (Direct Usage)
 
-While typically used through the `Config` abstract contract, you can instantiate `StdConfig` directly:
+일반적으로 `Config` 추상 컨트랙트를 통해 사용되지만, `StdConfig`를 직접 인스턴스화할 수도 있습니다:
 
 ```solidity
 contract MyTest is Test {
@@ -29,52 +29,52 @@ contract MyTest is Test {
 }
 ```
 
-### Configuration File Structure
+### 구성 파일 구조 (Configuration File Structure)
 
-StdConfig expects a specific TOML structure where top-level keys represent chain identifiers, and variables are organized by type in sub-tables:
+StdConfig는 최상위 키가 체인 식별자를 나타내고 변수가 하위 테이블의 유형별로 구성되는 특정 TOML 구조를 예상합니다:
 
 ```toml
-# IMPORTANT: Chain keys must be either:
-# - Numeric chain ID ([1], [11155111], [10])
-# - Valid Alloy chain alias ([mainnet], [sepolia], [optimism])
+# 중요: 체인 키는 다음 중 하나여야 합니다:
+# - 숫자 체인 ID (예: [1], [11155111], [10])
+# - 유효한 Alloy 체인 별칭 (예: [mainnet], [sepolia], [optimism])
 #
-# See https://github.com/alloy-rs/chains for valid aliases. For new/custom chains, use numeric IDs or consider opening a PR.
+# 유효한 별칭은 https://github.com/alloy-rs/chains를 참조하세요. 새/사용자 정의 체인의 경우 숫자 ID를 사용하거나 PR을 여는 것을 고려하세요.
 
 [<chain>]
-endpoint_url = "https://..."  # Required RPC URL
+endpoint_url = "https://..."  # 필수 RPC URL
 
 [<chain>.<type>]
 variable_name = value
 ```
 
-Where:
-- `<chain>` is either a chain ID (uint) or a valid chain alias
-- `<type>` must be one of: `bool`, `address`, `uint`, `int`, `bytes32`, `string`, `bytes`
+여기서:
+- `<chain>`은 체인 ID(uint) 또는 유효한 체인 별칭입니다.
+- `<type>`은 `bool`, `address`, `uint`, `int`, `bytes32`, `string`, `bytes` 중 하나여야 합니다.
 
-### Getter Functions
+### Getter 함수
 
 #### `get`
 
-Retrieves a variable as a generic `Variable` container that must be cast to the appropriate type.
+적절한 유형으로 캐스팅해야 하는 일반 `Variable` 컨테이너로 변수를 검색합니다.
 
 ```solidity
 function get(uint256 chainId, string memory key) public view returns (Variable memory)
 function get(string memory key) public view returns (Variable memory)
 ```
 
-**Example:**
+**예시:**
 ```solidity
-// With explicit chain ID
+// 명시적 체인 ID 사용
 uint256 value = config.get(1, "important_number").toUint256();
 
-// Using current fork's chain ID
+// 현재 포크의 체인 ID 사용
 vm.selectFork(forkOf[1]);
 address weth = config.get("weth").toAddress();
 ```
 
 #### `getRpcUrl`
 
-Returns the RPC URL for a specific chain.
+특정 체인의 RPC URL을 반환합니다.
 
 ```solidity
 function getRpcUrl(uint256 chainId) public view returns (string memory)
@@ -83,22 +83,22 @@ function getRpcUrl() public view returns (string memory)
 
 #### `getChainIds`
 
-Returns all configured chain IDs.
+구성된 모든 체인 ID를 반환합니다.
 
 ```solidity
 function getChainIds() public view returns (uint256[] memory)
 ```
 
-### Setter Functions
+### Setter 함수
 
-All setter methods update the in-memory state and optionally write changes back to the TOML file.
+모든 setter 메서드는 메모리 내 상태를 업데이트하고 선택적으로 변경 사항을 TOML 파일에 다시 씁니다.
 
 #### `set`
 
-Sets a value for a given key. Overloaded for all supported types and their arrays.
+주어진 키에 대한 값을 설정합니다. 지원되는 모든 유형과 해당 배열에 대해 오버로딩되어 있습니다.
 
 ```solidity
-// Single values
+// 단일 값
 function set(uint256 chainId, string memory key, bool value) public
 function set(uint256 chainId, string memory key, address value) public
 function set(uint256 chainId, string memory key, uint256 value) public
@@ -107,68 +107,68 @@ function set(uint256 chainId, string memory key, bytes32 value) public
 function set(uint256 chainId, string memory key, string memory value) public
 function set(uint256 chainId, string memory key, bytes memory value) public
 
-// Arrays
+// 배열
 function set(uint256 chainId, string memory key, bool[] memory values) public
 function set(uint256 chainId, string memory key, address[] memory values) public
-// ... and so on for all types
+// ... 모든 유형에 대해 계속됨
 ```
 
-There are also variants without `chainId` that use the current fork's chain ID.
+현재 포크의 체인 ID를 사용하는 `chainId`가 없는 변형도 있습니다.
 
 #### `writeUpdatesBackToFile`
 
-Enables or disables automatic writing to the TOML file.
+TOML 파일에 대한 자동 쓰기를 활성화하거나 비활성화합니다.
 
 ```solidity
 function writeUpdatesBackToFile(bool enabled) public
 ```
 
-### Type Conversion with LibVariable
+### LibVariable을 사용한 타입 변환
 
-The `LibVariable` library provides safe type conversion for `Variable` structs:
+`LibVariable` 라이브러리는 `Variable` 구조체에 대한 안전한 타입 변환을 제공합니다:
 
-#### Single Value Conversions
-
-```solidity
-variable.toBool()        // Returns bool
-variable.toAddress()     // Returns address
-variable.toUint256()     // Returns uint256
-variable.toUint128()     // Returns uint128 (with overflow check)
-variable.toUint64()      // Returns uint64 (with overflow check)
-variable.toUint32()      // Returns uint32 (with overflow check)
-variable.toUint16()      // Returns uint16 (with overflow check)
-variable.toUint8()       // Returns uint8 (with overflow check)
-variable.toInt256()      // Returns int256
-variable.toInt128()      // Returns int128 (with overflow check)
-// ... similar for other int sizes
-variable.toBytes32()     // Returns bytes32
-variable.toString()      // Returns string
-variable.toBytes()       // Returns bytes
-```
-
-#### Array Conversions
+#### 단일 값 변환
 
 ```solidity
-variable.toBoolArray()       // Returns bool[]
-variable.toAddressArray()    // Returns address[]
-variable.toUint256Array()    // Returns uint256[]
-variable.toUint128Array()    // Returns uint128[] (with overflow checks)
-// ... and so on for all types
+variable.toBool()        // bool 반환
+variable.toAddress()     // address 반환
+variable.toUint256()     // uint256 반환
+variable.toUint128()     // uint128 반환 (오버플로우 검사 포함)
+variable.toUint64()      // uint64 반환 (오버플로우 검사 포함)
+variable.toUint32()      // uint32 반환 (오버플로우 검사 포함)
+variable.toUint16()      // uint16 반환 (오버플로우 검사 포함)
+variable.toUint8()       // uint8 반환 (오버플로우 검사 포함)
+variable.toInt256()      // int256 반환
+variable.toInt128()      // int128 반환 (오버플로우 검사 포함)
+// ... 다른 int 크기에 대해서도 유사함
+variable.toBytes32()     // bytes32 반환
+variable.toString()      // string 반환
+variable.toBytes()       // bytes 반환
 ```
 
-### Environment Variable Resolution
+#### 배열 변환
 
-StdConfig automatically resolves environment variables in the TOML file:
+```solidity
+variable.toBoolArray()       // bool[] 반환
+variable.toAddressArray()    // address[] 반환
+variable.toUint256Array()    // uint256[] 반환
+variable.toUint128Array()    // uint128[] 반환 (오버플로우 검사 포함)
+// ... 모든 유형에 대해 계속됨
+```
+
+### 환경 변수 해결 (Environment Variable Resolution)
+
+StdConfig는 TOML 파일의 환경 변수를 자동으로 해결합니다:
 
 ```toml
-# Using chain alias works because "mainnet" is in alloy-chains
+# "mainnet"이 alloy-chains에 있으므로 체인 별칭 사용이 작동합니다
 [mainnet]
 endpoint_url = "${MAINNET_RPC_URL}"
 
 [mainnet.address]
 admin = "${ADMIN_ADDRESS}"
 
-# Using numeric chain ID works for any chain
+# 숫자 체인 ID 사용은 모든 체인에서 작동합니다
 [1234]
 endpoint_url = "${HYPEREVM_RPC_URL}"
 
@@ -176,7 +176,7 @@ endpoint_url = "${HYPEREVM_RPC_URL}"
 admin = "${ADMIN_ADDRESS}"
 ```
 
-### Complete Example
+### 전체 예시
 
 ```solidity
 contract ConfigExample is Test {
@@ -185,63 +185,63 @@ contract ConfigExample is Test {
     StdConfig config;
 
     function setUp() public {
-        // Set environment variables
+        // 환경 변수 설정
         vm.setEnv("MAINNET_RPC", "https://eth.llamarpc.com");
         vm.setEnv("ADMIN_ADDRESS", "0x1234567890123456789012345678901234567890");
 
-        // Load config with write capability
+        // 쓰기 기능이 있는 구성 로드
         config = new StdConfig("./config.toml", true);
         vm.makePersistent(address(config));
     }
 
     function test_readAndWrite() public {
-        // Read various types
+        // 다양한 타입 읽기
         bool isLive = config.get(1, "is_live").toBool();
         address weth = config.get(1, "weth").toAddress();
         uint256 number = config.get(1, "important_number").toUint256();
 
-        // Read arrays
+        // 배열 읽기
         address[] memory admins = config.get(1, "admins").toAddressArray();
         uint256[] memory values = config.get(1, "values").toUint256Array();
 
-        // Update configuration
+        // 구성 업데이트
         config.set(1, "new_contract", address(0xdead));
         config.set(1, "deployment_block", block.number);
         config.set(1, "is_deployed", true);
 
-        // Changes are written to config.toml automatically
+        // 변경 사항은 config.toml에 자동으로 기록됩니다
     }
 
     function test_multiChain() public {
-        // Get all configured chains
+        // 구성된 모든 체인 가져오기
         uint256[] memory chains = config.getChainIds();
 
         for (uint256 i = 0; i < chains.length; i++) {
             uint256 chainId = chains[i];
             string memory rpcUrl = config.getRpcUrl(chainId);
 
-            // Create fork for this chain
+            // 이 체인에 대한 포크 생성
             uint256 forkId = vm.createFork(rpcUrl);
             vm.selectFork(forkId);
 
-            // Now config.get() without chainId uses this fork's chain
+            // 이제 chainId 없는 config.get()은 이 포크의 체인을 사용합니다
             address chainWeth = config.get("weth").toAddress();
         }
     }
 }
 ```
 
-### Error Handling
+### 오류 처리 (Error Handling)
 
-StdConfig and LibVariable provide comprehensive error messages:
+StdConfig 및 LibVariable은 포괄적인 오류 메시지를 제공합니다:
 
-- `NotInitialized()`: Variable doesn't exist in configuration
-- `TypeMismatch(expected, actual)`: Variable type doesn't match expected type
-- `UnsafeCast(message)`: Value doesn't fit in target type (overflow/underflow)
-- `InvalidChainKey(aliasOrId)`: Invalid chain identifier. This occurs when using a custom chain name that doesn't match an [Alloy chain alias](https://github.com/alloy-rs/chains/blob/main/src/named.rs). Use the numeric chain ID instead.
-- `ChainNotInitialized(chainId)`: Chain not found in configuration
+- `NotInitialized()`: 변수가 구성에 존재하지 않음
+- `TypeMismatch(expected, actual)`: 변수 타입이 예상 타입과 일치하지 않음
+- `UnsafeCast(message)`: 값이 대상 타입에 맞지 않음 (오버플로우/언더플로우)
+- `InvalidChainKey(aliasOrId)`: 잘못된 체인 식별자. [Alloy 체인 별칭](https://github.com/alloy-rs/chains/blob/main/src/named.rs)과 일치하지 않는 사용자 정의 체인 이름을 사용할 때 발생합니다. 대신 숫자 체인 ID를 사용하세요.
+- `ChainNotInitialized(chainId)`: 체인이 구성에서 발견되지 않음
 
-### See Also
+### 함께 보기
 
-- [Config](/reference/forge-std/config.mdx) - Abstract contract for easier usage
-- [Scripting with Config](/guides/scripting-with-config.md) - Guide for orchestrating scripts
+- [Config](/reference/forge-std/config.mdx) - 더 쉬운 사용을 위한 추상 컨트랙트
+- [구성을 사용한 스크립팅](/guides/scripting-with-config.md) - 스크립트 오케스트레이션 가이드

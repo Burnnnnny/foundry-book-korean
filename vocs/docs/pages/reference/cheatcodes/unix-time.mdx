@@ -1,21 +1,20 @@
 ## `unixTime`
 
-### Signature
+### 시그니처
 
 ```solidity
 function unixTime() external returns (uint milliseconds);
 ```
 
-### Description
+### 설명
 
-Returns the time since unix epoch in milliseconds.
+유닉스 에포크(unix epoch) 이후의 시간을 밀리초 단위로 반환합니다.
 
-### Examples
+### 예제
 
 ```solidity
 uint start = vm.unixTime();
-vm.sleep(10_000); // Halts execution for 10 seconds
+vm.sleep(10_000); // 10초 동안 실행 중지
 uint end = vm.unixTime();
 assertEq(end - start, 10_000);
 ```
-

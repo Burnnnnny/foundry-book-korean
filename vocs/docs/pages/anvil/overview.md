@@ -1,19 +1,18 @@
 ---
-description: Anvil is a fast local Ethereum development node.
+description: Anvil은 빠른 로컬 이더리움 개발 노드입니다.
 ---
 
 ## Anvil
 
-Anvil is a fast local Ethereum development node.
+Anvil은 빠른 로컬 이더리움 개발 노드입니다.
 
-Anvil is part of the Foundry suite and is installed alongside `forge`, `cast` and `chisel`. If you haven't installed Foundry
-yet, see [Foundry installation](/introduction/installation).
+Anvil은 Foundry 제품군의 일부이며 `forge`, `cast`, `chisel`과 함께 설치됩니다. 아직 Foundry를 설치하지 않았다면 [Foundry 설치](/introduction/installation)를 참조하세요.
 
-### Getting started
+### 시작하기
 
-To use Anvil, simply type `anvil`. To fork against a live Ethereum network run `anvil --fork-url <RPC_URL>`.
+Anvil을 사용하려면 `anvil`을 입력하기만 하면 됩니다. 라이브 이더리움 네트워크를 포크하려면 `anvil --fork-url <RPC_URL>`을 실행하세요.
 
-Let's fork Ethereum mainnet at the latest block:
+최신 블록에서 이더리움 메인넷을 포크해 보겠습니다:
 
 ```bash
 anvil --fork-url https://reth-ethereum.ithaca.xyz/rpc
@@ -94,16 +93,16 @@ Listening on 127.0.0.1:8545
 <br></br>
 
 :::info
-See the [`anvil` Reference](/anvil/reference) for in depth information on Anvil and its capabilities.
+Anvil과 그 기능에 대한 자세한 정보는 [`anvil` 참조](/anvil/reference)를 확인하세요.
 :::
 
-## Notes
+## 참고 사항
 
-### EIP-7702 and Default Accounts
+### EIP-7702 및 기본 계정
 
-Since the advent of EIP-7702, Anvil's default accounts have been delegated to drainers such as https://etherscan.io/address/0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266#authlist7702
+EIP-7702 도입 이후, Anvil의 기본 계정은 https://etherscan.io/address/0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266#authlist7702 와 같은 드레이너(drainer)에게 위임되었습니다.
 
-This can negatively impact developer experience when users are running Anvil in fork mode and are making RPC calls that involve one of the default anvil accounts. To avoid this issue, use a different mnemonic when starting Anvil:
+이는 사용자가 포크 모드에서 Anvil을 실행하고 기본 anvil 계정 중 하나와 관련된 RPC 호출을 할 때 개발자 경험에 부정적인 영향을 미칠 수 있습니다. 이 문제를 방지하려면 Anvil을 시작할 때 다른 니모닉을 사용하세요:
 
 ```bash
 anvil --mnemonic "<custom mnemonic>" --fork-url https://reth-ethereum.ithaca.xyz/rpc

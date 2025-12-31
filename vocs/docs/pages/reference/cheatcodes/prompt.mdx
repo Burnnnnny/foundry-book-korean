@@ -1,6 +1,6 @@
 ## `prompt`
 
-### Signature
+### 시그니처
 
 ```solidity
 function prompt(string calldata promptText) external returns (string memory input);
@@ -8,39 +8,33 @@ function promptSecret(string calldata promptText) external returns (string memor
 function promptSecretUint(string calldata promptText) external returns (uint256);
 ```
 
-### Description
+### 설명
 
-Display an interactive prompt to the user for inserting arbitrary data.
+사용자가 임의의 데이터를 입력할 수 있도록 대화형 프롬프트를 표시합니다.
 
-`vm.prompt` displays an interactive input, while `vm.promptSecret` & `vm.promptSecretUint` display a
-hidden input, used for passwords and other secret information that should not
-leak to the terminal.
+`vm.prompt`는 대화형 입력을 표시하는 반면, `vm.promptSecret` 및 `vm.promptSecretUint`는 터미널에 유출되어서는 안 되는 비밀번호 및 기타 비밀 정보에 사용되는 숨겨진 입력을 표시합니다.
 
-> ℹ️ **Note**
+> ℹ️ **참고**
 >
-> This cheatcode is meant to be used in scripts ― not tests. It is also advised to
-> follow the best practices below for testing scripts that use `vm.prompt` and
-> handling timeouts, since scripts might otherwise hang or revert. This cheatcode
-> reverts when running in a non-interactive shell.
+> 이 치트코드는 테스트가 아닌 스크립트에서 사용하기 위한 것입니다. 또한 스크립트가 중단되거나 되돌려질(revert) 수 있으므로 `vm.prompt`를 사용하는 스크립트를 테스트하고 시간 초과를 처리하려면 아래의 모범 사례를 따르는 것이 좋습니다. 이 치트코드는 비대화형 셸에서 실행할 때 되돌려집니다.
 
-### Configuration
+### 설정
 
-In order to prevent unwanted hangups, `vm.prompt` has a timeout configuration.
+원치 않는 중단을 방지하기 위해 `vm.prompt`에는 시간 초과 설정이 있습니다.
 
-In your `foundry.toml`:
+`foundry.toml`에서:
 
 ```toml
 prompt_timeout = 120
 ```
 
-Default value is `120` and values are in seconds.
+기본값은 `120`이며 값은 초 단위입니다.
 
-### Best practices
+### 모범 사례
 
-#### Testing scripts that use `vm.prompt`
+#### `vm.prompt`를 사용하는 스크립트 테스트
 
-When testing scripts containing `vm.prompt` it is recommended to use the
-following pattern:
+`vm.prompt`가 포함된 스크립트를 테스트할 때는 다음 패턴을 사용하는 것이 좋습니다:
 
 ```solidity
 contract Script {
@@ -50,20 +44,16 @@ contract Script {
     }
 
     function run(uint256 myUint) public {
-        // actual logic
+        // 실제 로직
     }
 }
 ```
 
-That way, we are keeping the UX gain (don't have to provide `--sig` argument
-when running the script), but tests can set any value to `myUint` and not just
-a hardcoded default.
+이렇게 하면 UX 이점(스크립트를 실행할 때 `--sig` 인수를 제공할 필요 없음)을 유지하면서도 테스트에서 하드코딩된 기본값뿐만 아니라 모든 값을 `myUint`에 설정할 수 있습니다.
 
-#### Handling timeouts
+#### 시간 초과 처리
 
-When a user fails to provide an input before the timeout expires, the
-`vm.prompt` cheatcode reverts. If you'd like, timeouts can be handled by using
-`try/catch`:
+사용자가 제한 시간이 만료되기 전에 입력을 제공하지 않으면 `vm.prompt` 치트코드가 되돌려집니다. 원하는 경우 `try/catch`를 사용하여 시간 초과를 처리할 수 있습니다:
 
 ```solidity
 string memory input;
@@ -76,13 +66,13 @@ catch (bytes memory) {
 }
 ```
 
-### Examples
+### 예제
 
-#### Choose RPC endpoint
+#### RPC 엔드포인트 선택
 
-Provide an option to choose the RPC/chain to run on.
+실행할 RPC/체인을 선택할 수 있는 옵션을 제공합니다.
 
-In your `foundry.toml` file:
+`foundry.toml` 파일에서:
 
 ```toml
 [rpc_endpoints]
@@ -90,16 +80,16 @@ mainnet = "https://eth.llamarpc.com"
 polygon = "https://polygon.llamarpc.com"
 ```
 
-In your script:
+스크립트에서:
 
 ```solidity
 string memory rpcEndpoint = vm.prompt("RPC endpoint");
 vm.createSelectFork(rpcEndpoint);
 ```
 
-#### Parse user input into native types
+#### 사용자 입력을 기본 타입으로 구문 분석
 
-We can use the string parsing cheatcodes to parse the responses from users:
+문자열 구문 분석 치트코드를 사용하여 사용자의 응답을 구문 분석할 수 있습니다:
 
 ```solidity
 uint privateKey = vm.promptSecretUint("Private key");

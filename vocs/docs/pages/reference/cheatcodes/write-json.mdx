@@ -1,6 +1,6 @@
 ## `writeJson`
 
-### Signature
+### 시그니처
 
 ```solidity
 function writeJson(string calldata json, string calldata path) external;
@@ -8,31 +8,31 @@ function writeJson(string calldata json, string calldata path) external;
 function writeJson(string calldata json, string calldata path, string calldata valueKey) external;
 ```
 
-### Description
+### 설명
 
-Writes a serialized JSON object to a file.
+직렬화된 JSON 객체를 파일에 씁니다.
 
-The argument `json` must be a JSON object in stringified form. For example:
+`json` 인수는 문자열화된 형태의 JSON 객체여야 합니다. 예를 들어:
 
 ```text
 { "boolean": true, "number": 342, "object": { "title": "finally json serialization" } }
 ```
 
-This is usually built through [serializeJson](/reference/cheatcodes/serialize-json.mdx).
+이것은 주로 [serializeJson](/reference/cheatcodes/serialize-json.mdx)을 통해 빌드됩니다.
 
-The argument `path` is the path of the JSON file to write to.
+`path` 인수는 쓸 JSON 파일의 경로입니다.
 
-If no `valueKey` is provided, then the JSON object will be written to a new file. If the file already exists, it will be overwritten.
+`valueKey`가 제공되지 않으면 JSON 객체가 새 파일에 기록됩니다. 파일이 이미 존재하는 경우 덮어씁니다.
 
-If a `valueKey` is provided, then the file must already exist and be a valid JSON file. The object in that file will be updated by replacing the value at the _JSON path_ `valueKey` with the JSON object `json`.
+`valueKey`가 제공되면 파일이 이미 존재해야 하며 유효한 JSON 파일이어야 합니다. 해당 파일의 객체는 _JSON 경로_ `valueKey`의 값을 JSON 객체 `json`으로 대체하여 업데이트됩니다.
 
-This is useful for replacing some values in a JSON file without having to first parse and then reserialize it. Note that if the specified key, or any of the intermediate ones in the JSON path, don't exist, they will be created.
+이것은 먼저 파싱한 다음 다시 직렬화할 필요 없이 JSON 파일의 일부 값을 교체하는 데 유용합니다. 지정된 키 또는 JSON 경로의 중간 키가 존재하지 않으면 생성됩니다.
 
-**Remember:** The file path `path` needs to be in the allowed paths. Read more in [File cheatcodes](/reference/cheatcodes/fs.mdx).
+**기억하세요:** 파일 경로 `path`는 허용된 경로에 있어야 합니다. 자세한 내용은 [파일 치트코드](/reference/cheatcodes/fs.mdx)를 읽어보세요.
 
-#### JSON Paths
+#### JSON 경로
 
-Let's consider the following JSON object:
+다음 JSON 객체를 고려해 봅시다:
 
 ```json
 {
@@ -50,38 +50,38 @@ Let's consider the following JSON object:
 }
 ```
 
-**Important:** JSON paths must be properly formatted to work correctly:
+**중요:** JSON 경로가 올바르게 작동하려면 형식이 적절해야 합니다:
 
-- **Root object assumption**: The root object is always assumed, so you should start paths with a dot (`.`) or dollar sign (`$`)
-- **Dot notation**: Use `.boolean`, `.number`, `.obj1` to access root-level properties
-- **Nested access**: Use `.obj1.aNumber` or `.obj1.obj2.aNumber` to go deeper into the structure
-- **Descendant search**: Use `..keyName` to search for a key anywhere in a subtree, like `.obj1..veryDeep` or just `..veryDeep`
+- **루트 객체 가정**: 루트 객체는 항상 가정되므로 경로는 점(`.`)이나 달러 기호(`$`)로 시작해야 합니다.
+- **점 표기법**: 루트 수준 속성에 액세스하려면 `.boolean`, `.number`, `.obj1`을 사용하세요.
+- **중첩 액세스**: 구조 깊이 들어가려면 `.obj1.aNumber` 또는 `.obj1.obj2.aNumber`를 사용하세요.
+- **자손 검색**: `.obj1..veryDeep` 또는 그냥 `..veryDeep`과 같이 하위 트리 어디에서나 키를 검색하려면 `..keyName`을 사용하세요.
 
-**Common mistake**: Using bare key names like `"key.foo"` will be silently converted to `"$key.foo"` by the JSONPath parser, which will fail because it looks for a root property named `key.foo`. Instead, use `".key.foo"` or `"$.key.foo"`.
+**일반적인 실수**: `"key.foo"`와 같이 맨 키 이름을 사용하면 JSONPath 파서에 의해 `"$key.foo"`로 자동 변환되며, 이는 `key.foo`라는 루트 속성을 찾기 때문에 실패합니다. 대신 `".key.foo"` 또는 `"$.key.foo"`를 사용하세요.
 
-Valid path examples:
+유효한 경로 예:
 
-- `.boolean` - accesses the boolean property at root level
-- `$.boolean` - equivalent to above using explicit root notation
-- `.obj1.aNumber` - accesses nested property
-- `.obj1..veryDeep` - finds veryDeep anywhere within obj1
-- `..veryDeep` - finds veryDeep anywhere in the document
+- `.boolean` - 루트 수준에서 부울 속성에 액세스
+- `$.boolean` - 명시적 루트 표기법을 사용하여 위와 동일
+- `.obj1.aNumber` - 중첩 속성에 액세스
+- `.obj1..veryDeep` - obj1 내 어디에서나 veryDeep 찾기
+- `..veryDeep` - 문서 어디에서나 veryDeep 찾기
 
-See the examples to see this in action.
+예제를 통해 실제로 확인해 보세요.
 
-### Examples
+### 예제
 
-#### A simple example
+#### 간단한 예제
 
 ```solidity
 string memory jsonObj = '{ "boolean": true, "number": 342, "myObject": { "title": "finally json serialization" } }';
 vm.writeJson(jsonObj, "./output/example.json");
 
-// replaces the value of `myObject` with a new object
+// `myObject`의 값을 새 객체로 대체
 string memory newJsonObj = '{ "aNumber": 123, "aString": "asd" }';
 vm.writeJson(newJsonObj, "./output/example.json", ".myObject");
 
-// replaces the value of `aString` in the new object
+// 새 객체에서 `aString`의 값을 대체
 vm.writeJson("my new string", "./output/example.json", ".myObject.aString");
 
 // Here's example.json:
@@ -96,7 +96,7 @@ vm.writeJson("my new string", "./output/example.json", ".myObject.aString");
 // }
 ```
 
-#### A more complex example
+#### 더 복잡한 예제
 
 ```solidity
 string memory jsonObj = '{ "boolean": true, "number": 342, "obj1": { "foo": "bar" } }';
@@ -124,7 +124,7 @@ vm.writeJson(jsonObj3, "./output/example2.json", ".obj1.obj2");
 //   }
 // }
 
-// Note that the JSON object is just the value 13371337 in this case.
+// 이 경우 JSON 객체는 단지 값 13371337입니다.
 vm.writeJson("13371337", "./output/example2.json", "..veryDeep");
 
 // Here's the final example2.json:
@@ -144,6 +144,6 @@ vm.writeJson("13371337", "./output/example2.json", "..veryDeep");
 // }
 ```
 
-### SEE ALSO
+### 같이 보기
 
 - [serializeJson](/reference/cheatcodes/serialize-json.mdx)

@@ -1,52 +1,52 @@
 ---
-description: Learn how to use forge-std's `Config` contract to orchestrate complex multi-chain deployment scripts with TOML configuration files.
+description: TOML 구성 파일로 복잡한 멀티 체인 배포 스크립트를 조정하기 위해 forge-std의 `Config` 컨트랙트를 사용하는 방법을 알아봅니다.
 ---
 
-## Orchestrating Scripts with Config
+## Config로 스크립트 조정하기
 
-The forge-std `Config` contract provides a powerful way to manage complex deployment scripts, especially for multi-chain environments. By centralizing configuration in TOML files, you can create maintainable, reusable scripts that adapt to different networks and deployment scenarios.
+forge-std `Config` 컨트랙트는 특히 멀티 체인 환경에서 복잡한 배포 스크립트를 관리하는 강력한 방법을 제공합니다. 구성을 TOML 파일에 중앙 집중화함으로써 다양한 네트워크 및 배포 시나리오에 적응하는 유지 보수 가능하고 재사용 가능한 스크립트를 만들 수 있습니다.
 
-## Why Use Config for Scripts?
+## 스크립트에 Config를 사용하는 이유는 무엇인가요?
 
-Traditional scripting approaches often involve:
-- Hardcoding addresses and parameters
-- Dealing with ffi cheatcodes to interact with helper files
-- Manually tracking deployment addresses and writting back to the helper files
-- Complex environment variable management
+전통적인 스크립팅 접근 방식은 종종 다음을 수반합니다:
+- 주소 및 매개변수 하드코딩
+- 도우미 파일과 상호 작용하기 위해 ffi 치트코드 처리
+- 배포 주소를 수동으로 추적하고 도우미 파일에 다시 기록
+- 복잡한 환경 변수 관리
 
-All these practices make deploying scripts error-prone unless developers are experienced and meticulous. The `Config` contract solves these issues by providing:
-- Centralized configuration in human-readable TOML files
-- Automatic environment variable resolution
-- Type-safe access to configuration values
-- Bidirectional updates (read and write)
-- Built-in multi-chain support
+이러한 모든 관행은 개발자가 경험이 풍부하고 꼼꼼하지 않으면 스크립트 배포 시 오류가 발생하기 쉽습니다. `Config` 컨트랙트는 다음을 제공하여 이러한 문제를 해결합니다:
+- 사람이 읽을 수 있는 TOML 파일의 중앙 집중식 구성
+- 자동 환경 변수 해결
+- 구성 값에 대한 타입 안전 액세스
+- 양방향 업데이트 (읽기 및 쓰기)
+- 내장된 멀티 체인 지원
 
-## Setting Up Your Configuration
+## 구성 설정
 
-### 1. Create a Configuration File
+### 1. 구성 파일 생성
 
-Create a `deployments.toml` file in your project root:
+프로젝트 루트에 `deployments.toml` 파일을 생성하세요:
 
 ```toml
 # deployments.toml
 #
-# IMPORTANT: Chain keys must be either:
-# - Numeric chain ID (e.g., [1], [11155111], [10])
-# - Valid Alloy chain alias (e.g., [mainnet], [sepolia], [optimism])
+# 중요: 체인 키는 다음 중 하나여야 합니다:
+# - 숫자 체인 ID (예: [1], [11155111], [10])
+# - 유효한 Alloy 체인 별칭 (예: [mainnet], [sepolia], [optimism])
 #
-# See https://github.com/alloy-rs/chains for valid aliases. For new/custom chains, use numeric IDs or consider opening a PR.
+# 유효한 별칭은 https://github.com/alloy-rs/chains를 참조하세요. 새/사용자 정의 체인의 경우 숫자 ID를 사용하거나 PR을 여는 것을 고려하세요.
 
 [mainnet]
 endpoint_url = "${MAINNET_RPC_URL}"
 
 [mainnet.address]
-# Dependencies
+# 의존성
 weth = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
 usdc = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
 multisig = "${MAINNET_MULTISIG}"
 
 [mainnet.uint]
-min_liquidity = 1000000  # $1M minimum
+min_liquidity = 1000000  # 최소 $1M
 fee_percentage = 300     # 3%
 
 [mainnet.bool]
@@ -62,7 +62,7 @@ usdc = "0x94a9D9AC8a22534E3FaCa9F4e7F2E2cf85d5E4C8"
 multisig = "${SEPOLIA_MULTISIG}"
 
 [sepolia.uint]
-min_liquidity = 1000    # $1k for testing
+min_liquidity = 1000    # 테스트용 $1k
 fee_percentage = 300
 
 [sepolia.bool]
@@ -70,7 +70,7 @@ is_testnet = true
 use_timelock = false
 ```
 
-### 2. Create Your Deployment Script
+### 2. 배포 스크립트 생성
 
 ```solidity
 // script/Deploy.s.sol
@@ -80,26 +80,26 @@ import {Script} from "forge-std/Script.sol";
 import {Config} from "forge-std/Config.sol";
 import {console} from "forge-std/console.sol";
 
-// Import your contracts
+// 컨트랙트 임포트
 import {TokenFactory} from "../src/TokenFactory.sol";
 import {LiquidityPool} from "../src/LiquidityPool.sol";
 import {Governance} from "../src/Governance.sol";
 
 contract DeployScript is Script, Config {
-    // Deployment artifacts
+    // 배포 아티팩트
     TokenFactory public factory;
     LiquidityPool public pool;
     Governance public governance;
 
     function run() public {
-        // Load config and enable write-back for storing deployment addresses
+        // 구성을 로드하고 배포 주소 저장을 위해 쓰기 저장(write-back)을 활성화합니다
         _loadConfig("./deployments.toml", true);
 
-        // Get the chain we're deploying to
+        // 배포 중인 체인 가져오기
         uint256 chainId = block.chainid;
         console.log("Deploying to chain:", chainId);
 
-        // Load configuration values
+        // 구성 값 로드
         address weth = config.get("weth").toAddress();
         address usdc = config.get("usdc").toAddress();
         address multisig = config.get("multisig").toAddress();
@@ -107,10 +107,10 @@ contract DeployScript is Script, Config {
         uint256 feePercentage = config.get("fee_percentage").toUint256();
         bool useTimelock = config.get("use_timelock").toBool();
 
-        // Start broadcasting transactions
+        // 트랜잭션 브로드캐스트 시작
         vm.startBroadcast();
 
-        // Deploy contracts
+        // 컨트랙트 배포
         factory = new TokenFactory(multisig);
         console.log("TokenFactory deployed at:", address(factory));
 
@@ -130,14 +130,14 @@ contract DeployScript is Script, Config {
             console.log("Governance deployed without timelock at:", address(governance));
         }
 
-        // Configure contracts
+        // 컨트랙트 구성
         factory.setLiquidityPool(address(pool));
         pool.setFactory(address(factory));
         pool.setGovernance(address(governance));
 
         vm.stopBroadcast();
 
-        // Save deployment addresses back to config
+        // 배포 주소를 구성에 다시 저장
         config.set("token_factory", address(factory));
         config.set("liquidity_pool", address(pool));
         config.set("governance", address(governance));
@@ -149,11 +149,11 @@ contract DeployScript is Script, Config {
 }
 ```
 
-## Advanced Patterns
+## 고급 패턴
 
-### Multi-Chain Deployments
+### 멀티 체인 배포
 
-Deploy the same contracts across multiple chains with chain-specific configurations:
+체인별 구성을 사용하여 여러 체인에 동일한 컨트랙트를 배포합니다:
 
 ```solidity
 contract MultiChainDeployScript is Script, Config {
@@ -166,34 +166,34 @@ contract MultiChainDeployScript is Script, Config {
     mapping(uint256 => DeploymentResult) public deployments;
 
     function run() public {
-        // Load config and create forks for all chains
+        // 구성을 로드하고 모든 체인에 대한 포크 생성
         _loadConfigAndForks("./deployments.toml", true);
 
-        // Deploy to each configured chain
+        // 구성된 각 체인에 배포
         for (uint256 i = 0; i < chainIds.length; i++) {
             uint256 chainId = chainIds[i];
             deployToChain(chainId);
         }
 
-        // Verify cross-chain configuration
+        // 크로스 체인 구성 검증
         verifyCrossChainSetup();
     }
 
     function deployToChain(uint256 chainId) internal {
-        // Switch to the chain's fork
+        // 체인의 포크로 전환
         vm.selectFork(forkOf[chainId]);
 
         console.log("\n========================================");
         console.log("Deploying to chain:", chainId);
         console.log("========================================");
 
-        // Config automatically uses the current fork's chain ID
+        // Config는 현재 포크의 체인 ID를 자동으로 사용합니다
         address weth = config.get("weth").toAddress();
         bool isTestnet = config.get("is_testnet").toBool();
 
         vm.startBroadcast();
 
-        // Deploy with chain-specific configuration
+        // 체인별 구성으로 배포
         TokenFactory factory = new TokenFactory(
             config.get("multisig").toAddress()
         );
@@ -205,30 +205,30 @@ contract MultiChainDeployScript is Script, Config {
             config.get("fee_percentage").toUint256()
         );
 
-        // Different configuration for testnets vs mainnet
+        // 테스트넷 대 메인넷에 대한 다른 구성
         Governance governance;
         if (isTestnet) {
             governance = new Governance(
                 config.get("multisig").toAddress(),
-                0 // No timelock on testnets
+                0 // 테스트넷에서는 타임락 없음
             );
         } else {
             governance = new Governance(
                 config.get("multisig").toAddress(),
-                2 days // Timelock on mainnet
+                2 days // 메인넷에서는 타임락
             );
         }
 
         vm.stopBroadcast();
 
-        // Store deployment results
+        // 배포 결과 저장
         deployments[chainId] = DeploymentResult({
             factory: address(factory),
             pool: address(pool),
             governance: address(governance)
         });
 
-        // Save to config file
+        // 구성 파일에 저장
         config.set("token_factory", address(factory));
         config.set("liquidity_pool", address(pool));
         config.set("governance", address(governance));
@@ -252,16 +252,16 @@ contract MultiChainDeployScript is Script, Config {
 }
 ```
 
-### Upgrade Scripts with History Tracking
+### 이력 추적이 포함된 업그레이드 스크립트
 
-Track deployment history and manage upgrades:
+배포 기록을 추적하고 업그레이드를 관리합니다:
 
 ```solidity
 contract UpgradeScript is Script, Config {
     function run() public {
         _loadConfig("./deployments.toml", true);
 
-        // Read current deployment
+        // 현재 배포 읽기
         address currentImpl = config.get("implementation_v1").toAddress();
         address proxy = config.get("proxy").toAddress();
 
@@ -270,15 +270,15 @@ contract UpgradeScript is Script, Config {
 
         vm.startBroadcast();
 
-        // Deploy new implementation
+        // 새 구현 배포
         MyContractV2 newImpl = new MyContractV2();
 
-        // Upgrade proxy
+        // 프록시 업그레이드
         IProxy(proxy).upgradeTo(address(newImpl));
 
         vm.stopBroadcast();
 
-        // Archive old implementation and save new one
+        // 이전 구현 보관 및 새 구현 저장
         config.set("implementation_v1_deprecated", currentImpl);
         config.set("implementation_v2", address(newImpl));
         config.set("upgraded_at", block.timestamp);
@@ -290,13 +290,13 @@ contract UpgradeScript is Script, Config {
 }
 ```
 
-## Best Practices
+## 모범 사례
 
-### 1. Chain Configuration
+### 1. 체인 구성
 
-When configuring chains in your TOML files:
+TOML 파일에서 체인을 구성할 때:
 
-**Use numeric chain IDs for maximum compatibility:**
+**최대 호환성을 위해 숫자 체인 ID를 사용하세요:**
 ```toml
 [1]
 endpoint_url = "${MAINNET_RPC}"
@@ -305,7 +305,7 @@ endpoint_url = "${MAINNET_RPC}"
 endpoint_url = "${CUSTOM_CHAIN_RPC}"
 ```
 
-**Use Alloy aliases only for battle-tested chains:**
+**검증된 체인에 대해서만 Alloy 별칭을 사용하세요:**
 ```toml
 [mainnet]
 [optimism]
@@ -313,13 +313,13 @@ endpoint_url = "${CUSTOM_CHAIN_RPC}"
 [base-sepolia]
 ```
 
-**Check Alloy chains before using aliases:**
-- Visit [Alloy chains repository](https://github.com/alloy-rs/chains/blob/main/src/named.rs)
-- Search for your chain's alias. If not found, use the numeric chain ID or consider opening a PR.
+**별칭을 사용하기 전에 Alloy 체인을 확인하세요:**
+- [Alloy 체인 저장소](https://github.com/alloy-rs/chains/blob/main/src/named.rs) 방문
+- 체인의 별칭 검색. 찾을 수 없는 경우 숫자 체인 ID를 사용하거나 PR을 여는 것을 고려하세요.
 
-### 2. Environment Variables
+### 2. 환경 변수
 
-Store sensitive data in environment variables:
+민감한 데이터는 환경 변수에 저장하세요:
 
 ```bash
 # .env
@@ -330,101 +330,102 @@ SEPOLIA_MULTISIG=0x1234567890123456789012345678901234567890
 PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 ```
 
-### 3. Configuration Validation
+### 3. 구성 유효성 검사
 
-Validate configuration before deployment:
+배포 전 구성 유효성 검사:
 
 ```solidity
 function validateConfig() internal view {
-    // Ensure critical addresses are set
+    // 중요한 주소가 설정되었는지 확인
     require(
         config.get("multisig").toAddress() != address(0),
         "Multisig not configured"
     );
 
-    // Validate parameters are within expected ranges
+    // 매개변수가 예상 범위 내에 있는지 확인
     uint256 fee = config.get("fee_percentage").toUint256();
-    require(fee <= 1000, "Fee too high"); // Max 10%
+    require(fee <= 1000, "Fee too high"); // 최대 10%
 
-    // Check chain-specific requirements
+    // 체인별 요구 사항 확인
     if (!config.get("is_testnet").toBool()) {
         require(config.get("use_timelock").toBool(), "Timelock required for mainnet");
     }
 }
 ```
 
-### 4. Separate Config Files
+### 4. 별도의 구성 파일
 
-Use different config files for different purposes:
+목적에 따라 다른 구성 파일 사용:
 
 ```solidity
-// Development deployments
+// 개발 배포
 _loadConfig("./config/dev.toml", true);
 
-// Production deployments
+// 프로덕션 배포
 _loadConfig("./config/prod.toml", true);
 
-// Testing configuration
+// 테스트 구성
 _loadConfig("./config/test.toml", false);
+```
 
-## Running Your Scripts
+## 스크립트 실행
 
-Execute your configuration-driven scripts:
+구성 기반 스크립트 실행:
 
 ```bash
-# Dry run (simulation)
+# 드라이 런 (시뮬레이션)
 forge script script/Deploy.s.sol:DeployScript \
     --rpc-url $SEPOLIA_RPC_URL
 
-# Deploy to testnet
+# 테스트넷에 배포
 forge script script/Deploy.s.sol:DeployScript \
     --rpc-url $SEPOLIA_RPC_URL \
     --private-key $PRIVATE_KEY \
     --broadcast \
     --verify
 
-# Deploy to multiple chains
+# 여러 체인에 배포
 forge script script/MultiChainDeploy.s.sol:MultiChainDeployScript \
     --broadcast \
     --verify
 ```
 
-## Troubleshooting
+## 문제 해결
 
-### Common Issues
+### 일반적인 문제
 
-1. **Environment variables not resolved**: Ensure variables are exported in your shell or defined in `.env`
+1. **환경 변수가 해결되지 않음**: 셸에서 변수가 내보내졌거나 `.env`에 정의되었는지 확인하세요.
 
-2. **File permissions**: Grant file system access in `foundry.toml`:
+2. **파일 권한**: `foundry.toml`에서 파일 시스템 액세스 권한 부여:
    ```toml
    fs_permissions = [{ access = "read-write", path = "./" }]
    ```
 
-3. **`InvalidChainKey` error**: This occurs when using a custom chain name that doesn't match an Alloy chain alias.
+3. **`InvalidChainKey` 오류**: Alloy 체인 별칭과 일치하지 않는 사용자 정의 체인 이름을 사용할 때 발생합니다.
 
-   **Problem:**
+   **문제:**
    ```toml
-   [my_custom_chain]  # This will fail!
+   [my_custom_chain]  # 실패합니다!
    endpoint_url = "..."
    ```
 
-   **Solutions:**
-   - Use the numeric chain ID:
+   **해결책:**
+   - 숫자 체인 ID 사용:
      ```toml
-     [1234]  # Works for any chain
+     [1234]  # 모든 체인에서 작동
      endpoint_url = "..."
      ```
-   - Or use an exact Alloy chain alias (see [supported chains](https://github.com/alloy-rs/chains/blob/main/src/named.rs)):
+   - 또는 정확한 Alloy 체인 별칭 사용 ([지원되는 체인](https://github.com/alloy-rs/chains/blob/main/src/named.rs) 참조):
      ```toml
-     [arbitrum-sepolia]  # Works for supported chains
+     [arbitrum-sepolia]  # 지원되는 체인에서 작동
      endpoint_url = "..."
      ```
 
-4. **Type mismatch errors**: Verify that values in TOML match their declared types (e.g., addresses must be valid hex strings)
+4. **타입 불일치 오류**: TOML의 값이 선언된 타입과 일치하는지 확인하세요 (예: 주소는 유효한 16진수 문자열이어야 함).
 
-## See Also
+## 함께 보기
 
-- [Config Reference](/reference/forge-std/config.mdx)
-- [StdConfig Reference](/reference/forge-std/std-config.mdx)
-- [Scripting with Solidity](/guides/scripting-with-solidity)
-- [Best Practices for Writing Scripts](/guides/best-practices/writing-scripts)
+- [Config 참조](/reference/forge-std/config.mdx)
+- [StdConfig 참조](/reference/forge-std/std-config.mdx)
+- [Solidity로 스크립팅하기](/guides/scripting-with-solidity)
+- [스크립트 작성 모범 사례](/guides/best-practices/writing-scripts)

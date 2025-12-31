@@ -1,58 +1,58 @@
 ---
-title: Foundry Benchmarks
-description: Performance benchmarks for Foundry across different repositories
+title: Foundry 벤치마크
+description: 다양한 저장소에 대한 Foundry 성능 벤치마크
 ---
 
 import BenchmarksTable from "./benches.mdx";
 
-# Foundry Benchmarks
+# Foundry 벤치마크 (Foundry Benchmarks)
 
-This page shows the latest performance benchmarks for Foundry across different repositories. The benchmarks are automatically updated from the [Foundry repository](https://github.com/foundry-rs/foundry/blob/master/benches/LATEST.md).
+이 페이지는 다양한 저장소에 대한 Foundry의 최신 성능 벤치마크를 보여줍니다. 벤치마크는 [Foundry 저장소](https://github.com/foundry-rs/foundry/blob/master/benches/LATEST.md)에서 자동으로 업데이트됩니다.
 
-## Performance Overview
+## 성능 개요 (Performance Overview)
 
-The table below shows benchmark results comparing different versions of Foundry. Each cell displays the baseline time / latest release time, followed by the percentage change.
+아래 표는 다양한 Foundry 버전을 비교한 벤치마크 결과를 보여줍니다. 각 셀은 기준 시간 / 최신 릴리스 시간을 표시하고, 그 뒤에 변동률(%)을 표시합니다.
 
 <BenchmarksTable />
 
-## Benchmark Types
+## 벤치마크 유형 (Benchmark Types)
 
 ### Forge Test
 
-Command: [`forge test`](/forge/tests/overview)
+명령어: [`forge test`](/forge/tests/overview)
 
-Measures the standard test execution time. Runs all the tests in the repository.
+표준 테스트 실행 시간을 측정합니다. 저장소의 모든 테스트를 실행합니다.
 
 ### Forge Fuzz Test
 
-Command: [`forge test --match-test "test[^(]*\([^)]+\)"`](/forge/advanced-testing/fuzz-testing)
+명령어: [`forge test --match-test "test[^(]*\([^)]+\)"`](/forge/advanced-testing/fuzz-testing)
 
-Measure the execution time for fuzz tests.
+퍼즈 테스트의 실행 시간을 측정합니다.
 
 ### Forge Test Isolated
 
-Command: [`forge test --isolate`](/forge/reference/test)
+명령어: [`forge test --isolate`](/forge/reference/test)
 
-Measures the execution time of tests in `isolate` mode.
+`isolate` 모드에서의 테스트 실행 시간을 측정합니다.
 
-In isolation mode all top-level calls are executed as a separate transaction in a separate EVM context, enabling more precise gas accounting and transaction state changes.
+격리 모드에서는 모든 최상위 호출이 별도의 EVM 컨텍스트에서 별도의 트랜잭션으로 실행되어, 더 정밀한 가스 계산 및 트랜잭션 상태 변경이 가능합니다.
 
-### Forge Build (No Cache)
+### Forge Build (캐시 없음) (Forge Build (No Cache))
 
-Command: [`forge build`](/forge/reference/build)
+명령어: [`forge build`](/forge/reference/build)
 
-Measures compilation time on a clean repository i.e no cache available.
+깨끗한 저장소(즉, 캐시 없음)에서의 컴파일 시간을 측정합니다.
 
-### Forge Build (With Cache)
+### Forge Build (캐시 있음) (Forge Build (With Cache))
 
-Command: [`forge build`](/forge/reference/build)
+명령어: [`forge build`](/forge/reference/build)
 
-Measures execution time for `forge build` in presense of full cache. In this case, compilation is skipped and `forge` only check whether the cache is clean or marked as dirty.
+전체 캐시가 있는 상태에서의 `forge build` 실행 시간을 측정합니다. 이 경우 컴파일은 건너뛰고 `forge`는 캐시가 깨끗한지 또는 더티(dirty)로 표시되었는지만 확인합니다.
 
 ### Forge Coverage
 
-Command: [`forge coverage --ir-minimum`](/forge/reference/coverage)
+명령어: [`forge coverage --ir-minimum`](/forge/reference/coverage)
 
-Measures the time taken to analyze and collect test coverage reports.
+테스트 커버리지 보고서를 분석하고 수집하는 데 걸리는 시간을 측정합니다.
 
-It is important to note that this time includes compilation time as well. Before analyzing for coverage every project is recompiled with configuration that will result in accurate coverage reports.
+이 시간에는 컴파일 시간도 포함된다는 점에 유의하는 것이 중요합니다. 커버리지 분석을 수행하기 전에 모든 프로젝트는 정확한 커버리지 보고서를 생성하는 구성으로 다시 컴파일됩니다.

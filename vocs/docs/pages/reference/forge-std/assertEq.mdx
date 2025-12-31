@@ -1,6 +1,6 @@
 ## `assertEq`
 
-### Signature
+### 시그니처
 
 #### `bool`
 
@@ -142,10 +142,10 @@ function assertEq(bytes[] memory left, bytes[] memory right) internal;
 function assertEq(bytes[] memory left, bytes[] memory right, string memory err) internal;
 ```
 
-#### Legacy
+#### 레거시 (Legacy)
 
 ```solidity
-// legacy helper for asserting two uints shorter than 256 bits: `assertEqUint(uint8(1), uint128(1));`
+// 256비트보다 짧은 두 uint를 주장하기 위한 레거시 헬퍼: `assertEqUint(uint8(1), uint128(1));`
 function assertEqUint(uint256 a, uint256 b) internal;
 ```
 
@@ -157,13 +157,13 @@ function assertEq32(bytes32 left, bytes32 right) internal;
 function assertEq32(bytes32 left, bytes32 right, string memory err) internal;
 ```
 
-### Description
+### 설명
 
-Asserts `left` is equal to `right`.
+`left`가 `right`와 같다고 주장(assert)합니다.
 
-Optionally includes an error message in the revert string.
+선택적으로 리버트(revert) 문자열에 오류 메시지를 포함할 수 있습니다.
 
-### SEE ALSO
+### 같이 보기
 
 - [`assertEqDecimal`](/reference/forge-std/assertEqDecimal.mdx)
 - [`assertNotEq`](/reference/forge-std/assertNotEq.mdx)

@@ -1,14 +1,14 @@
-## Linter Configuration
+## 린터 구성 (Linter Configuration)
 
-Configuration related to the behavior of the linter. These keys are set in the `[lint]` section.
+린터의 동작과 관련된 구성입니다. 이 키들은 `[lint]` 섹션에 설정됩니다.
 
 ##### `severity`
 
 - Type: array of strings
-- Default: all severities enabled (`high`, `med`, `low`, `info`, `gas`, `codesize`)
+- Default: 모든 심각도 활성화 (`high`, `med`, `low`, `info`, `gas`, `codesize`)
 - Environment: `FOUNDRY_LINT_SEVERITY`
 
-Specifies which lints to run based on severity. If omitted, all severities are checked.
+심각도에 따라 실행할 린트를 지정합니다. 생략하면 모든 심각도를 확인합니다.
 
 ##### `exclude_lints`
 
@@ -16,7 +16,7 @@ Specifies which lints to run based on severity. If omitted, all severities are c
 - Default: `[]`
 - Environment: `FOUNDRY_LINT_EXCLUDE_LINTS`
 
-List of lint IDs to exclude from checking (e.g., `"mixed-case-function"`).
+확인에서 제외할 린트 ID 목록입니다 (예: `"mixed-case-function"`).
 
 ##### `ignore`
 
@@ -24,52 +24,51 @@ List of lint IDs to exclude from checking (e.g., `"mixed-case-function"`).
 - Default: `[]`
 - Environment: `FOUNDRY_LINT_IGNORE`
 
-List of files or patterns to ignore when running the linter. This is a comma-separated list of glob patterns.
+린터를 실행할 때 무시할 파일 또는 패턴 목록입니다. 이는 glob 패턴의 쉼표로 구분된 목록입니다.
 
-## Inline Configuration
+## 인라인 구성 (Inline Configuration)
 
-The linter also offers the ability to disable lints for specific sections of code using inline comment directives.
-This is useful when you need to suppress false positives or have valid reasons for code that would otherwise trigger a lint warning.
+린터는 또한 인라인 주석 지시문을 사용하여 코드의 특정 섹션에 대해 린트를 비활성화하는 기능을 제공합니다.
+이는 오탐(false positives)을 억제해야 하거나 린트 경고를 유발하는 코드에 대한 타당한 이유가 있을 때 유용합니다.
 
-To disable lints using inline config, your comment must follow this format:
+인라인 구성을 사용하여 린트를 비활성화하려면 주석이 다음 형식을 따라야 합니다:
 
 ```
 /// forge-lint: <directive>(<lint-ids>)
 ```
 
-Where:
+여기서:
 
-- `<directive>` is one of the directives from the table below
-- `<lint-ids>` is a comma-separated list of lint identifiers, or `all` to disable all lints
+- `<directive>`는 아래 표의 지시문 중 하나입니다.
+- `<lint-ids>`는 린트 식별자의 쉼표로 구분된 목록이거나, 모든 린트를 비활성화하려면 `all`입니다.
 
-### Supported Inline Directives
+### 지원되는 인라인 지시문 (Supported Inline Directives)
 
-| Directive                       | Description                                                                        | Scope                              |
+| 지시문 (Directive) | 설명 | 범위 (Scope) |
 | ------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------- |
-| `disable-next-item`             | Disables lints for the next code item (contract, function, variable, struct, etc.) | Next item regardless of line count |
-| `disable-line`                  | Disables lints for the current line                                                | Current line only                  |
-| `disable-next-line`             | Disables lints for the next line                                                   | Next line only                     |
-| `disable-start` / `disable-end` | Disables lints for all code between the start and end comments                     | Block of code between directives   |
+| `disable-next-item` | 다음 코드 항목(컨트랙트, 함수, 변수, 구조체 등)에 대한 린트를 비활성화합니다. | 줄 수에 관계없이 다음 항목 |
+| `disable-line` | 현재 줄에 대한 린트를 비활성화합니다. | 현재 줄만 |
+| `disable-next-line` | 다음 줄에 대한 린트를 비활성화합니다. | 다음 줄만 |
+| `disable-start` / `disable-end` | 시작 주석과 끝 주석 사이의 모든 코드에 대한 린트를 비활성화합니다. | 지시문 사이의 코드 블록 |
 
-### Best Practices
+### 모범 사례 (Best Practices)
 
-1. **Be Specific**: Always specify which lint(s) you're disabling rather than using `all`.
-2. **Add Comments**: Explain why you're disabling the lint to help future maintainers.
-3. **Minimize Scope**: Use the most targeted directive possible (e.g., `disable-line` instead of `disable-start/end`).
+1. **구체적으로**: `all`을 사용하기보다는 항상 비활성화하는 린트를 구체적으로 지정하세요.
+2. **주석 추가**: 미래의 유지 관리자를 돕기 위해 린트를 비활성화하는 이유를 설명하세요.
+3. **범위 최소화**: 가능한 가장 타겟팅된 지시문을 사용하세요 (예: `disable-start/end` 대신 `disable-line`).
 
-### Disabling Linter On Build
+### 빌드 시 린터 비활성화 (Disabling Linter On Build)
 
-By default, the linter runs automatically when you build your project with `forge build`.
+기본적으로 `forge build`로 프로젝트를 빌드할 때 린터가 자동으로 실행됩니다.
 
-To disable this behavior, in your `foundry.toml` set:
+이 동작을 비활성화하려면 `foundry.toml`에서 다음과 같이 설정하세요:
 
 ```toml
 [lint]
 lint_on_build = false
 ```
 
-It is however recommended to keep linting enabled during development to catch issues early.
-We are continuously improving the linter and you may be missing out on valuable feedback by disabling it.
+하지만 문제를 조기에 파악하기 위해 개발 중에 린팅을 활성화해 두는 것이 좋습니다.
+우리는 지속적으로 린터를 개선하고 있으며 비활성화하면 귀중한 피드백을 놓칠 수 있습니다.
 
-It is better to configure your `foundry.toml` to only run specific severities by setting the [`severity`](#severity) key, exclude
-certain lints with [`exclude_lints`](#exclude-lints), or ignore certain files with [`ignore`](#ignore).
+[`severity`](#severity) 키를 설정하여 특정 심각도만 실행하거나, [`exclude_lints`](#exclude-lints)로 특정 린트를 제외하거나, [`ignore`](#ignore)로 특정 파일을 무시하도록 `foundry.toml`을 구성하는 것이 더 좋습니다.

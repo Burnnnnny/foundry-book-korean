@@ -1,6 +1,6 @@
 ## `createWallet`
 
-### Signature
+### 서명
 
 ```solidity
   struct Wallet {
@@ -23,15 +23,15 @@
   function createWallet(uint256, string calldata) external returns (Wallet memory);
 ```
 
-### Description
+### 설명
 
-Creates a new Wallet struct when given a parameter to derive the private key from.
+개인 키를 파생할 매개변수가 주어지면 새로운 Wallet 구조체를 생성합니다.
 
-### Tips
+### 팁
 
-[`sign()`](/reference/cheatcodes/sign.mdx) and [`getNonce()`](/reference/cheatcodes/get-nonce.mdx) both have supported function overloads for the Wallet struct as well.
+[`sign()`](/reference/cheatcodes/sign.mdx)과 [`getNonce()`](/reference/cheatcodes/get-nonce.mdx) 또한 Wallet 구조체를 위한 오버로드된 함수를 지원합니다.
 
-### Examples
+### 예제
 
 #### `uint256`
 
