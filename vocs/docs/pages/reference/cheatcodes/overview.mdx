@@ -1,12 +1,11 @@
-## Cheatcodes Reference
+## 치트코드 참조 (Cheatcodes Reference)
 
-Cheatcodes give you powerful assertions, the ability to alter the state of the EVM, mock data, and more.
+치트코드는 강력한 단언문(assertions), EVM 상태 변경, 데이터 모의(mocking) 등의 기능을 제공합니다.
 
-Cheatcodes are made available through use of the cheatcode address (`0x7109709ECfa91a80626fF3989D68f67F5b1DD12D`).
+치트코드는 치트코드 주소(`0x7109709ECfa91a80626fF3989D68f67F5b1DD12D`)를 통해 사용할 수 있습니다.
 
 :::note
-If you encounter errors for this address when using fuzzed addresses in your tests, you may wish to
-exclude it from your fuzz tests by using the following line:
+테스트에서 fuzzed 주소를 사용할 때 이 주소로 인해 오류가 발생하면, 다음 줄을 사용하여 fuzz 테스트에서 제외할 수 있습니다:
 
 ```solidity
  vm.assume(address_ != 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D);
@@ -14,36 +13,36 @@ exclude it from your fuzz tests by using the following line:
 
 :::
 
-You can also access cheatcodes easily via `vm` available in Forge Standard Library's [`Test`](/reference/forge-std/overview) contract.
+Forge 표준 라이브러리의 [`Test`](/reference/forge-std/overview) 컨트랙트에서 제공하는 `vm`을 통해 치트코드에 쉽게 접근할 수도 있습니다.
 
-### Forge Standard Library Cheatcodes
+### Forge 표준 라이브러리 치트코드
 
-Forge Std implements wrappers around cheatcodes, which combine multiple standard cheatcodes to improve development experience. These are not technically cheatcodes, but rather compositions of Forge's cheatcodes.
+Forge Std는 개발 경험을 향상시키기 위해 여러 표준 치트코드를 결합한 래퍼(wrappers)를 구현합니다. 이들은 기술적으로는 치트코드가 아니지만 Forge 치트코드의 조합입니다.
 
-You can view the list of Forge Standard Library's cheatcode wrappers [in the references section](/reference/forge-std/std-cheats.mdx). You can reference the [Forge Std source code](https://github.com/foundry-rs/forge-std/blob/master/src/Test.sol) to learn more about how the wrappers work under the hood.
+Forge 표준 라이브러리의 치트코드 래퍼 목록은 [참조 섹션](/reference/forge-std/std-cheats.mdx)에서 볼 수 있습니다. 래퍼가 내부적으로 어떻게 작동하는지 알아보려면 [Forge Std 소스 코드](https://github.com/foundry-rs/forge-std/blob/master/src/Test.sol)를 참조하세요.
 
-### Cheatcode Types
+### 치트코드 유형
 
-Below are some subsections for the different Forge cheatcodes.
+다음은 다양한 Forge 치트코드에 대한 하위 섹션입니다.
 
-- [Environment](/reference/cheatcodes/environment.mdx): Cheatcodes that alter the state of the EVM.
-- [Assertions](/reference/cheatcodes/assertions.mdx): Cheatcodes that are powerful assertions
-- [Fuzzer](/reference/cheatcodes/fuzzer.mdx): Cheatcodes that configure the fuzzer
-- [External](/reference/cheatcodes/external.mdx): Cheatcodes that interact with external state (files, commands, ...)
-- [Signing](/reference/cheatcodes/signing.mdx): Cheatcodes for signing
-- [Utilities](/reference/cheatcodes/utilities.mdx): Smaller utility cheatcodes
-- [Forking](/reference/cheatcodes/forking.mdx): Forking mode cheatcodes
-- [State snapshots](/reference/cheatcodes/state-snapshots.mdx): State snapshot cheatcodes
-- [RPC](/reference/cheatcodes/rpc.mdx): RPC related cheatcodes
-- [File](/reference/cheatcodes/fs.mdx): Cheatcodes for working with files
+- [환경 (Environment)](/reference/cheatcodes/environment.mdx): EVM의 상태를 변경하는 치트코드.
+- [단언문 (Assertions)](/reference/cheatcodes/assertions.mdx): 강력한 단언문 치트코드
+- [퍼저 (Fuzzer)](/reference/cheatcodes/fuzzer.mdx): 퍼저를 구성하는 치트코드
+- [외부 (External)](/reference/cheatcodes/external.mdx): 외부 상태(파일, 명령어 등)와 상호 작용하는 치트코드
+- [서명 (Signing)](/reference/cheatcodes/signing.mdx): 서명을 위한 치트코드
+- [유틸리티 (Utilities)](/reference/cheatcodes/utilities.mdx): 작은 유틸리티 치트코드
+- [포킹 (Forking)](/reference/cheatcodes/forking.mdx): 포킹 모드 치트코드
+- [상태 스냅샷 (State snapshots)](/reference/cheatcodes/state-snapshots.mdx): 상태 스냅샷 치트코드
+- [RPC](/reference/cheatcodes/rpc.mdx): RPC 관련 치트코드
+- [파일 (File)](/reference/cheatcodes/fs.mdx): 파일 작업을 위한 치트코드
 
-### Add a new cheatcode
+### 새로운 치트코드 추가하기
 
-If you need a new feature, consider [contributing to the Foundry's codebase](https://github.com/foundry-rs/foundry) to add the cheatcode.
+새로운 기능이 필요한 경우, [Foundry 코드베이스에 기여](https://github.com/foundry-rs/foundry)하여 치트코드를 추가하는 것을 고려해 보세요.
 
-### Cheatcodes Interface
+### 치트코드 인터페이스
 
-This is a Solidity interface for all of the cheatcodes present in Forge.
+이것은 Forge에 존재하는 모든 치트코드에 대한 Solidity 인터페이스입니다.
 
 ```solidity
 // [!include ~/snippets/output/vm/Vm.sol]

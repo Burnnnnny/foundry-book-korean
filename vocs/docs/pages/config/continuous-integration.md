@@ -1,8 +1,8 @@
-## Continuous Integration
+## 지속적 통합 (CI)
 
 ### GitHub Actions
 
-To test your project using GitHub Actions, here is a sample workflow:
+GitHub Actions를 사용하여 프로젝트를 테스트하려면, 다음은 워크플로우 예시입니다:
 
 ```yml
 on: [push]
@@ -29,7 +29,7 @@ jobs:
 
 ### Travis CI
 
-To test your project using Travis CI, here is a sample workflow:
+Travis CI를 사용하여 프로젝트를 테스트하려면, 다음은 워크플로우 예시입니다:
 
 ```yml
 language: rust
@@ -49,8 +49,8 @@ script:
 
 ## GitLab CI
 
-To test your project using GitLab CI, here is a sample workflow:
-Note: check out [Policy](https://docs.gitlab.com/runner/executors/docker.html#how-pull-policies-work) to fetch the remote image
+GitLab CI를 사용하여 프로젝트를 테스트하려면, 다음은 워크플로우 예시입니다:
+참고: 원격 이미지를 가져오려면 [정책(Policy)](https://docs.gitlab.com/runner/executors/docker.html#how-pull-policies-work)을 확인하세요.
 
 ```yml
 variables:

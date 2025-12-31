@@ -1,8 +1,8 @@
-## Static Analyzers
+## 정적 분석 도구
 
 ### Slither
 
-To test your project using [slither](https://github.com/crytic/slither), here is a sample `slither.config.json`:
+[slither](https://github.com/crytic/slither)를 사용하여 프로젝트를 테스트하려면, 다음은 `slither.config.json`의 예시입니다:
 
 ```json
 {
@@ -10,33 +10,33 @@ To test your project using [slither](https://github.com/crytic/slither), here is
 }
 ```
 
-To run Slither on the entire project, use this command in the root of the project:
+전체 프로젝트에 대해 Slither를 실행하려면, 프로젝트 루트에서 다음 명령어를 사용하세요:
 
 ```sh
 slither .
 ```
 
-By default (as of version 0.10.0), this will skip tests and scripts. To force inclusion of the tests and scripts, add the `--foundry-compile-all` flag.
+기본적으로(버전 0.10.0 기준), 테스트와 스크립트는 건너뜁니다. 테스트와 스크립트를 포함하려면 `--foundry-compile-all` 플래그를 추가하세요.
 
-To run Slither on a single file, use this command:
+단일 파일에 대해 Slither를 실행하려면 다음 명령어를 사용하세요:
 
 ```sh
 slither src/Contract.sol
 ```
 
-Note, this requires configuring the [solc version in the foundry config file](https://book.getfoundry.sh/config/reference/solidity-compiler#solc_version).
+참고로, 이를 위해서는 [foundry 설정 파일에서 solc 버전](https://book.getfoundry.sh/config/reference/solidity-compiler#solc_version)을 구성해야 합니다.
 
-You do not need to provide remappings via the `solc_remaps` option as Slither will automatically detect remappings in a Foundry project. Slither will invoke `forge` to perform the build.
+`solc_remaps` 옵션을 통해 리매핑을 제공할 필요는 없습니다. Slither가 Foundry 프로젝트에서 자동으로 리매핑을 감지합니다. Slither는 빌드를 수행하기 위해 `forge`를 호출합니다.
 
-See the [Slither wiki](https://github.com/crytic/slither/wiki/Usage) for more information.
+더 많은 정보는 [Slither 위키](https://github.com/crytic/slither/wiki/Usage)를 참조하세요.
 
-In order to use a custom configuration, such as the sample `slither.config.json` mentioned above, the following command is used as mentioned in the [slither-wiki](https://github.com/crytic/slither/wiki/Usage#configuration-file). By default slither looks for the `slither.config.json` but you can define the path and any other `json` file of your choice:
+위에서 언급한 `slither.config.json` 예시와 같은 사용자 정의 설정을 사용하려면, [slither-wiki](https://github.com/crytic/slither/wiki/Usage#configuration-file)에 언급된 대로 다음 명령어를 사용합니다. 기본적으로 slither는 `slither.config.json`을 찾지만, 경로와 다른 `json` 파일을 지정할 수 있습니다:
 
 ```sh
 slither --config-file <path>/file.config.json .
 ```
 
-Example output (Raw):
+예시 출력 (Raw):
 
 ```bash
 Pragma version^0.8.13 (Counter.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.6.12/0.7.6/0.8.7
@@ -51,24 +51,24 @@ Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#public-
 Counter.sol analyzed (1 contracts with 78 detectors), 4 result(s) found
 ```
 
-Slither also has a [GitHub Action](https://github.com/marketplace/actions/slither-action) for CI/CD.
+Slither는 CI/CD를 위한 [GitHub Action](https://github.com/marketplace/actions/slither-action)도 제공합니다.
 
 ### Aderyn
 
-To test your project using [aderyn](https://github.com/cyfrin/aderyn), install the [VS Code extension](https://marketplace.visualstudio.com/items?itemName=Cyfrin.aderyn&ssr=false#overview) supported by Cyfrin.
+[aderyn](https://github.com/cyfrin/aderyn)을 사용하여 프로젝트를 테스트하려면, Cyfrin에서 지원하는 [VS Code 확장 프로그램](https://marketplace.visualstudio.com/items?itemName=Cyfrin.aderyn&ssr=false#overview)을 설치하세요.
 
-To run the tool manually, follow the [Quick Start](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-cli/quickstart) example with video guide.
+도구를 수동으로 실행하려면, 비디오 가이드가 포함된 [빠른 시작](https://cyfrin.gitbook.io/cyfrin-docs/aderyn-cli/quickstart) 예시를 따르세요.
 
 ```bash
 cd path/to/solidity/project/root
 aderyn
 ```
 
-Explore more CLI options [here](https://cyfrin.gitbook.io/cyfrin-docs/cli-options).
+더 많은 CLI 옵션은 [여기](https://cyfrin.gitbook.io/cyfrin-docs/cli-options)에서 확인하세요.
 
 ### Mythril
 
-To test your project using [mythril](https://github.com/ConsenSys/mythril), here is a sample `mythril.config.json`:
+[mythril](https://github.com/ConsenSys/mythril)을 사용하여 프로젝트를 테스트하려면, 다음은 `mythril.config.json`의 예시입니다:
 
 ```json
 {
@@ -80,7 +80,7 @@ To test your project using [mythril](https://github.com/ConsenSys/mythril), here
 }
 ```
 
-Note, you need switch `rustc` to nightly to install `mythril`:
+참고로, `mythril`을 설치하려면 `rustc`를 nightly 버전으로 전환해야 합니다:
 
 ```
 rustup default nightly
@@ -88,9 +88,9 @@ pip3 install mythril
 myth analyze src/Contract.sol --solc-json mythril.config.json
 ```
 
-See the [mythril docs](https://mythril-classic.readthedocs.io/en/develop/) for more information.
+더 많은 정보는 [mythril 문서](https://mythril-classic.readthedocs.io/en/develop/)를 참조하세요.
 
-You can pass custom Solc compiler output to Mythril using the `--solc-json` flag. For example:
+`--solc-json` 플래그를 사용하여 사용자 정의 Solc 컴파일러 출력을 Mythril에 전달할 수 있습니다. 예를 들어:
 
 ```bash
 myth analyze src/Counter.sol --solc-json mythril.config.json
@@ -116,4 +116,4 @@ Solver time: 3.6820807456970215
 The analysis was completed successfully. No issues were detected.
 ```
 
-The findings will be listed at the end of this output if any. Since the default `Counter.sol` doesn't have any logic, `mythx` reports that no issues were found.
+결과가 있다면 출력 끝에 나열됩니다. 기본 `Counter.sol`에는 로직이 없으므로, `mythx`는 문제가 발견되지 않았다고 보고합니다.

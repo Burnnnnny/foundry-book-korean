@@ -1,17 +1,17 @@
-## Shell Autocompletion
+## 셸 자동 완성 (Shell Autocompletion)
 
-You can generate autocompletion shell scripts for `bash`, `elvish`, `fish`, `powershell`, and `zsh`.
+`bash`, `elvish`, `fish`, `powershell`, `zsh`에 대한 자동 완성 셸 스크립트를 생성할(generate) 수 있습니다.
 
 ### zsh
 
-First, ensure that the following is present somewhere in your `~/.zshrc` file (if not, add it):
+먼저, `~/.zshrc` 파일에 다음 내용이 있는지 확인하세요 (없다면 추가하세요):
 
 ```sh
 autoload -U compinit
 compinit -i
 ```
 
-Then run:
+그 다음 실행하세요:
 
 ```sh
 forge completions zsh | sudo tee /usr/local/share/zsh/site-functions/_forge
@@ -19,7 +19,7 @@ cast completions zsh | sudo tee /usr/local/share/zsh/site-functions/_cast
 anvil completions zsh | sudo tee /usr/local/share/zsh/site-functions/_anvil
 ```
 
-For macOS:
+macOS의 경우:
 
 ```sh
 forge completions zsh > /opt/homebrew/completions/zsh/_forge
