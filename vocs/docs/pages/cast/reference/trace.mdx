@@ -1,32 +1,33 @@
-## cast constructor-args
+## cast trace
 
-Display constructor arguments used for the contract initialization
+CLI arguments for `cast trace`
 
 ```bash
-$ cast constructor-args --help
+$ cast trace --help
 ```
 
 ```txt
-Usage: cast constructor-args [OPTIONS] <CONTRACT>
+Usage: cast trace [OPTIONS] [TX]
 
 Arguments:
-  <CONTRACT>
-          An Ethereum address, for which the bytecode will be fetched
+  [TX]
+          Transaction hash (for trace_transaction) or raw tx hex/JSON (for
+          trace_rawTransaction with --raw)
 
 Options:
-      --abi-path <ABI_PATH>
-          Path to file containing the contract's JSON ABI. It's necessary if the
-          target contract is not verified on Etherscan
+      --raw
+          Use trace_rawTransaction instead of trace_transaction. Required when
+          passing raw transaction hex or JSON instead of a tx hash
 
-  -e, --etherscan-api-key <KEY>
-          The Etherscan (or equivalent) API key
-          
-          [env: ETHERSCAN_API_KEY=]
+      --trace
+          Include the basic trace of the transaction
 
-  -c, --chain <CHAIN>
-          The chain name or EIP-155 chain ID
-          
-          [env: CHAIN=]
+      --vm-trace
+          Include the full trace of the virtual machine's state during
+          transaction execution
+
+      --state-diff
+          Include state changes caused by the transaction (requires --raw)
 
   -h, --help
           Print help (see a summary with '-h')

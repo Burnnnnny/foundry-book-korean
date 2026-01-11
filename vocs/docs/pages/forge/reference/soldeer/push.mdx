@@ -1,15 +1,19 @@
 ## forge soldeer push
 
-soldeer.xyz 저장소에 종속성을 푸시합니다.
+Push a dependency to the soldeer.xyz repository.
 
-먼저 로그인(`soldeer login`)하거나 soldeer.xyz에서 생성된 유효한 CLI 토큰으로 `SOLDEER_API_TOKEN` 환경 변수를 제공해야 합니다.
+You need to be logged in first (soldeer login) or provide the
+`SOLDEER_API_TOKEN` environment variable with a valid
+CLI token generated on soldeer.xyz.
 
 Examples:
-- 현재 디렉토리: soldeer push mypkg~0.1.0
-- 사용자 지정 디렉토리: soldeer push mypkg~0.1.0 /path/to/dep
-- 드라이 런(Dry run): soldeer push mypkg~0.1.0 --dry-run
+- Current directory: soldeer push mypkg~0.1.0
+- Custom directory: soldeer push mypkg~0.1.0 /path/to/dep
+- Dry run: soldeer push mypkg~0.1.0 --dry-run
 
-특정 파일을 무시하려면 프로젝트 루트에 `.soldeerignore` 파일을 생성하고 무시할 파일을 추가하세요. `.soldeerignore`는 `.gitignore`와 동일한 구문을 사용합니다.
+To ignore certain files, create a `.soldeerignore` file in the root of the
+project and add the files you want to ignore. The `.soldeerignore` uses the same
+syntax as `.gitignore`.
 
 ```bash
 $ forge soldeer push --help
@@ -20,63 +24,68 @@ Usage: forge soldeer push [OPTIONS] <DEPENDENCY>~<VERSION> [PATH]
 
 Arguments:
   <DEPENDENCY>~<VERSION>
-          종속성 이름과 버전. 물결표(tilde)로 구분됩니다.
+          The dependency name and version, separated by a tilde.
           
-          중앙 저장소 `[https://soldeer.xyz](https://soldeer.xyz)`로 종속성을
-          푸시할 때 항상 사용해야 합니다.
+          This should always be used when you want to push a dependency to the
+          central repository: `[https://soldeer.xyz](https://soldeer.xyz)`.
 
   [PATH]
-          푸시하려는 패키지가 현재 디렉토리에 없는 경우 이를 사용합니다.
+          Use this if the package you want to push is not in the current
+          directory.
           
           Example: `soldeer push mypkg~0.1.0 /path/to/dep`.
 
 Options:
   -d, --dry-run
-          설정되면 패키지를 게시하지 않고 검사할 수 있는 zip 파일을 생성합니다.
+          If set, does not publish the package but generates a zip file that can
+          be inspected
 
       --skip-warnings
-          .env와 같은 dotfile을 푸시하려고 할 때 트리거될 수 있는 경고를
-          건너뛰려면 이 옵션을 사용합니다.
+          Use this if you want to skip the warnings that can be triggered when
+          trying to push dotfiles like .env
 
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 
 For more information, read the README.md
 ```

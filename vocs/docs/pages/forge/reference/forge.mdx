@@ -1,6 +1,6 @@
 ## forge
 
-Solidity 컨트랙트를 빌드, 테스트, 퍼즈, 디버그 및 배포합니다.
+Build, test, fuzz, debug and deploy Solidity contracts
 
 ```bash
 $ forge --help
@@ -10,89 +10,96 @@ $ forge --help
 Usage: forge [OPTIONS] <COMMAND>
 
 Commands:
-  bind             스마트 컨트랙트를 위한 Rust 바인딩 생성
-  bind-json        JSON 치트코드를 통한 프로젝트 구조체 직렬화/역직렬화를 위한 바인딩 생성
-  build            프로젝트의 스마트 컨트랙트 빌드 [aliases: b, compile]
-  cache            Foundry 캐시 관리
-  clean            빌드 아티팩트 및 캐시 디렉토리 제거 [aliases:
+  bind             Generate Rust bindings for smart contracts
+  bind-json        Generate bindings for serialization/deserialization of
+                   project structs via JSON cheatcodes
+  build            Build the project's smart contracts [aliases: b, compile]
+  cache            Manage the Foundry cache
+  clean            Remove the build artifacts and cache directories [aliases:
                    cl]
-  clone            Etherscan에서 컨트랙트 복제
-  compiler         컴파일러 유틸리티
-  completions      쉘 자동 완성 스크립트 생성 [aliases: com]
-  config           현재 구성 표시 [aliases: co]
-  coverage         커버리지 보고서 생성
-  create           스마트 컨트랙트 배포 [aliases: c]
-  doc              프로젝트 문서 생성
-  eip712           주어진 파일의 구조체에 대한 EIP-712 구조체 인코딩 생성
-  flatten          소스 파일과 모든 임포트를 하나의 파일로 병합(Flatten)
+  clone            Clone a contract from Etherscan
+  compiler         Compiler utilities
+  completions      Generate shell completions script [aliases: com]
+  config           Display the current config [aliases: co]
+  coverage         Generate coverage reports
+  create           Deploy a smart contract [aliases: c]
+  doc              Generate documentation for the project
+  eip712           Generate EIP-712 struct encodings for structs from a given
+                   file
+  flatten          Flatten a source file and all of its imports into one file
                    [aliases: f]
-  fmt              Solidity 소스 파일 포맷팅
-  geiger           DEPRECATED: 프로젝트 및 종속성에서 안전하지 않은 치트 코드 사용 감지
-  help             이 메시지 또는 주어진 하위 명령의 도움말 인쇄
-  init             새로운 Forge 프로젝트 생성
-  inspect          스마트 컨트랙트에 대한 전문 정보 가져오기 [aliases:
+  fmt              Format Solidity source files
+  geiger           DEPRECATED: Detects usage of unsafe cheat codes in a project
+                   and its dependencies
+  help             Print this message or the help of the given subcommand(s)
+  init             Create a new Forge project
+  inspect          Get specialized information about a smart contract [aliases:
                    in]
-  install          하나 이상의 종속성 설치 [aliases: i, add]
-  lint             Solidity 소스 파일 린트 [aliases: l]
-  remappings       프로젝트에 대해 자동으로 추론된 리매핑 가져오기
+  install          Install one or multiple dependencies [aliases: i, add]
+  lint             Lint Solidity source files [aliases: l]
+  remappings       Get the automatically inferred remappings for the project
                    [aliases: re]
-  remove           하나 이상의 종속성 제거 [aliases: rm]
-  script           스마트 컨트랙트를 스크립트로 실행하여 온체인으로 보낼 수 있는 트랜잭션 구축
-  selectors        함수 선택자(Selector) 유틸리티 [aliases: se]
-  snapshot         각 테스트의 가스 사용량에 대한 가스 스냅샷 생성 [aliases: s]
-  soldeer          Soldeer 종속성 관리자
-  test             프로젝트 테스트 실행 [aliases: t]
-  tree             프로젝트 종속성 그래프의 트리 시각화 표시
-                   [aliases: tr]
-  update           하나 이상의 종속성 업데이트 [aliases: u]
-  verify-bytecode  Etherscan에서 배포된 바이트코드를 소스에 대해 검증
+  remove           Remove one or multiple dependencies [aliases: rm]
+  script           Run a smart contract as a script, building transactions that
+                   can be sent onchain
+  selectors        Function selector utilities [aliases: se]
+  snapshot         Create a gas snapshot of each test's gas usage [aliases: s]
+  soldeer          Soldeer dependency manager
+  test             Run the project's tests [aliases: t]
+  tree             Display a tree visualization of the project's dependency
+                   graph [aliases: tr]
+  update           Update one or multiple dependencies [aliases: u]
+  verify-bytecode  Verify the deployed bytecode against its source on Etherscan
                    [aliases: vb]
-  verify-check     Etherscan에서 검증 상태 확인 [aliases: vc]
-  verify-contract  Etherscan에서 스마트 컨트랙트 검증 [aliases: v]
+  verify-check     Check verification status on Etherscan [aliases: vc]
+  verify-contract  Verify smart contracts on Etherscan [aliases: v]
 
 Options:
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
   -V, --version
-          버전 인쇄
+          Print version
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 
 Find more information in the book: https://getfoundry.sh/forge/overview
 ```
