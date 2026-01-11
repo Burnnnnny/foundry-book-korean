@@ -1,6 +1,6 @@
 ## forge script
 
-스마트 컨트랙트를 스크립트로 실행하여 온체인으로 보낼 수 있는 트랜잭션을 구축합니다.
+Run a smart contract as a script, building transactions that can be sent onchain
 
 ```bash
 $ forge script --help
@@ -11,544 +11,563 @@ Usage: forge script [OPTIONS] <PATH> [ARGS]...
 
 Arguments:
   <PATH>
-          실행하려는 컨트랙트. 파일 경로 또는 컨트랙트 이름.
+          The contract you want to run. Either the file path or contract name.
           
-          동일한 파일에 여러 컨트랙트가 존재하는 경우 --target-contract로
-          대상 컨트랙트를 지정해야 합니다.
+          If multiple contracts exist in the same file you must specify the
+          target contract with --target-contract.
 
   [ARGS]...
-          스크립트 함수에 전달할 인수
+          Arguments to pass to the script function
 
 Options:
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
       --target-contract <CONTRACT_NAME>
-          실행하려는 컨트랙트의 이름
+          The name of the contract you want to run
           
           [aliases: --tc]
 
   -s, --sig <SIG>
-          컨트랙트에서 호출하려는 함수의 서명 또는 원시 calldata
+          The signature of the function you want to call in the contract, or raw
+          calldata
           
           [default: run]
 
       --priority-gas-price <PRICE>
-          EIP1559 트랜잭션에 대한 가스당 최대 우선 수수료
+          Max priority fee per gas for EIP1559 transactions
           
           [env: ETH_PRIORITY_GAS_PRICE=]
 
       --legacy
-          EIP1559 트랜잭션 대신 레거시 트랜잭션 사용.
+          Use legacy transactions instead of EIP1559 ones.
           
-          EIP1559가 없는 일반적인 네트워크에 대해 자동으로 활성화됩니다.
+          This is auto-enabled for common networks without EIP1559.
 
       --broadcast
-          트랜잭션 브로드캐스트
+          Broadcasts the transactions
 
       --batch-size <BATCH_SIZE>
-          트랜잭션의 배치 크기.
+          Batch size of transactions.
           
-          배치를 사용할 수 없거나 `--slow`가 활성화된 경우 이 값은 무시되고
-          1로 설정됩니다.
+          This is ignored and set to 1 if batching is not available or `--slow`
+          is enabled.
           
           [default: 100]
 
       --skip-simulation
-          온체인 시뮬레이션 건너뛰기
+          Skips on-chain simulation
 
   -g, --gas-estimate-multiplier <GAS_ESTIMATE_MULTIPLIER>
-          가스 추정치에 곱할 상대적 백분율
+          Relative percentage to multiply gas estimates by
           
           [default: 130]
 
       --unlocked
-          `--sender` 인수를 발신자로 사용하여 `eth_sendTransaction`을 통해 전송
+          Send via `eth_sendTransaction` using the `--sender` argument as sender
 
       --resume
-          이전에 실패하거나 타임아웃된 트랜잭션 제출을 재개합니다.
+          Resumes submitting transactions that failed or timed-out previously.
           
-          스크립트를 다시 시뮬레이션하지 않으며, 논스(nonce)가 동일하게 유지된
-          것으로 가정합니다.
+          It DOES NOT simulate the script again and it expects nonces to have
+          remained the same.
           
-          예: 트랜잭션 N의 논스가 22인 경우 계정의 논스도 22여야 하며,
-          그렇지 않으면 실패합니다.
+          Example: If transaction N has a nonce of 22, then the account should
+          have a nonce of 22, otherwise it fails.
 
       --multi
-          이 옵션이 있으면 --resume 또는 --verify는 다중 체인 배포로 가정됩니다.
+          If present, --resume or --verify will be assumed to be a multi chain
+          deployment
 
       --debug
-          디버거에서 스크립트 열기.
+          Open the script in the debugger.
           
-          broadcast보다 우선순위가 높습니다.
+          Takes precedence over broadcast.
 
       --dump <PATH>
-          모든 디버거 단계를 파일로 덤프
+          Dumps all debugger steps to file
 
       --slow
-          이전 트랜잭션이 확인되고 성공한 후에만 트랜잭션이 전송되도록 합니다.
+          Makes sure a transaction is sent, only after its previous one has been
+          confirmed and succeeded
 
       --non-interactive
-          큰 컨트랙트를 배포할 때 나타날 수 있는 대화형 프롬프트 비활성화.
+          Disables interactive prompts that might appear when deploying big
+          contracts.
           
-          컨트랙트 크기 제한에 대한 자세한 정보는 EIP-170 참조:
+          For more info on the contract size limit, see EIP-170:
           [https://eips.ethereum.org/EIPS/eip-170](https://eips.ethereum.org/EIPS/eip-170)
 
       --disable-code-size-limit
-          스크립트 실행 중 컨트랙트 크기 제한 비활성화
+          Disables the contract size limit during script execution
 
       --disable-labels
-          트레이스에서 레이블 비활성화
+          Disables the labels in the traces
 
       --etherscan-api-key <KEY>
-          Etherscan (또는 동등한) API 키
+          The Etherscan (or equivalent) API key
           
           [env: ETHERSCAN_API_KEY=]
 
       --verify
-          스크립트 영수증에서 발견된 모든 컨트랙트 검증 (있는 경우)
+          Verifies all the contracts found in the receipts of a script, if any
 
       --with-gas-price <PRICE>
-          레거시 트랜잭션의 가스 가격, 또는 EIP1559 트랜잭션의 가스당 최대
-          수수료. wei 단위 또는 단위 유형이 포함된 문자열로 지정.
+          Gas price for legacy transactions, or max fee per gas for EIP1559
+          transactions, either specified in wei, or as a string with a unit
+          type.
           
-          예: 1ether, 10gwei, 0.01ether
+          Examples: 1ether, 10gwei, 0.01ether
           
           [env: ETH_GAS_PRICE=]
 
       --timeout <TIMEOUT>
-          트랜잭션 브로드캐스팅에 사용할 타임아웃
+          Timeout to use for broadcasting transactions
           
           [env: ETH_TIMEOUT=]
 
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
 Display options:
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
 Cache options:
       --force
-          캐시 및 아티팩트 폴더를 지우고 재컴파일
+          Clear the cache and artifacts folder and recompile
 
 Build options:
       --no-cache
-          캐시 비활성화
+          Disable the cache
 
       --dynamic-test-linking
-          동적 테스트 링킹 활성화
+          Enable dynamic test linking
 
       --skip <SKIP>...
-          이름에 주어진 필터가 포함된 파일 빌드 건너뛰기.
+          Skip building files whose names contain the given filter.
           
-          `test`와 `script`는 `.t.sol`과 `.s.sol`의 별칭입니다.
+          `test` and `script` are aliases for `.t.sol` and `.s.sol`.
 
 Linker options:
       --libraries <LIBRARIES>
-          사전 링크된 라이브러리 설정
+          Set pre-linked libraries
           
           [env: DAPP_LIBRARIES=]
 
 Compiler options:
       --ignored-error-codes <ERROR_CODES>
-          오류 코드로 solc 경고 무시
+          Ignore solc warnings by error code
 
   -D, --deny <LEVEL>
-          지정된 진단 수준에서 컴파일러 오류가 트리거됩니다.
+          A compiler error will be triggered at the specified diagnostic level.
           
-          사용 중단된 `--deny-warnings` 플래그를 대체합니다.
+          Replaces the deprecated `--deny-warnings` flag.
           
-          가능한 값: - `never`: 어떤 진단도 오류로 처리하지 않음. -
-          `warnings`: 경고를 오류로 처리. - `notes`: 경고와 노트(notes)
-          모두 오류로 처리.
+          Possible values: - `never`: Do not treat any diagnostics as errors. -
+          `warnings`: Treat warnings as errors. - `notes`: Treat both, warnings
+          and notes, as errors.
 
-          가능한 값:
-          - never:    항상 0 코드로 종료
-          - warnings: 경고가 발견되면 0이 아닌 코드로 종료
-          - notes:    노트나 경고가 발견되면 0이 아닌 코드로 종료
+          Possible values:
+          - never:    Always exit with zero code
+          - warnings: Exit with a non-zero code if any warnings are found
+          - notes:    Exit with a non-zero code if any notes or warnings are
+            found
 
       --no-auto-detect
-          `solc` 버전을 자동 감지하지 않음
+          Do not auto-detect the `solc` version
 
       --use <SOLC_VERSION>
-          빌드할 solc 버전을 지정하거나 로컬 solc 경로 지정.
+          Specify the solc version, or a path to a local solc, to build with.
           
-          유효한 값은 `x.y.z`, `solc:x.y.z` 또는 `path/to/solc` 형식입니다.
+          Valid values are in the format `x.y.z`, `solc:x.y.z` or
+          `path/to/solc`.
 
       --offline
-          네트워크에 액세스하지 않음.
+          Do not access the network.
           
-          누락된 solc 버전은 설치되지 않음.
+          Missing solc versions will not be installed.
 
       --via-ir
-          Yul 중간 표현(intermediate representation) 컴파일 파이프라인 사용
+          Use the Yul intermediate representation compilation pipeline
 
       --use-literal-content
-          컴파일 시 URL 대신 리터럴 콘텐츠만 사용하도록 변경
+          Changes compilation to only use literal content and not URLs
 
       --no-metadata
-          바이트코드에 메타데이터를 추가하지 않음.
+          Do not append any metadata to the bytecode.
           
-          `bytecode_hash`를 `none`으로, `cbor_metadata`를 `false`로
-          설정하는 것과 동일함.
+          This is equivalent to setting `bytecode_hash` to `none` and
+          `cbor_metadata` to `false`.
 
       --ast
-          컴파일러 출력에 AST를 JSON으로 포함
+          Includes the AST as JSON in the compiler output
 
       --evm-version <VERSION>
-          대상 EVM 버전
+          The target EVM version
 
       --optimize [<OPTIMIZE>]
-          Solidity 최적화기(optimizer) 활성화
+          Activate the Solidity optimizer
           
           [possible values: true, false]
 
       --optimizer-runs <RUNS>
-          실행 횟수(runs)는 배포된 코드의 각 오퍼코드가 컨트랙트 수명 동안
-          대략 얼마나 자주 실행될지를 지정합니다. 이는 코드 크기(배포 비용)와
-          코드 실행 비용(배포 후 비용) 간의 균형 매개변수입니다. `optimizer_runs`
-          매개변수가 `1`이면 짧지만 비싼 코드를 생성합니다. 반면, 더 큰
-          `optimizer_runs` 매개변수는 더 길지만 가스 효율적인 코드를 생성합니다.
+          The number of runs specifies roughly how often each opcode of the
+          deployed code will be executed across the life-time of the contract.
+          This means it is a trade-off parameter between code size (deploy cost)
+          and code execution cost (cost after deployment). An `optimizer_runs`
+          parameter of `1` will produce short but expensive code. In contrast, a
+          larger `optimizer_runs` parameter will produce longer but more gas
+          efficient code
 
       --extra-output <SELECTOR>...
-          컨트랙트 아티팩트에 포함할 추가 출력.
+          Extra output to include in the contract's artifact.
           
-          예제 키: evm.assembly, ewasm, ir, irOptimized, metadata
+          Example keys: evm.assembly, ewasm, ir, irOptimized, metadata
           
-          전체 설명은 다음을 참조하세요:
+          For a full description, see
           [https://docs.soliditylang.org/en/v0.8.13/using-the-compiler.html#input-description](https://docs.soliditylang.org/en/v0.8.13/using-the-compiler.html#input-description)
 
       --extra-output-files <SELECTOR>...
-          별도 파일에 기록할 추가 출력.
+          Extra output to write to separate files.
           
-          유효한 값: metadata, ir, irOptimized, ewasm, evm.assembly
+          Valid values: metadata, ir, irOptimized, ewasm, evm.assembly
 
 Project options:
   -o, --out <PATH>
-          컨트랙트 아티팩트 폴더 경로
+          The path to the contract artifacts folder
 
       --revert-strings <REVERT>
-          리버트 문자열 구성.
+          Revert string configuration.
           
-          가능한 값: "default", "strip" (제거), "debug" (Solidity 생성 리버트
-          문자열) 및 "verboseDebug"
+          Possible values are "default", "strip" (remove), "debug"
+          (Solidity-generated revert strings) and "verboseDebug"
 
       --build-info
-          빌드 정보 파일 생성
+          Generate build info files
 
       --build-info-path <PATH>
-          빌드 정보 파일이 기록될 디렉토리의 출력 경로
+          Output path to directory that build info files will be written to
 
       --root <PATH>
-          프로젝트의 루트 경로.
+          The project's root path.
           
-          기본적으로 Git 저장소의 루트(있는 경우) 또는 현재 작업 디렉토리입니다.
+          By default root of the Git repository, if in one, or the current
+          working directory.
 
   -C, --contracts <PATH>
-          컨트랙트 소스 디렉토리
+          The contracts source directory
 
   -R, --remappings <REMAPPINGS>
-          프로젝트의 리매핑
+          The project's remappings
 
       --remappings-env <ENV>
-          환경(변수)에서 가져온 프로젝트 리매핑
+          The project's remappings from the environment
 
       --cache-path <PATH>
-          컴파일러 캐시 경로
+          The path to the compiler cache
 
       --lib-paths <PATH>
-          라이브러리 폴더 경로
+          The path to the library folder
 
       --hardhat
-          Hardhat 스타일 프로젝트 레이아웃 사용.
+          Use the Hardhat-style project layout.
           
-          다음과 동일함: `--contracts contracts --lib-paths node_modules`.
+          This is the same as using: `--contracts contracts --lib-paths
+          node_modules`.
           
           [aliases: --hh]
 
       --config-path <FILE>
-          구성(config) 파일 경로
+          Path to the config file
 
 Wallet options - raw:
       --interactives <NUM>
-          개인 키를 입력하기 위한 대화형 프롬프트 열기.
+          Open an interactive prompt to enter your private key.
           
-          입력할 키의 개수 값을 받습니다.
+          Takes a value for the number of keys to enter.
           
           [default: 0]
 
   -i, --interactive
-          개인 키를 입력하기 위한 대화형 프롬프트 열기
+          Open an interactive prompt to enter your private key
 
       --private-keys <RAW_PRIVATE_KEYS>
-          제공된 개인 키 사용
+          Use the provided private keys
 
       --private-key <RAW_PRIVATE_KEY>
-          제공된 개인 키 사용
+          Use the provided private key
 
       --mnemonics <MNEMONICS>
-          지정된 경로의 니모닉 파일에 있는 니모닉 문구 사용
+          Use the mnemonic phrases of mnemonic files at the specified paths
 
       --mnemonic-passphrases <PASSPHRASE>
-          니모닉에 BIP39 암호문(passphrase) 사용
+          Use a BIP39 passphrases for the mnemonic
 
       --mnemonic-derivation-paths <PATH>
-          지갑 파생 경로.
+          The wallet derivation path.
           
-          --mnemonic-path 및 하드웨어 지갑 모두에서 작동합니다.
+          Works with both --mnemonic-path and hardware wallets.
 
       --mnemonic-indexes <INDEXES>
-          주어진 니모닉 인덱스의 개인 키 사용.
+          Use the private key from the given mnemonic index.
           
-          --mnemonics, --ledger, --aws 및 --trezor와 함께 사용할 수
-          있습니다.
+          Can be used with --mnemonics, --ledger, --aws and --trezor.
           
           [default: 0]
 
 Wallet options - keystore:
       --keystore <PATHS>
-          주어진 폴더의 파일 이름을 사용하여 키스토어 사용
+          Use the keystore by its filename in the given folder
           
           [env: ETH_KEYSTORE=]
           [aliases: --keystores]
 
       --account <ACCOUNT_NAMES>
-          파일 이름을 사용하여 기본 키스토어 폴더(~/.foundry/keystores)의
-          키스토어 사용
+          Use a keystore from the default keystores folder
+          (~/.foundry/keystores) by its filename
           
           [env: ETH_KEYSTORE_ACCOUNT=]
           [aliases: --accounts]
 
       --password <PASSWORDS>
-          키스토어 비밀번호.
+          The keystore password.
           
-          --keystore와 함께 사용됩니다.
+          Used with --keystore.
 
       --password-file <PATHS>
-          키스토어 비밀번호 파일 경로.
+          The keystore password file path.
           
-          --keystore와 함께 사용됩니다.
+          Used with --keystore.
           
           [env: ETH_PASSWORD=]
 
 Wallet options - hardware wallet:
   -l, --ledger
-          Ledger 하드웨어 지갑 사용
+          Use a Ledger hardware wallet
 
   -t, --trezor
-          Trezor 하드웨어 지갑 사용
+          Use a Trezor hardware wallet
 
 Wallet options - remote:
       --aws
-          AWS Key Management Service 사용.
+          Use AWS Key Management Service.
           
-          AWS_KMS_KEY_IDS (콤마로 구분) 또는 AWS_KMS_KEY_ID 환경 변수 중 하나가
-          설정되어 있는지 확인하세요.
+          Ensure either one of AWS_KMS_KEY_IDS (comma-separated) or
+          AWS_KMS_KEY_ID environment variables are set.
 
       --gcp
-          Google Cloud Key Management Service 사용.
+          Use Google Cloud Key Management Service.
           
-          GCP_PROJECT_ID, GCP_LOCATION, GCP_KEY_RING, GCP_KEY_NAME,
-          GCP_KEY_VERSION 환경 변수가 설정되어 있는지 확인하세요.
+          Ensure the following environment variables are set: GCP_PROJECT_ID,
+          GCP_LOCATION, GCP_KEY_RING, GCP_KEY_NAME, GCP_KEY_VERSION.
           
-          참조: [https://cloud.google.com/kms/docs](https://cloud.google.com/kms/docs)
+          See: [https://cloud.google.com/kms/docs](https://cloud.google.com/kms/docs)
 
       --turnkey
-          Turnkey 사용.
+          Use Turnkey.
           
-          TURNKEY_API_PRIVATE_KEY, TURNKEY_ORGANIZATION_ID, TURNKEY_ADDRESS
-          환경 변수가 설정되어 있는지 확인하세요.
+          Ensure the following environment variables are set:
+          TURNKEY_API_PRIVATE_KEY, TURNKEY_ORGANIZATION_ID, TURNKEY_ADDRESS.
           
-          참조: [https://docs.turnkey.com/getting-started/quickstart](https://docs.turnkey.com/getting-started/quickstart)
+          See: [https://docs.turnkey.com/getting-started/quickstart](https://docs.turnkey.com/getting-started/quickstart)
 
 EVM options:
   -f, --fork-url <URL>
-          빈 상태에서 시작하는 대신 원격 엔드포인트에서 상태 가져오기.
+          Fetch state over a remote endpoint instead of starting from an empty
+          state.
           
-          특정 블록 번호에서 상태를 가져오려면 --fork-block-number 참조.
+          If you want to fetch state from a specific block number, see
+          --fork-block-number.
           
           [aliases: --rpc-url]
 
       --fork-block-number <BLOCK>
-          원격 엔드포인트에서 특정 블록 번호의 상태 가져오기.
+          Fetch state from a specific block number over a remote endpoint.
           
-          --fork-url 참조.
+          See --fork-url.
 
       --fork-retries <RETRIES>
-          재시도 횟수.
+          Number of retries.
           
-          --fork-url 참조.
+          See --fork-url.
 
       --fork-retry-backoff <BACKOFF>
-          오류 발생 시 초기 재시도 백오프(backoff).
+          Initial retry backoff on encountering errors.
           
-          --fork-url 참조.
+          See --fork-url.
 
       --no-storage-caching
-          RPC 캐싱 사용을 명시적으로 비활성화.
+          Explicitly disables the use of RPC caching.
           
-          모든 스토리지 슬롯을 엔드포인트에서 완전히 읽음.
+          All storage slots are read entirely from the endpoint.
           
-          이 플래그는 프로젝트의 구성 파일을 덮어씀.
+          This flag overrides the project's configuration file.
           
-          --fork-url 참조.
+          See --fork-url.
 
       --initial-balance <BALANCE>
-          배포된 테스트 컨트랙트의 초기 잔액
+          The initial balance of deployed test contracts
 
       --sender <ADDRESS>
-          테스트/스크립트를 실행할 주소
+          The address which will be executing tests/scripts
 
       --ffi
-          FFI 치트코드 활성화
+          Enable the FFI cheatcode
 
       --always-use-create-2-factory
-          테스트 및 비-브로드캐스팅 스크립트를 포함한 모든 경우에 create 2
-          팩토리 사용
+          Use the create 2 factory in all cases including tests and
+          non-broadcasting scripts
 
       --create2-deployer <ADDRESS>
-          사용할 CREATE2 배포자 주소. 구성(config)에 있는 주소를 덮어씀
+          The CREATE2 deployer address to use, this will override the one in the
+          config
 
 Fork config:
       --compute-units-per-second <CUPS>
-          이 공급자에 대해 가정된 초당 사용 가능한 컴퓨팅 유닛 수 설정
+          Sets the number of assumed available compute units per second for this
+          provider
           
-          기본값: 330
+          default value: 330
           
-          --fork-url 및
-          [https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second](https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second) 참조
+          See also --fork-url and
+          [https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second](https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second)
 
       --no-rpc-rate-limit
-          이 노드 공급자에 대한 속도 제한 비활성화.
+          Disables rate limiting for this node's provider.
           
-          --fork-url 및
-          [https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second](https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second) 참조
+          See also --fork-url and
+          [https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second](https://docs.alchemy.com/reference/compute-units#what-are-cups-compute-units-per-second)
           
           [aliases: --no-rate-limit]
 
 Executor environment config:
       --code-size-limit <CODE_SIZE>
-          EIP-170: 바이트 단위의 컨트랙트 코드 크기 제한. 테스트 때문에
-          늘리는 데 유용함. 기본값은 0x6000 (~25kb)
+          EIP-170: Contract code size limit in bytes. Useful to increase this
+          because of tests. By default, it is 0x6000 (~25kb)
 
       --chain <CHAIN>
-          체인 이름 또는 EIP-155 체인 ID
+          The chain name or EIP-155 chain ID
           
           [aliases: --chain-id]
 
       --gas-price <GAS_PRICE>
-          가스 가격
+          The gas price
 
       --block-base-fee-per-gas <FEE>
-          블록의 기본 수수료(base fee)
+          The base fee in a block
           
           [aliases: --base-fee]
 
       --tx-origin <ADDRESS>
-          트랜잭션 원점(origin)
+          The transaction origin
 
       --block-coinbase <ADDRESS>
-          블록의 코인베이스
+          The coinbase of the block
 
       --block-timestamp <TIMESTAMP>
-          블록의 타임스탬프
+          The timestamp of the block
 
       --block-number <BLOCK>
-          블록 번호
+          The block number
 
       --block-difficulty <DIFFICULTY>
-          블록 난이도
+          The block difficulty
 
       --block-prevrandao <PREVRANDAO>
-          블록 prevrandao 값. 참고: 병합(merge) 전에는 이 필드가 mix_hash였음
+          The block prevrandao value. NOTE: Before merge this field was mix_hash
 
       --block-gas-limit <BLOCK_GAS_LIMIT>
-          블록 가스 제한
+          The block gas limit
           
           [aliases: --gas-limit]
 
       --memory-limit <MEMORY_LIMIT>
-          바이트 단위의 EVM 실행 당 메모리 제한. 이 제한을 초과하면
-          `MemoryLimitOOG` 결과가 발생함.
+          The memory limit per EVM execution in bytes. If this limit is
+          exceeded, a `MemoryLimitOOG` result is thrown.
           
-          기본값은 128MiB.
+          The default is 128MiB.
 
       --disable-block-gas-limit
-          블록 가스 제한 검사 비활성화 여부
+          Whether to disable the block gas limit checks
           
           [aliases: --no-block-gas-limit, --no-gas-limit]
 
       --enable-tx-gas-limit
-          Osaka (EIP-7825)에 의해 부과된 트랜잭션 가스 제한 검사 활성화 여부
+          Whether to enable tx gas limit checks as imposed by Osaka (EIP-7825)
           
           [aliases: --tx-gas-limit]
 
       --isolate
-          호출 격리 활성화 여부. 격리 모드에서는 모든 최상위 호출이 별도의
-          EVM 컨텍스트에서 별도의 트랜잭션으로 실행되어 더 정확한 가스 회계
-          및 트랜잭션 상태 변경을 가능하게 함
+          Whether to enable isolation of calls. In isolation mode all top-level
+          calls are executed as a separate transaction in a separate EVM
+          context, enabling more precise gas accounting and transaction state
+          changes
 
       --retries <RETRIES>
-          검증 재시도 횟수
+          Number of attempts for retrying verification
           
           [default: 5]
 
       --delay <DELAY>
-          검증 시도 사이에 적용할 선택적 지연 시간(초)
+          Optional delay to apply in between verification attempts, in seconds
           
           [default: 5]
 
 Verifier options:
       --verifier <VERIFIER>
-          사용할 컨트랙트 검증 공급자
+          The contract verification provider to use
 
-          가능한 값:
+          Possible values:
           - etherscan
           - sourcify
           - blockscout
           - oklink
-          - custom:     사용자 정의 검증 공급자, Etherscan API와 호환 필요
+          - custom:     Custom verification provider, requires compatibility
+            with the Etherscan API
           
           [default: sourcify]
 
       --verifier-api-key <VERIFIER_API_KEY>
-          사용자 정의 공급자를 사용하는 경우 검증자 API 키
+          The verifier API KEY, if using a custom provider
           
           [env: VERIFIER_API_KEY=]
 
       --verifier-url <VERIFIER_URL>
-          사용자 정의 공급자를 사용하는 경우 검증자 URL
+          The verifier URL, if using a custom provider
           
           [env: VERIFIER_URL=]
 ```

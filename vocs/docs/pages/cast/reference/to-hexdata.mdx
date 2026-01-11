@@ -1,12 +1,10 @@
 ## cast to-hexdata
 
-입력을 소문자, 0x 접두사가 붙은 hex로 정규화합니다.
+Normalize the input to lowercase, 0x-prefixed hex.
 
-입력값은 다음이 될 수 있습니다:
-- 0x 접두사가 있거나 없는 혼합 대소문자 hex
-- ':'로 연결된 0x 접두사가 있는 hex
-- 파일의 절대 경로
-- 환경 변수에 정의된 태그 (@tag)
+The input can be: - mixed case hex with or without 0x prefix - 0x prefixed hex,
+concatenated with a ':' - an absolute path to file - @tag, where the tag is
+defined in an environment variable
 
 ```bash
 $ cast to-hexdata --help
