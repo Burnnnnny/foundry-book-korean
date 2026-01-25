@@ -1,6 +1,6 @@
 ## forge tree
 
-프로젝트 종속성 그래프의 트리 시각화를 표시합니다.
+Display a tree visualization of the project's dependency graph
 
 ```bash
 $ forge tree --help
@@ -11,83 +11,88 @@ Usage: forge tree [OPTIONS]
 
 Options:
       --no-dedupe
-          중복 제거를 하지 않습니다 (모든 공유 종속성을 반복함)
+          Do not de-duplicate (repeats all shared dependencies)
 
       --charset <CHARSET>
-          출력에 사용할 문자 집합.
+          Character set to use in output.
           
           [possible values: utf8, ascii]
           
           [default: utf8]
 
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
 Project options:
       --root <PATH>
-          프로젝트의 루트 경로.
+          The project's root path.
           
-          기본적으로 Git 저장소의 루트(있는 경우) 또는 현재 작업 디렉토리입니다.
+          By default root of the Git repository, if in one, or the current
+          working directory.
 
   -C, --contracts <PATH>
-          컨트랙트 소스 디렉토리
+          The contracts source directory
 
   -R, --remappings <REMAPPINGS>
-          프로젝트의 리매핑
+          The project's remappings
 
       --remappings-env <ENV>
-          환경(변수)에서 가져온 프로젝트 리매핑
+          The project's remappings from the environment
 
       --cache-path <PATH>
-          컴파일러 캐시 경로
+          The path to the compiler cache
 
       --lib-paths <PATH>
-          라이브러리 폴더 경로
+          The path to the library folder
 
       --hardhat
-          Hardhat 스타일 프로젝트 레이아웃 사용.
+          Use the Hardhat-style project layout.
           
-          다음과 동일함: `--contracts contracts --lib-paths node_modules`.
+          This is the same as using: `--contracts contracts --lib-paths
+          node_modules`.
           
           [aliases: --hh]
 
       --config-path <FILE>
-          구성(config) 파일 경로
+          Path to the config file
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 ```

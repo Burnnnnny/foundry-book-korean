@@ -1,6 +1,6 @@
 ## cast tx-pool status
 
-트랜잭션 풀의 현재 상태를 가져옵니다.
+Fetches the current status of the transaction pool
 
 ```bash
 $ cast tx-pool status --help
@@ -30,6 +30,14 @@ Rpc options:
           
           When the provider's inner runtime transport variant is HTTP, this
           configures the reqwest client to accept invalid certificates.
+
+      --no-proxy
+          Disable automatic proxy detection.
+          
+          Use this in sandboxed environments (e.g., Cursor IDE sandbox, macOS
+          App Sandbox) where system proxy detection causes crashes. When
+          enabled, HTTP_PROXY/HTTPS_PROXY environment variables and system proxy
+          settings will be ignored.
 
       --flashbots
           Use the Flashbots RPC URL with fast mode
@@ -69,10 +77,13 @@ Rpc options:
           
           [env: ETH_RPC_HEADERS=]
 
+      --curl
+          Print the equivalent curl command instead of making the RPC request
+
 Display options:
       --color <COLOR>
           The color of the log messages
-          
+
           Possible values:
           - auto:   Intelligently guess whether to use color output (default)
           - always: Force color output

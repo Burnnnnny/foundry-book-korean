@@ -1,6 +1,6 @@
 ## forge doc
 
-프로젝트의 문서를 생성합니다.
+Generate documentation for the project
 
 ```bash
 $ forge doc --help
@@ -11,110 +11,115 @@ Usage: forge doc [OPTIONS]
 
 Options:
       --root <PATH>
-          프로젝트의 루트 경로.
+          The project's root path.
           
-          기본적으로 Git 저장소의 루트(있는 경우) 또는 현재 작업 디렉토리입니다.
+          By default root of the Git repository, if in one, or the current
+          working directory.
 
   -o, --out <PATH>
-          문서 출력 경로.
+          The doc's output path.
           
-          기본적으로 프로젝트 루트의 `docs/`입니다.
+          By default, it is the `docs/` in project root.
 
   -b, --build
-          생성된 파일에서 `mdbook` 빌드
+          Build the `mdbook` from generated files
 
   -s, --serve
-          문서 서빙(serve)
+          Serve the documentation
 
       --open
-          서빙 후 브라우저에서 문서 열기
+          Open the documentation in a browser after serving
 
       --hostname <HOSTNAME>
-          문서 서빙을 위한 호스트 이름
+          Hostname for serving documentation
 
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
 Watch options:
   -w, --watch [<PATH>...]
-          변경 사항에 대해 주어진 파일 또는 디렉토리 감시.
+          Watch the given files or directories for changes.
           
-          경로가 제공되지 않으면 프로젝트의 소스 및 테스트 디렉토리가
-          감시됩니다.
+          If no paths are provided, the source and test directories of the
+          project are watched.
 
       --no-restart
-          명령이 아직 실행 중일 때 재시작하지 않음
+          Do not restart the command while it's still running
 
       --run-all
-          변경이 발생했을 때 명시적으로 모든 테스트 다시 실행.
+          Explicitly re-run all tests when a change is made.
           
-          기본적으로 마지막으로 수정된 테스트 파일의 테스트만 실행됩니다.
+          By default, only the tests of the last modified test file are
+          executed.
 
       --rerun-failed
-          변경이 발생했을 때 이전에 실패한 테스트만 먼저 다시 실행.
+          Re-run only previously failed tests first when a change is made.
           
-          이전에 실패한 모든 테스트가 통과하면 전체 테스트 스위트가 자동으로
-          실행됩니다. 이는 실패에 대한 빠른 피드백을 원하는 TDD 워크플로에
-          특히 유용합니다.
+          If all previously failed tests pass, the full test suite will be run
+          automatically. This is particularly useful for TDD workflows where you
+          want fast feedback on failures.
 
       --watch-delay <DELAY>
-          파일 업데이트 디바운스 지연.
+          File update debounce delay.
           
-          지연 시간 동안 들어오는 변경 이벤트가 누적되며 지연이 지나면
-          조치가 취해집니다. 이는 명령이 시작된다는 의미는 아닙니다:
-          --no-restart가 주어지고 명령이 이미 실행 중인 경우 조치의 결과는
-          아무것도 하지 않는 것입니다.
+          During the delay, incoming change events are accumulated and only once
+          the delay has passed, is an action taken. Note that this does not mean
+          a command will be started: if --no-restart is given and a command is
+          already running, the outcome of the action will be to do nothing.
           
-          기본값은 50ms입니다. 기본적으로 십진수 초(seconds)로 파싱되지만,
-          `ms` 접미사와 함께 정수를 사용하는 것이 더 편리할 수 있습니다.
+          Defaults to 50ms. Parses as decimal seconds by default, but using an
+          integer with the `ms` suffix may be more convenient.
           
-          --poll 모드를 사용할 때는 더 긴 기간을 원하거나 디스크 I/O 과부하
-          위험이 있습니다.
+          When using --poll mode, you'll want a larger duration, or risk
+          overloading disk I/O.
 
   -p, --port <PORT>
-          문서 서빙을 위한 포트
+          Port for serving documentation
 
       --deployments [<DEPLOYMENTS>]
-          `hardhat-deploy` 또는 `forge-deploy` 아티팩트 디렉토리의 상대 경로.
-          기본값은 비워둡니다.
+          The relative path to the `hardhat-deploy` or `forge-deploy` artifact
+          directory. Leave blank for default
 
   -i, --include-libraries
-          외부 라이브러리에 대한 문서를 생성할지 여부
+          Whether to create docs for external libraries
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 ```

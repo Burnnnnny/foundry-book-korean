@@ -1,6 +1,6 @@
 ## cast create2
 
-CREATE2를 사용하여 결정적 컨트랙트 주소를 생성합니다.
+Generate a deterministic contract address using CREATE2
 
 ```bash
 $ cast create2 --help
@@ -11,78 +11,82 @@ Usage: cast create2 [OPTIONS]
 
 Options:
   -s, --starts-with <HEX>
-          컨트랙트 주소의 접두사(Prefix)
+          Prefix for the contract address
 
   -e, --ends-with <HEX>
-          컨트랙트 주소의 접미사(Suffix)
+          Suffix for the contract address
 
   -m, --matching <HEX>
-          주소가 일치해야 하는 시퀀스
+          Sequence that the address has to match
 
   -c, --case-sensitive
-          대소문자 구분 매칭
+          Case sensitive matching
 
   -d, --deployer <ADDRESS>
-          컨트랙트 배포자의 주소
+          Address of the contract deployer
           
           [default: 0x4e59b44847b379578588920ca78fbf26c0b4956c]
 
       --salt <HEX>
-          컨트랙트 배포에 사용할 솔트(Salt). 이 옵션은 기본 솔트 마이닝 필터와
-          별개입니다.
+          Salt to be used for the contract deployment. This option separate from
+          the default salt mining with filters
 
   -i, --init-code <HEX>
-          배포할 컨트랙트의 초기화 코드
+          Init code of the contract to be deployed
 
       --init-code-hash <HASH>
-          배포할 컨트랙트의 초기화 코드 해시
+          Init code hash of the contract to be deployed
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
       --caller <ADDRESS>
-          호출자의 주소. 솔트의 처음 20바이트에 사용됩니다.
+          Address of the caller. Used for the first 20 bytes of the salt
 
       --seed <HEX>
-          솔트를 초기화하는 데 사용되는 난수 생성기의 시드
+          The random number generator's seed, used to initialize the salt
 
       --no-random
-          난수 값으로 솔트를 초기화하지 않고 대신 기본값인 0을 사용합니다.
+          Don't initialize the salt with a random value, and instead use the
+          default value of 0
 
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 ```

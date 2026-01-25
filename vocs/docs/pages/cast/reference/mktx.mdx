@@ -1,6 +1,6 @@
 ## cast mktx
 
-트랜잭션을 빌드하고 서명합니다.
+Build and sign a transaction
 
 ```bash
 $ cast mktx --help
@@ -10,111 +10,150 @@ $ cast mktx --help
 Usage: cast mktx [OPTIONS] [TO] [SIG] [ARGS]... [COMMAND]
 
 Commands:
-  --create  원시 컨트랙트 바이트코드를 배포하는 데 사용합니다.
-  help      이 메시지 또는 주어진 하위 명령의 도움말을 인쇄합니다.
+  --create  Use to deploy raw contract bytecode
+  help      Print this message or the help of the given subcommand(s)
 
 Arguments:
   [TO]
-          트랜잭션의 목적지.
+          The destination of the transaction.
           
-          제공되지 않은 경우 `cast mktx --create`를 사용해야 합니다.
+          If not provided, you must use `cast mktx --create`.
 
   [SIG]
-          호출할 함수의 서명
+          The signature of the function to call
 
   [ARGS]...
-          호출할 함수의 인수
+          The arguments of the function to call
 
 Options:
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
 Transaction options:
       --gas-limit <GAS_LIMIT>
-          트랜잭션의 가스 제한
+          Gas limit for the transaction
           
           [env: ETH_GAS_LIMIT=]
 
       --gas-price <PRICE>
-          레거시 트랜잭션의 가스 가격, 또는 EIP1559 트랜잭션의 가스당 최대 수수료.
-          wei로 지정하거나 단위 유형이 있는 문자열로 지정합니다.
+          Gas price for legacy transactions, or max fee per gas for EIP1559
+          transactions, either specified in wei, or as a string with a unit
+          type.
           
           Examples: 1ether, 10gwei, 0.01ether
           
           [env: ETH_GAS_PRICE=]
 
       --priority-gas-price <PRICE>
-          EIP1559 트랜잭션의 가스당 최대 우선 수수료
+          Max priority fee per gas for EIP1559 transactions
           
           [env: ETH_PRIORITY_GAS_PRICE=]
 
       --value <VALUE>
-          트랜잭션에 보낼 이더. wei로 지정하거나 단위 유형이 있는 문자열로 지정합니다.
+          Ether to send in the transaction, either specified in wei, or as a
+          string with a unit type.
           
           Examples: 1ether, 10gwei, 0.01ether
 
       --nonce <NONCE>
-          트랜잭션의 논스(Nonce)
+          Nonce for the transaction
 
       --legacy
-          EIP1559 트랜잭션 대신 레거시 트랜잭션을 보냅니다.
+          Send a legacy transaction instead of an EIP1559 transaction.
           
-          EIP1559가 없는 일반적인 네트워크에서는 자동으로 활성화됩니다.
+          This is automatically enabled for common networks without EIP1559.
 
       --blob
-          EIP-4844 블롭(blob) 트랜잭션을 보냅니다.
+          Send a blob transaction using EIP-7594 (PeerDAS) format.
+          
+          Note: Use with `--eip4844` for the legacy EIP-4844 format.
+
+      --eip4844
+          Send a blob transaction using EIP-4844 (legacy) format instead of
+          EIP-7594. Must be used with `--blob`
 
       --blob-gas-price <BLOB_PRICE>
-          EIP-4844 블롭 트랜잭션의 가스 가격
+          Gas price for EIP-7594/EIP-4844 blob transaction
           
           [env: ETH_BLOB_GAS_PRICE=]
 
       --auth <AUTH>
-          EIP-7702 인증 목록.
+          EIP-7702 authorization list.
           
-          16진수로 인코딩된 서명된 인증 또는 주소일 수 있습니다.
+          Can be either a hex-encoded signed authorization or an address.
 
       --access-list [<ACCESS_LIST>]
-          EIP-2930 액세스 목록.
+          EIP-2930 access list.
           
-          JSON으로 인코딩된 액세스 목록을 받거나, 빈 값을 받아 `eth_createAccessList`에 대한
-          RPC 호출을 통해 액세스 목록을 생성합니다. 액세스 목록 부분만 검색하려면
-          `cast access-list` 명령어를 사용하세요.
+          Accepts either a JSON-encoded access list or an empty value to create
+          the access list via an RPC call to `eth_createAccessList`. To retrieve
+          only the access list portion, use the `cast access-list` command.
 
       --path <BLOB_DATA_PATH>
-          전송할 블롭 데이터의 경로
+          The path of blob data to be sent
+
+Tempo:
+      --tempo.fee-token <FEE_TOKEN>
+          Fee token address for Tempo transactions.
+          
+          When set, builds a Tempo (type 0x76) transaction that pays gas fees in
+          the specified token.
+          
+          If this is not set, the fee token is chosen according to network
+          rules. See the Tempo docs for more information.
+
+      --tempo.seq <SEQUENCE_KEY>
+          Nonce sequence key for Tempo transactions.
+          
+          When set, builds a Tempo (type 0x76) transaction with the specified
+          nonce sequence key.
+          
+          If this is not set, the protocol sequence key (0) will be used.
+          
+          For more information see
+          [https://docs.tempo.xyz/protocol/transactions/spec-tempo-transaction#parallelizable-nonces](https://docs.tempo.xyz/protocol/transactions/spec-tempo-transaction#parallelizable-nonces).
 
 Rpc options:
   -r, --rpc-url <URL>
-          RPC 엔드포인트. 기본값은 http://localhost:8545
+          The RPC endpoint, default value is http://localhost:8545
           
           [env: ETH_RPC_URL=]
 
   -k, --insecure
-          안전하지 않은 RPC 연결 허용 (유효하지 않은 HTTPS 인증서 수락).
+          Allow insecure RPC connections (accept invalid HTTPS certificates).
           
-          공급자의 내부 런타임 전송 변형이 HTTP일 때, 이 옵션은 reqwest 클라이언트가
-          유효하지 않은 인증서를 수락하도록 구성합니다.
+          When the provider's inner runtime transport variant is HTTP, this
+          configures the reqwest client to accept invalid certificates.
+
+      --no-proxy
+          Disable automatic proxy detection.
+          
+          Use this in sandboxed environments (e.g., Cursor IDE sandbox, macOS
+          App Sandbox) where system proxy detection causes crashes. When
+          enabled, HTTP_PROXY/HTTPS_PROXY environment variables and system proxy
+          settings will be ignored.
 
       --flashbots
-          Flashbots RPC URL을 빠른 모드로 사용
+          Use the Flashbots RPC URL with fast mode
           ([https://rpc.flashbots.net/fast](https://rpc.flashbots.net/fast)).
           
-          이는 모든 등록된 빌더와 트랜잭션을 비공개로 공유합니다.
+          This shares the transaction privately with all registered builders.
           
-          참조:
+          See:
           [https://docs.flashbots.net/flashbots-protect/quick-start#faster-transactions](https://docs.flashbots.net/flashbots-protect/quick-start#faster-transactions)
 
       --jwt-secret <JWT_SECRET>
-          RPC 엔드포인트의 JWT 시크릿.
+          JWT Secret for the RPC endpoint.
           
-          JWT 시크릿은 RPC용 JWT를 생성하는 데 사용됩니다. 예를 들어, 다음을 사용하여
-          CL `engine_forkchoiceUpdated` 호출을 시뮬레이션할 수 있습니다:
+          The JWT secret will be used to create a JWT for a RPC. For example,
+          the following can be used to simulate a CL `engine_forkchoiceUpdated`
+          call:
           
           cast rpc --jwt-secret <JWT_SECRET> engine_forkchoiceUpdatedV2
           '["0x6bb38c26db65749ab6e472080a3d20a2f35776494e72016d1e339593f21c59bc",
@@ -124,160 +163,168 @@ Rpc options:
           [env: ETH_RPC_JWT_SECRET=]
 
       --rpc-timeout <RPC_TIMEOUT>
-          RPC 요청의 시간 초과(초).
+          Timeout for the RPC request in seconds.
           
-          지정된 시간 초과는 RPC 요청의 기본 시간 초과를 재정의하는 데 사용됩니다.
+          The specified timeout will be used to override the default timeout for
+          RPC requests.
           
           Default value: 45
           
           [env: ETH_RPC_TIMEOUT=]
 
       --rpc-headers <RPC_HEADERS>
-          RPC 요청에 대한 사용자 정의 헤더 지정
+          Specify custom headers for RPC requests
           
           [env: ETH_RPC_HEADERS=]
 
+      --curl
+          Print the equivalent curl command instead of making the RPC request
+
   -e, --etherscan-api-key <KEY>
-          Etherscan (또는 동등한) API 키
+          The Etherscan (or equivalent) API key
           
           [env: ETHERSCAN_API_KEY=]
 
   -c, --chain <CHAIN>
-          체인 이름 또는 EIP-155 체인 ID
+          The chain name or EIP-155 chain ID
           
           [env: CHAIN=]
 
 Wallet options - raw:
   -f, --from <ADDRESS>
-          발신자 계정
+          The sender account
           
           [env: ETH_FROM=]
 
   -i, --interactive
-          개인 키를 입력할 대화형 프롬프트 열기
+          Open an interactive prompt to enter your private key
 
       --private-key <RAW_PRIVATE_KEY>
-          제공된 개인 키 사용
+          Use the provided private key
 
       --mnemonic <MNEMONIC>
-          지정된 경로의 니모닉 파일 또는 니모닉 문구 사용
+          Use the mnemonic phrase of mnemonic file at the specified path
 
       --mnemonic-passphrase <PASSPHRASE>
-          니모닉에 BIP39 암호 문구 사용
+          Use a BIP39 passphrase for the mnemonic
 
       --mnemonic-derivation-path <PATH>
-          지갑 파생 경로.
+          The wallet derivation path.
           
-          --mnemonic-path 및 하드웨어 지갑 모두에서 작동합니다.
+          Works with both --mnemonic-path and hardware wallets.
 
       --mnemonic-index <INDEX>
-          주어진 니모닉 인덱스의 개인 키 사용.
+          Use the private key from the given mnemonic index.
           
-          --mnemonic-path와 함께 사용됩니다.
+          Used with --mnemonic-path.
           
           [default: 0]
 
       --raw-unsigned
-          원시 RLP 인코딩된 서명되지 않은 트랜잭션을 생성합니다.
+          Generate a raw RLP-encoded unsigned transaction.
           
-          지갑 요구사항을 완화합니다.
+          Relaxes the wallet requirement.
 
       --ethsign
-          발신자로 `--from` 인수 또는 $ETH_FROM을 사용하여 `eth_signTransaction`을 호출합니다.
+          Call `eth_signTransaction` using the `--from` argument or $ETH_FROM as
+          sender
 
 Wallet options - keystore:
       --keystore <PATH>
-          주어진 폴더 또는 파일의 키스토어 사용
+          Use the keystore in the given folder or file
           
           [env: ETH_KEYSTORE=]
 
       --account <ACCOUNT_NAME>
-          파일 이름을 사용하여 기본 키스토어 폴더(~/.foundry/keystores)의 키스토어 사용
+          Use a keystore from the default keystores folder
+          (~/.foundry/keystores) by its filename
           
           [env: ETH_KEYSTORE_ACCOUNT=]
 
       --password <PASSWORD>
-          키스토어 비밀번호.
+          The keystore password.
           
-          --keystore와 함께 사용됩니다.
+          Used with --keystore.
 
       --password-file <PASSWORD_FILE>
-          키스토어 비밀번호 파일 경로.
+          The keystore password file path.
           
-          --keystore와 함께 사용됩니다.
+          Used with --keystore.
           
           [env: ETH_PASSWORD=]
 
 Wallet options - hardware wallet:
   -l, --ledger
-          Ledger 하드웨어 지갑 사용
+          Use a Ledger hardware wallet
 
   -t, --trezor
-          Trezor 하드웨어 지갑 사용
+          Use a Trezor hardware wallet
 
 Wallet options - remote:
       --aws
-          AWS Key Management Service 사용.
+          Use AWS Key Management Service.
           
-          AWS_KMS_KEY_ID 환경 변수가 설정되어 있는지 확인하세요.
+          Ensure the AWS_KMS_KEY_ID environment variable is set.
 
       --gcp
-          Google Cloud Key Management Service 사용.
+          Use Google Cloud Key Management Service.
           
-          다음 환경 변수가 설정되어 있는지 확인하세요: GCP_PROJECT_ID,
+          Ensure the following environment variables are set: GCP_PROJECT_ID,
           GCP_LOCATION, GCP_KEY_RING, GCP_KEY_NAME, GCP_KEY_VERSION.
           
-          참조: [https://cloud.google.com/kms/docs](https://cloud.google.com/kms/docs)
+          See: [https://cloud.google.com/kms/docs](https://cloud.google.com/kms/docs)
 
       --turnkey
-          Turnkey 사용.
+          Use Turnkey.
           
-          다음 환경 변수가 설정되어 있는지 확인하세요:
+          Ensure the following environment variables are set:
           TURNKEY_API_PRIVATE_KEY, TURNKEY_ORGANIZATION_ID, TURNKEY_ADDRESS.
           
-          참조: [https://docs.turnkey.com/getting-started/quickstart](https://docs.turnkey.com/getting-started/quickstart)
+          See: [https://docs.turnkey.com/getting-started/quickstart](https://docs.turnkey.com/getting-started/quickstart)
 
 Wallet options - browser:
       --browser
-          브라우저 지갑 사용
+          Use a browser wallet
 
       --browser-port <PORT>
-          브라우저 지갑 서버 포트
+          Port for the browser wallet server
           
           [default: 9545]
 
       --browser-disable-open
-          지갑 연결을 위해 브라우저를 열지 여부
+          Whether to open the browser for wallet connection
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 ```

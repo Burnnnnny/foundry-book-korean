@@ -1,21 +1,33 @@
-## cast resolve-name
+## cast trace
 
-Perform an ENS lookup
+CLI arguments for `cast trace`
 
 ```bash
-$ cast resolve-name --help
+$ cast trace --help
 ```
 
 ```txt
-Usage: cast resolve-name [OPTIONS] [WHO]
+Usage: cast trace [OPTIONS] [TX]
 
 Arguments:
-  [WHO]
-          The name to lookup
+  [TX]
+          Transaction hash (for trace_transaction) or raw tx hex/JSON (for
+          trace_rawTransaction with --raw)
 
 Options:
-      --verify
-          Perform a reverse lookup to verify that the name is correct
+      --raw
+          Use trace_rawTransaction instead of trace_transaction. Required when
+          passing raw transaction hex or JSON instead of a tx hash
+
+      --trace
+          Include the basic trace of the transaction
+
+      --vm-trace
+          Include the full trace of the virtual machine's state during
+          transaction execution
+
+      --state-diff
+          Include state changes caused by the transaction (requires --raw)
 
   -h, --help
           Print help (see a summary with '-h')
