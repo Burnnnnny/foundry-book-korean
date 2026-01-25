@@ -1,6 +1,6 @@
 ## forge verify-contract
 
-Etherscan에서 스마트 컨트랙트를 검증합니다.
+Verify smart contracts on Etherscan
 
 ```bash
 $ forge verify-contract --help
@@ -11,129 +11,141 @@ Usage: forge verify-contract [OPTIONS] <ADDRESS> [CONTRACT]
 
 Arguments:
   <ADDRESS>
-          검증할 컨트랙트의 주소
+          The address of the contract to verify
 
   [CONTRACT]
-          `<path>:<contractname>` 형태의 컨트랙트 식별자
+          The contract identifier in the form `<path>:<contractname>`
 
 Options:
       --constructor-args <ARGS>
-          ABI 인코딩된 생성자 인수. Etherscan 전용
+          The ABI-encoded constructor arguments. Only for Etherscan
           
           [aliases: --encoded-constructor-args]
 
       --constructor-args-path <PATH>
-          생성자 인수를 포함하는 파일 경로
+          The path to a file containing the constructor arguments
 
       --guess-constructor-args
-          온체인 생성 코드에서 생성자 인수 추출 시도
+          Try to extract constructor arguments from on-chain creation code
 
       --creation-transaction-hash <CREATION_TRANSACTION_HASH>
-          컨트랙트를 생성한 트랜잭션의 해시. Sourcify의 경우 선택 사항
+          The hash of the transaction which created the contract. Optional for
+          Sourcify
 
       --compiler-version <VERSION>
-          스마트 컨트랙트 빌드에 사용할 `solc` 버전
+          The `solc` version to use to build the smart contract
 
       --compilation-profile <PROFILE_NAME>
-          스마트 컨트랙트 빌드에 사용할 컴파일 프로필
+          The compilation profile to use to build the smart contract
 
       --num-of-optimizations <NUM>
-          스마트 컨트랙트 빌드에 사용된 최적화 실행 횟수
+          The number of optimization runs used to build the smart contract
           
           [aliases: --optimizer-runs]
 
       --flatten
-          검증 전 소스 코드 병합(Flatten)
+          Flatten the source code before verifying
 
   -f, --force
-          검증 전 병합된 스마트 컨트랙트를 컴파일하지 않음 (--flatten이
-          전달된 경우)
+          Do not compile the flattened smart contract before verifying (if
+          --flatten is passed)
 
       --skip-is-verified-check
-          검증 전 컨트랙트가 이미 검증되었는지 확인하지 않음
+          Do not check if the contract is already verified before verifying
 
       --watch
-          제출 후 검증 결과 대기
+          Wait for verification result after submission
 
       --root <PATH>
-          프로젝트의 루트 경로.
+          The project's root path.
           
-          기본적으로 Git 저장소의 루트(있는 경우) 또는 현재 작업 디렉토리입니다.
+          By default root of the Git repository, if in one, or the current
+          working directory.
 
       --show-standard-json-input
-          표준 json 컴파일러 입력 인쇄.
+          Prints the standard json compiler input.
           
-          표준 json 컴파일러 입력은 브라우저에서 수동으로 컨트랙트 검증을
-          제출하는 데 사용할 수 있습니다.
+          The standard json compiler input can be used to manually submit
+          contract verification in the browser.
 
       --via-ir
-          Yul 중간 표현(intermediate representation) 컴파일 파이프라인 사용
+          Use the Yul intermediate representation compilation pipeline
 
       --evm-version <EVM_VERSION>
-          사용할 EVM 버전.
+          The EVM version to use.
           
-          구성(config)에 지정된 버전을 재정의합니다.
+          Overrides the version specified in the config.
 
   -e, --etherscan-api-key <KEY>
-          Etherscan (또는 동등한) API 키
+          The Etherscan (or equivalent) API key
           
           [env: ETHERSCAN_API_KEY=]
 
   -c, --chain <CHAIN>
-          체인 이름 또는 EIP-155 체인 ID
+          The chain name or EIP-155 chain ID
           
           [env: CHAIN=]
 
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
 Linker options:
       --libraries <LIBRARIES>
-          사전 링크된 라이브러리 설정
+          Set pre-linked libraries
           
           [env: DAPP_LIBRARIES=]
 
 Compiler options:
       --no-auto-detect
-          `solc` 버전을 자동 감지하지 않음
+          Do not auto-detect the `solc` version
 
       --use <SOLC_VERSION>
-          빌드할 solc 버전을 지정하거나 로컬 solc 경로 지정.
+          Specify the solc version, or a path to a local solc, to build with.
           
-          유효한 값은 `x.y.z`, `solc:x.y.z` 또는 `path/to/solc` 형식입니다.
+          Valid values are in the format `x.y.z`, `solc:x.y.z` or
+          `path/to/solc`.
 
 Rpc options:
   -r, --rpc-url <URL>
-          RPC 엔드포인트, 기본값은 http://localhost:8545
+          The RPC endpoint, default value is http://localhost:8545
           
           [env: ETH_RPC_URL=]
 
   -k, --insecure
-          안전하지 않은 RPC 연결 허용 (유효하지 않은 HTTPS 인증서 수락).
+          Allow insecure RPC connections (accept invalid HTTPS certificates).
           
-          공급자의 내부 런타임 전송 변형이 HTTP인 경우 reqwest 클라이언트가
-          유효하지 않은 인증서를 수락하도록 구성합니다.
+          When the provider's inner runtime transport variant is HTTP, this
+          configures the reqwest client to accept invalid certificates.
+
+      --no-proxy
+          Disable automatic proxy detection.
+          
+          Use this in sandboxed environments (e.g., Cursor IDE sandbox, macOS
+          App Sandbox) where system proxy detection causes crashes. When
+          enabled, HTTP_PROXY/HTTPS_PROXY environment variables and system proxy
+          settings will be ignored.
 
       --flashbots
-          빠른 모드로 Flashbots RPC URL 사용
+          Use the Flashbots RPC URL with fast mode
           ([https://rpc.flashbots.net/fast](https://rpc.flashbots.net/fast)).
           
-          이는 등록된 모든 빌더와 트랜잭션을 비공개로 공유합니다.
+          This shares the transaction privately with all registered builders.
           
-          참조:
+          See:
           [https://docs.flashbots.net/flashbots-protect/quick-start#faster-transactions](https://docs.flashbots.net/flashbots-protect/quick-start#faster-transactions)
 
       --jwt-secret <JWT_SECRET>
-          RPC 엔드포인트에 대한 JWT 비밀.
+          JWT Secret for the RPC endpoint.
           
-          JWT 비밀은 RPC에 대한 JWT를 생성하는 데 사용됩니다. 예를 들어,
-          다음은 CL `engine_forkchoiceUpdated` 호출을 시뮬레이션하는 데 사용할
-          수 있습니다:
+          The JWT secret will be used to create a JWT for a RPC. For example,
+          the following can be used to simulate a CL `engine_forkchoiceUpdated`
+          call:
           
           cast rpc --jwt-secret <JWT_SECRET> engine_forkchoiceUpdatedV2
           '["0x6bb38c26db65749ab6e472080a3d20a2f35776494e72016d1e339593f21c59bc",
@@ -143,91 +155,97 @@ Rpc options:
           [env: ETH_RPC_JWT_SECRET=]
 
       --rpc-timeout <RPC_TIMEOUT>
-          RPC 요청에 대한 타임아웃(초).
+          Timeout for the RPC request in seconds.
           
-          지정된 타임아웃은 RPC 요청에 대한 기본 타임아웃을 재정의하는 데
-          사용됩니다.
+          The specified timeout will be used to override the default timeout for
+          RPC requests.
           
-          기본값: 45
+          Default value: 45
           
           [env: ETH_RPC_TIMEOUT=]
 
       --rpc-headers <RPC_HEADERS>
-          RPC 요청에 대한 사용자 정의 헤더 지정
+          Specify custom headers for RPC requests
           
           [env: ETH_RPC_HEADERS=]
 
+      --curl
+          Print the equivalent curl command instead of making the RPC request
+
       --retries <RETRIES>
-          검증 재시도 횟수
+          Number of attempts for retrying verification
           
           [default: 5]
 
       --delay <DELAY>
-          검증 시도 사이에 적용할 선택적 지연 시간(초)
+          Optional delay to apply in between verification attempts, in seconds
           
           [default: 5]
 
       --language <LANGUAGE>
-          컨트랙트 언어 (`solidity` 또는 `vyper`).
+          The contract language (`solidity` or `vyper`).
           
-          제공되지 않은 경우 `solidity`가 기본값입니다.
+          Defaults to `solidity` if none provided.
 
-          가능한 값:
-          - solidity: Solidity 프로그래밍 언어
-          - vyper:    Vyper 프로그래밍 언어
+          Possible values:
+          - solidity: Solidity programming language
+          - vyper:    Vyper programming language
 
 Verifier options:
       --verifier <VERIFIER>
-          사용할 컨트랙트 검증 공급자
+          The contract verification provider to use
 
-          가능한 값:
+          Possible values:
           - etherscan
           - sourcify
           - blockscout
           - oklink
-          - custom:     사용자 정의 검증 공급자, Etherscan API와 호환 필요
+          - custom:     Custom verification provider, requires compatibility
+            with the Etherscan API
           
           [default: sourcify]
 
       --verifier-api-key <VERIFIER_API_KEY>
-          사용자 정의 공급자를 사용하는 경우 검증자 API 키
+          The verifier API KEY, if using a custom provider
           
           [env: VERIFIER_API_KEY=]
 
       --verifier-url <VERIFIER_URL>
-          사용자 정의 공급자를 사용하는 경우 검증자 URL
+          The verifier URL, if using a custom provider
           
           [env: VERIFIER_URL=]
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 ```

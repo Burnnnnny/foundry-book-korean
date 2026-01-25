@@ -1,6 +1,6 @@
 ## forge verify-bytecode
 
-배포된 바이트코드를 Etherscan의 소스코드와 대조하여 검증합니다.
+Verify the deployed bytecode against its source on Etherscan
 
 ```bash
 $ forge verify-bytecode --help
@@ -11,109 +11,114 @@ Usage: forge verify-bytecode [OPTIONS] <ADDRESS> <CONTRACT>
 
 Arguments:
   <ADDRESS>
-          검증할 컨트랙트의 주소
+          The address of the contract to verify
 
   <CONTRACT>
-          `<path>:<contractname>` 형태의 컨트랙트 식별자
+          The contract identifier in the form `<path>:<contractname>`
 
 Options:
       --block <BLOCK>
-          바이트코드를 검증할 블록
+          The block at which the bytecode should be verified
 
       --constructor-args <ARGS>...
-          생성 코드를 생성하기 위한 생성자 인수
+          The constructor args to generate the creation code
 
       --encoded-constructor-args <HEX>
-          ABI 인코딩된 생성자 인수
+          The ABI-encoded constructor arguments
 
       --constructor-args-path <PATH>
-          생성자 인수를 포함하는 파일 경로
+          The path to a file containing the constructor arguments
 
   -r, --rpc-url <RPC_URL>
-          검증에 사용할 RPC URL
+          The rpc url to use for verification
           
           [env: ETH_RPC_URL=]
 
   -e, --etherscan-api-key <KEY>
-          Etherscan (또는 동등한) API 키
+          The Etherscan (or equivalent) API key
           
           [env: ETHERSCAN_API_KEY=]
 
   -c, --chain <CHAIN>
-          체인 이름 또는 EIP-155 체인 ID
+          The chain name or EIP-155 chain ID
           
           [env: CHAIN=]
 
       --root <PATH>
-          프로젝트의 루트 경로.
+          The project's root path.
           
-          기본적으로 Git 저장소의 루트(있는 경우) 또는 현재 작업 디렉토리입니다.
+          By default root of the Git repository, if in one, or the current
+          working directory.
 
       --ignore <BYTECODE_TYPE>
-          생성 또는 런타임 바이트코드에 대한 검증 무시
+          Ignore verification for creation or runtime bytecode
           
           [possible values: creation, runtime]
 
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
 Verifier options:
       --verifier <VERIFIER>
-          사용할 컨트랙트 검증 공급자
+          The contract verification provider to use
 
-          가능한 값:
+          Possible values:
           - etherscan
           - sourcify
           - blockscout
           - oklink
-          - custom:     사용자 정의 검증 공급자, Etherscan API와 호환 필요
+          - custom:     Custom verification provider, requires compatibility
+            with the Etherscan API
           
           [default: sourcify]
 
       --verifier-api-key <VERIFIER_API_KEY>
-          사용자 정의 공급자를 사용하는 경우 검증자 API 키
+          The verifier API KEY, if using a custom provider
           
           [env: VERIFIER_API_KEY=]
 
       --verifier-url <VERIFIER_URL>
-          사용자 정의 공급자를 사용하는 경우 검증자 URL
+          The verifier URL, if using a custom provider
           
           [env: VERIFIER_URL=]
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 ```

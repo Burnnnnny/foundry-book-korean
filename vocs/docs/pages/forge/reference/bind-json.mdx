@@ -1,6 +1,7 @@
 ## forge bind-json
 
-JSON 치트코드를 통한 프로젝트 구조체(structs)의 직렬화/역직렬화를 위한 바인딩을 생성합니다.
+Generate bindings for serialization/deserialization of project structs via JSON
+cheatcodes
 
 ```bash
 $ forge bind-json --help
@@ -11,188 +12,197 @@ Usage: forge bind-json [OPTIONS] [PATH]
 
 Arguments:
   [PATH]
-          바인딩을 기록할 경로
+          The path to write bindings to
 
 Options:
   -h, --help
-          도움말 인쇄 ('-h'로 요약 보기)
+          Print help (see a summary with '-h')
 
   -j, --threads <THREADS>
-          사용할 스레드 수. 0으로 지정하면 기본값은 논리 코어 수
+          Number of threads to use. Specifying 0 defaults to the number of
+          logical cores
           
           [aliases: --jobs]
 
 Cache options:
       --force
-          캐시 및 아티팩트 폴더를 지우고 재컴파일
+          Clear the cache and artifacts folder and recompile
 
 Build options:
       --no-cache
-          캐시 비활성화
+          Disable the cache
 
-      --dynamic-test 링킹
-          동적 테스트 링킹 활성화
+      --dynamic-test-linking
+          Enable dynamic test linking
 
       --skip <SKIP>...
-          이름에 주어진 필터가 포함된 파일 빌드 건너뛰기.
+          Skip building files whose names contain the given filter.
           
-          `test`와 `script`는 `.t.sol`과 `.s.sol`의 별칭입니다.
+          `test` and `script` are aliases for `.t.sol` and `.s.sol`.
 
 Linker options:
       --libraries <LIBRARIES>
-          사전 링크된 라이브러리 설정
+          Set pre-linked libraries
           
           [env: DAPP_LIBRARIES=]
 
 Compiler options:
       --ignored-error-codes <ERROR_CODES>
-          오류 코드로 solc 경고 무시
+          Ignore solc warnings by error code
 
   -D, --deny <LEVEL>
-          지정된 진단 수준에서 컴파일러 오류가 트리거됩니다.
+          A compiler error will be triggered at the specified diagnostic level.
           
-          사용 중단된 `--deny-warnings` 플래그를 대체합니다.
+          Replaces the deprecated `--deny-warnings` flag.
           
-          가능한 값: - `never`: 어떤 진단도 오류로 처리하지 않음. -
-          `warnings`: 경고를 오류로 처리. - `notes`: 경고와 노트(notes)
-          모두 오류로 처리.
+          Possible values: - `never`: Do not treat any diagnostics as errors. -
+          `warnings`: Treat warnings as errors. - `notes`: Treat both, warnings
+          and notes, as errors.
 
-          가능한 값:
-          - never:    항상 0 코드로 종료
-          - warnings: 경고가 발견되면 0이 아닌 코드로 종료
-          - notes:    노트나 경고가 발견되면 0이 아닌 코드로 종료
+          Possible values:
+          - never:    Always exit with zero code
+          - warnings: Exit with a non-zero code if any warnings are found
+          - notes:    Exit with a non-zero code if any notes or warnings are
+            found
 
       --no-auto-detect
-          `solc` 버전을 자동 감지하지 않음
+          Do not auto-detect the `solc` version
 
       --use <SOLC_VERSION>
-          빌드할 solc 버전을 지정하거나 로컬 solc 경로 지정.
+          Specify the solc version, or a path to a local solc, to build with.
           
-          유효한 값은 `x.y.z`, `solc:x.y.z` 또는 `path/to/solc` 형식입니다.
+          Valid values are in the format `x.y.z`, `solc:x.y.z` or
+          `path/to/solc`.
 
       --offline
-          네트워크에 액세스하지 않음.
+          Do not access the network.
           
-          누락된 solc 버전은 설치되지 않음.
+          Missing solc versions will not be installed.
 
       --via-ir
-          Yul 중간 표현(intermediate representation) 컴파일 파이프라인 사용
+          Use the Yul intermediate representation compilation pipeline
 
       --use-literal-content
-          컴파일 시 URL 대신 리터럴 콘텐츠만 사용하도록 변경
+          Changes compilation to only use literal content and not URLs
 
       --no-metadata
-          바이트코드에 메타데이터를 추가하지 않음.
+          Do not append any metadata to the bytecode.
           
-          `bytecode_hash`를 `none`으로, `cbor_metadata`를 `false`로
-          설정하는 것과 동일함.
+          This is equivalent to setting `bytecode_hash` to `none` and
+          `cbor_metadata` to `false`.
 
       --ast
-          컴파일러 출력에 AST를 JSON으로 포함
+          Includes the AST as JSON in the compiler output
 
       --evm-version <VERSION>
-          대상 EVM 버전
+          The target EVM version
 
       --optimize [<OPTIMIZE>]
-          Solidity 최적화기(optimizer) 활성화
+          Activate the Solidity optimizer
           
           [possible values: true, false]
 
       --optimizer-runs <RUNS>
-          실행 횟수(runs)는 배포된 코드의 각 오퍼코드가 컨트랙트 수명 동안
-          대략 얼마나 자주 실행될지를 지정합니다. 이는 코드 크기(배포 비용)와
-          코드 실행 비용(배포 후 비용) 간의 균형 매개변수입니다. `optimizer_runs`
-          매개변수가 `1`이면 짧지만 비싼 코드를 생성합니다. 반면, 더 큰
-          `optimizer_runs` 매개변수는 더 길지만 가스 효율적인 코드를 생성합니다.
+          The number of runs specifies roughly how often each opcode of the
+          deployed code will be executed across the life-time of the contract.
+          This means it is a trade-off parameter between code size (deploy cost)
+          and code execution cost (cost after deployment). An `optimizer_runs`
+          parameter of `1` will produce short but expensive code. In contrast, a
+          larger `optimizer_runs` parameter will produce longer but more gas
+          efficient code
 
       --extra-output <SELECTOR>...
-          컨트랙트 아티팩트에 포함할 추가 출력.
+          Extra output to include in the contract's artifact.
           
-          예제 키: evm.assembly, ewasm, ir, irOptimized, metadata
+          Example keys: evm.assembly, ewasm, ir, irOptimized, metadata
           
-          전체 설명은 다음을 참조하세요:
+          For a full description, see
           [https://docs.soliditylang.org/en/v0.8.13/using-the-compiler.html#input-description](https://docs.soliditylang.org/en/v0.8.13/using-the-compiler.html#input-description)
 
       --extra-output-files <SELECTOR>...
-          별도 파일에 기록할 추가 출력.
+          Extra output to write to separate files.
           
-          유효한 값: metadata, ir, irOptimized, ewasm, evm.assembly
+          Valid values: metadata, ir, irOptimized, ewasm, evm.assembly
 
 Project options:
   -o, --out <PATH>
-          컨트랙트 아티팩트 폴더 경로
+          The path to the contract artifacts folder
 
       --revert-strings <REVERT>
-          리버트 문자열 구성.
+          Revert string configuration.
           
-          가능한 값: "default", "strip" (제거), "debug" (Solidity 생성 리버트
-          문자열) 및 "verboseDebug"
+          Possible values are "default", "strip" (remove), "debug"
+          (Solidity-generated revert strings) and "verboseDebug"
 
       --build-info
-          빌드 정보 파일 생성
+          Generate build info files
 
       --build-info-path <PATH>
-          빌드 정보 파일이 기록될 디렉토리의 출력 경로
+          Output path to directory that build info files will be written to
 
       --root <PATH>
-          프로젝트의 루트 경로.
+          The project's root path.
           
-          기본적으로 Git 저장소의 루트(있는 경우) 또는 현재 작업 디렉토리입니다.
+          By default root of the Git repository, if in one, or the current
+          working directory.
 
   -C, --contracts <PATH>
-          컨트랙트 소스 디렉토리
+          The contracts source directory
 
   -R, --remappings <REMAPPINGS>
-          프로젝트의 리매핑
+          The project's remappings
 
       --remappings-env <ENV>
-          환경(변수)에서 가져온 프로젝트 리매핑
+          The project's remappings from the environment
 
       --cache-path <PATH>
-          컴파일러 캐시 경로
+          The path to the compiler cache
 
       --lib-paths <PATH>
-          라이브러리 폴더 경로
+          The path to the library folder
 
       --hardhat
-          Hardhat 스타일 프로젝트 레이아웃 사용.
+          Use the Hardhat-style project layout.
           
-          다음과 동일함: `--contracts contracts --lib-paths node_modules`.
+          This is the same as using: `--contracts contracts --lib-paths
+          node_modules`.
           
           [aliases: --hh]
 
       --config-path <FILE>
-          구성(config) 파일 경로
+          Path to the config file
 
 Display options:
       --color <COLOR>
-          로그 메시지의 색상
+          The color of the log messages
 
-          가능한 값:
-          - auto:   색상 출력 사용 여부를 지능적으로 추측 (기본값)
-          - always: 색상 출력 강제
-          - never:  색상 출력 강제 비활성화
+          Possible values:
+          - auto:   Intelligently guess whether to use color output (default)
+          - always: Force color output
+          - never:  Force disable color output
 
       --json
-          로그 메시지를 JSON으로 포맷팅
+          Format log messages as JSON
 
       --md
-          로그 메시지를 Markdown으로 포맷팅
+          Format log messages as Markdown
 
   -q, --quiet
-          로그 메시지를 인쇄하지 않음
+          Do not print log messages
 
   -v, --verbosity...
-          로그 메시지의 상세 수준.
+          Verbosity level of the log messages.
           
-          상세 수준을 높이려면 여러 번 전달 (예: -v, -vv, -vvv).
+          Pass multiple times to increase the verbosity (e.g. -v, -vv, -vvv).
           
-          문맥에 따라 상세 수준은 다른 의미를 가짐.
+          Depending on the context the verbosity levels have different meanings.
           
-          예를 들어, EVM의 상세 수준은 다음과 같음:
-          - 2 (-vv): 모든 테스트에 대한 로그 인쇄.
-          - 3 (-vvv): 실패한 테스트에 대한 실행 트레이스 인쇄.
-          - 4 (-vvvv): 모든 테스트에 대한 실행 트레이스 및 실패한 테스트에 대한 설정(setup) 트레이스 인쇄.
-          - 5 (-vvvvv): 스토리지 변경 및 줄 번호가 포함된 백트레이스를 포함하여
-            모든 테스트에 대한 실행 및 설정 트레이스 인쇄.
+          For example, the verbosity levels of the EVM are:
+          - 2 (-vv): Print logs for all tests.
+          - 3 (-vvv): Print execution traces for failing tests.
+          - 4 (-vvvv): Print execution traces for all tests, and setup traces
+          for failing tests.
+          - 5 (-vvvvv): Print execution and setup traces for all tests,
+          including storage changes and
+            backtraces with line numbers.
 ```
